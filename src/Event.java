@@ -1,12 +1,11 @@
 import java.util.Date;
-import java.util.Map;
 
 public class Event {
 	public String name;
 	public Date start;			// Start date and time
 	public Date end;			// End date and time
 	public String description;
-	public Map<Integer, String> categories;
+	public String category;
 	public String color;
 	public String location;
 	
@@ -15,6 +14,17 @@ public class Event {
 		this.start = start;
 		this.end = end;
 		this.description = description;
+	}
+	
+	public Event(String name, Date start, Date end, String description, String category,
+				String color, String location) {
+		this.name = name;
+		this.start = start;
+		this.end = end;
+		this.description = description;
+		this.category = category;
+		this.color = color;
+		this.location = location;	
 	}
 
 	public String getName() {
@@ -47,14 +57,6 @@ public class Event {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Map<Integer, String> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Map<Integer, String> categories) {
-		this.categories = categories;
 	}
 
 	public String getColor() {
