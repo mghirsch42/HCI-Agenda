@@ -4,15 +4,13 @@ import java.util.Date;
 public class Driver {
 
 	public static void main(String[] args) {
-		System.out.println("Test");
+		Calendar c = new Calendar();
 		
-		ArrayList<Event> calendar = new ArrayList<Event>();
+		Event e = new Event("test", new Date(), new Date(), "description test");
 		
-		Event e = new Event("test", new Date(), new Date(), "description");
-		calendar.add(e);
+		c.addEvent(e);
 		
-		System.out.println("Event: " + e);
-		System.out.println("Calendar: " + calendar);
+		System.out.println(c);
 		
 	}
 
