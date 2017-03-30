@@ -1,17 +1,16 @@
 import java.util.Comparator;
 
-public class DateCompare<Event> implements Comparator<Event> {
-
+/**
+ * @author MG Hirsch
+ *
+ */
+public class DateCompare implements Comparator {
+	
 	@Override
-	public int compare(Event e1, Event e2) {
-		System.out.println("comparing dates... " + e1.getClass());
-		/**
-		 * 	Need to brush up on this interface...
-		 * 	How to make it know that e1 and e2 are Event classes
-		 * 	When running, it knows it's event classes
-		 * 	But even with a cast in gives compile error
-		 */
+	public int compare(Object e1, Object e2) {
+		if(((Event)e1).getStart().before(((Event)e2).getStart())) {
+			return 1;
+		}
 		return 0;
 	}
-
 }
