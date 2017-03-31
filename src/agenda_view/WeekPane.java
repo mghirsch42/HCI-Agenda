@@ -13,9 +13,4 @@ public class WeekPane extends GridPane{
 		
 		
 	}
-	
-	
-	
-	
-	
 }
