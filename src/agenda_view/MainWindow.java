@@ -1,5 +1,6 @@
 package agenda_view;
 
+import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -38,11 +39,20 @@ public class MainWindow extends Application{
 		//Add Elements to the root.
 		root.setTop(menuBar);
 				
-		
-		// Add the Week Pane for testing
+		// Add the Week Pane for testing.
 		WeekPane wp = new WeekPane();
 		root.setCenter(wp);
 		
+		//java.util Calendar (we might want to refactor our Calendar Class to avoid duplicate names).
+		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
+		
+		//Use to test dates in the MonthPane. 
+		//Month is 0 based, year and day start at 1.
+		c.set(2017, 3, 31);
+		
+		//null as a parameter will result in the same as the c above.
+//		MonthPane mp = new MonthPane(c);
+//		root.setCenter(mp);
 		
 		//Show the stage. 
 		primaryStage.setTitle("HCI Group Project");
@@ -50,7 +60,6 @@ public class MainWindow extends Application{
 		primaryStage.setMinHeight(600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-	
 	}
 
 	public static void main(String[] args) {
