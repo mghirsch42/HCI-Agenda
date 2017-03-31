@@ -38,6 +38,12 @@ public class MainWindow extends Application{
 		//Add Elements to the root.
 		root.setTop(menuBar);
 				
+		
+		// Add the Week Pane for testing
+		WeekPane wp = new WeekPane();
+		root.setCenter(wp);
+		
+		
 		//Show the stage. 
 		primaryStage.setTitle("HCI Group Project");
 		primaryStage.setMinWidth(800);
