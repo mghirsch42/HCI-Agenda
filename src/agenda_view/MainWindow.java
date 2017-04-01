@@ -22,7 +22,10 @@ public class MainWindow extends Application{
 				
 		//Menu Bar
 		MenuBar menuBar = new MenuBar();
-		
+
+		//Actions
+        Menu actions = new Menu("Actions");
+
 		//File
 		Menu file = new Menu("File");
 		MenuItem quit = new MenuItem("Quit"); 
@@ -51,9 +54,31 @@ public class MainWindow extends Application{
 		c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-//		MonthPane mp = new MonthPane(c);
+		MonthPane mp = new MonthPane(c);
 //		root.setCenter(mp);
-		
+
+        //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
+        //Week View, see above
+        MenuItem monthView = new MenuItem("Month View");
+        MenuItem weekView = new MenuItem("Week View");
+        monthView.setOnAction( (e) -> {
+            root.setCenter(mp);
+            actions.getItems().add(weekView);
+            actions.getItems().removeAll(monthView);
+        });
+        weekView.setOnAction( (e) -> {
+            root.setCenter(wp);
+            actions.getItems().add(monthView);
+            actions.getItems().removeAll(weekView);
+        });
+
+
+        //Add items to actions
+        actions.getItems().add(monthView);
+
+        //Add menus to bar
+        menuBar.getMenus().add(actions);
+
 		//Show the stage. 
 		primaryStage.setTitle("HCI Group Project");
 		primaryStage.setMinWidth(800);
