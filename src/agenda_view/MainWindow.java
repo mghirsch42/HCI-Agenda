@@ -51,7 +51,7 @@ public class MainWindow extends Application{
 		
 		//Use to test dates in the MonthPane. 
 		//Month is 0 based, year and day start at 1.
-		c.set(2017, 3, 31);
+		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
 		MonthPane mp = new MonthPane(c);

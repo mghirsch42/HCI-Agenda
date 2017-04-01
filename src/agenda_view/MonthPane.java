@@ -30,9 +30,7 @@ public class MonthPane extends GridPane {
 		if(c == null){
 			c = Calendar.getInstance(TimeZone.getDefault());
 		}
-		
-		//c.set(2017, 3, 15); //Dates can be changed here for testing.
-		
+				
 		//Gather information about the current time. 
 		int day = c.get(Calendar.DATE);
 		int month = c.get(Calendar.MONTH);
