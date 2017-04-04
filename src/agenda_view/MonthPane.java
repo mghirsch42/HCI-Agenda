@@ -79,21 +79,19 @@ public class MonthPane extends GridPane {
 		Label saturdayLbl = new Label ("Saturday");
 		this.add(saturdayLbl, 6, 0);
 		
-		//Offset the displayed day of week on the calendar
-		int offset = Math.abs(day%7 - c.get(Calendar.DAY_OF_WEEK )+1);
-		for(int i = day; i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++){
-			this.add(new Label(""+i), (i+offset)%7, 1+(i+offset)/7);
-		}
-		for(int i = day-1; i >= c.getActualMinimum(Calendar.DAY_OF_MONTH); i--){
-			this.add(new Label(""+i), (i+offset)%7, 1+(i+offset)/7);
-		}
-		
 		System.out.println(weekdayName.get(weekday));
 		System.out.println(monthName.get(month));
-		System.out.println(""+day );
-		System.out.println(""+year );
+		System.out.println("Day: "+day );
+		System.out.println("Year: "+year );
 		
-		System.out.println(""+c.get(Calendar.WEEK_OF_MONTH));
+		System.out.println("Week of Month: "+c.get(Calendar.WEEK_OF_MONTH));
+		System.out.println("Day of Week: "+c.get(Calendar.DAY_OF_WEEK));
+		
+		c.getActualMinimum(Calendar.DAY_OF_MONTH);
+		for(int i = c.getActualMinimum(Calendar.DAY_OF_MONTH); i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++ ){
+			c.set(Calendar.DAY_OF_MONTH, i);
+			this.add(new Label(""+i), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
+		}
 		
 	}
 	
