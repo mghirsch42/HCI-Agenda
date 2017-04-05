@@ -1,7 +1,8 @@
+package model;
 
 public class Agenda {
 	
-	private Calendar calendar;	
+	private MyCalendar calendar;	
 	private Notepad notepad;
 	//private Budget budget;
 	
@@ -9,7 +10,7 @@ public class Agenda {
 	 * Constructor for a new agenda
 	 */
 	public Agenda(){
-		setCalendar(new Calendar());
+		setCalendar(new MyCalendar());
 		setNotepad(new Notepad());
 	}
 	
@@ -19,7 +20,7 @@ public class Agenda {
 	 * @param calendar The Calendar to use
 	 * @param notepad The Notepad to use
 	 */
-	public Agenda(Calendar calendar, Notepad notepad){
+	public Agenda(MyCalendar calendar, Notepad notepad){
 		setCalendar(calendar);
 		setNotepad(notepad);
 	}
@@ -28,7 +29,7 @@ public class Agenda {
 	 * Returns the current calendar.
 	 * @return The current calendar
 	 */
-	public Calendar getCalendar() {
+	public MyCalendar getCalendar() {
 		return calendar;
 	}
 
@@ -36,7 +37,7 @@ public class Agenda {
 	 * Sets this.calendar equal to a new one.
 	 * @param calendar the new Calendar. 
 	 */
-	public void setCalendar(Calendar calendar) {
+	public void setCalendar(MyCalendar calendar) {
 		this.calendar = calendar;
 	}
 

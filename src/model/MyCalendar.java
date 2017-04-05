@@ -1,20 +1,25 @@
+package model;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Map;
+
 
 /**
  * 
  * @author MG Hirsch
  *
  */
-public class Calendar {
+public class MyCalendar {
+	public Calendar calendar = Calendar.getInstance();
 	public ArrayList<Event> events;
 	public Map<Integer, String> categories;
 	
 	/**
 	 * Create a new calendar
 	 */
-	public Calendar() {
+	public MyCalendar() {
 		events = new ArrayList<Event>();
 	}
 	
@@ -40,6 +45,18 @@ public class Calendar {
 	 */
 	public ArrayList<Event> getEvents() {
 		return events;
+	}
+	
+	public ArrayList<Event> getEvents(Date start, Date end){
+		Collections.sort(events, new DateCompare());
+		ArrayList<Event> result = new ArrayList<Event>();
+		// simple search and grab algorithm - can be optimized by using the sorted list
+		for(Event e : events) {
+			if(e.getStart().after(start) || e.getEnd().before(end)) {
+				result.add(e);
+			}
+		}
+		return result;
 	}
 	
 	/**

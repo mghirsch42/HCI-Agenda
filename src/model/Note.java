@@ -1,3 +1,4 @@
+package model;
 
 public class Note {
 	private String title;

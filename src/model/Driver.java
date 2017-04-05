@@ -1,3 +1,4 @@
+package model;
 import java.util.Date;
 import agenda_view.MainWindow;
 

@@ -1,11 +1,15 @@
 package agenda_view;
 
+import java.util.Date;
+
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import model.MyCalendar;
+import model.Event;
 
 /*
  * This class will define the view for a week
@@ -14,8 +18,18 @@ import javafx.scene.layout.VBox;
  */
 public class WeekPane extends GridPane{
 	
-	public WeekPane() {
-		
+	private MyCalendar calendar;
+	private Date start;
+	private Date end;
+	
+	public WeekPane(Date start, Date end) {
+		this.start = start;
+		this.end = end;
+		init();
+		//addEvents(calendar);
+	}
+	
+	private void init() {
 		this.setGridLinesVisible(true);
 		final int numCols = 14;
 		final int numRows = 24;
@@ -66,12 +80,20 @@ public class WeekPane extends GridPane{
 		this.add(fridayLbl, 11, 0);
 		
 		Label saturdayLbl = new Label ("Saturday");
-		this.add(saturdayLbl, 13, 0);
-		
+		this.add(saturdayLbl, 13, 0);		
 	}
 	
-	private void init() {
+	public void addEvents(MyCalendar calendar){
+		for(Event e : calendar.getEvents(start, end)) {
+			addEvent(e);
+		}
+	}
+	
+	private void addEvent(Event e) {
+		WeekEventPane ep = new WeekEventPane(e);
 		
+		/** TODO: algorithm for adding the event pane to the right place. **/
 		
+		this.add(ep, 1, 5);
 	}
 }
