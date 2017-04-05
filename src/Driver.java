@@ -1,6 +1,7 @@
 import java.util.Date;
+import agenda_view.MainWindow;
 
-public class Driver {
+class Driver {
 
 	public static void main(String[] args) {
 		
@@ -25,6 +26,11 @@ public class Driver {
 		
 		//Print out the agenda data
 		System.out.print(a);
+		
+		//Opens the GUI
+		MainWindow.startGUI(args);
+		
+		//Runs after the GUI closes
 		
 	}
 
