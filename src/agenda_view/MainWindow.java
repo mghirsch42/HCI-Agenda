@@ -3,6 +3,7 @@ package agenda_view;
 import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.MyCalendar;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -11,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 
 
 public class MainWindow extends Application{
+	
+	public static MyCalendar calendar;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -25,6 +28,8 @@ public class MainWindow extends Application{
 
 		//Actions
         Menu actions = new Menu("Actions");
+        MenuItem addEvent = new MenuItem("Add Event");
+        actions.getItems().add(addEvent);
 
 		//File
 		Menu file = new Menu("File");
@@ -38,6 +43,7 @@ public class MainWindow extends Application{
 		
 		//Add menus to bar
 		menuBar.getMenus().add(file);
+		
 		
 		//Add Elements to the root.
 		root.setTop(menuBar);
@@ -71,6 +77,10 @@ public class MainWindow extends Application{
             actions.getItems().add(monthView);
             actions.getItems().removeAll(weekView);
         });
+       addEvent.setOnAction( (e) -> {
+    	   root.setCenter(new BigEventPane());
+    	   
+       });
 
 
         //Add items to actions

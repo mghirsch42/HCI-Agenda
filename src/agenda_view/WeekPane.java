@@ -22,13 +22,17 @@ public class WeekPane extends GridPane{
 	private Date start;
 	private Date end;
 	
+	public WeekPane() {
+		init();
+	}
+	
 	public WeekPane(Date start, Date end) {
 		this.start = start;
 		this.end = end;
 		init();
 		//addEvents(calendar);
 	}
-	
+		
 	private void init() {
 		this.setGridLinesVisible(true);
 		final int numCols = 14;
