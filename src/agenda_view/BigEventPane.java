@@ -1,5 +1,6 @@
 package agenda_view;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 import javafx.scene.control.Button;
@@ -59,14 +60,14 @@ public class BigEventPane extends VBox{
 		TextField startField = new TextField();
 		ComboBox startCombo = new ComboBox();
 		startCombo.getItems().addAll(
-				"am",
-				"pm");		
+				"AM",
+				"PM");		
 		DatePicker endPicker = new DatePicker();
 		TextField endField = new TextField();
 		ComboBox endCombo = new ComboBox();
 		endCombo.getItems().addAll(
-				"am",
-				"pm");		
+				"AM",
+				"PM");		
 		TextField locField = new TextField();
 		TextField colorField = new TextField();
 		TextField catField = new TextField();
@@ -88,11 +89,26 @@ public class BigEventPane extends VBox{
 			 * 			Add event to MainWindow.calendar;
 			 */
 			
+			String date = startPicker.getValue().toString();
 			
-			// Date start = new Date();
-			// Date end = new Date();
-			// Event e = new Event(name, start, end, desc, cat, color, loc etc etc);
-			// MainWindow.calendar.addEvent(e);
+			long startDate = (long) (Long.parseLong(date.substring(0, 1)) * (2.628 * Math.pow(10, 9)) + 
+							 Long.parseLong(date.substring(3, 4)) * (8.46 * Math.pow(10, 7)) +
+							 (Long.parseLong(date.substring(6)) - 1970) * (3.154 * Math.pow(10,  10)));
+			
+			date = endPicker.getValue().toString();
+			long endDate = (long) (Long.parseLong(date.substring(0, 1)) * (2.628 * Math.pow(10, 9)) + 
+					 Long.parseLong(date.substring(3, 4)) * (8.46 * Math.pow(10, 7)) +
+					 (Long.parseLong(date.substring(6)) - 1970) * (3.154 * Math.pow(10,  10)));
+			
+			// DatePicker gives us mm/dd/yyyy
+			// Date(long date) param is milliseconds since Jan 1 1970, 00:00:00
+			
+			
+			Date start = new Date(startDate);
+			Date end = new Date(endDate);
+			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
+					colorField.getText(), locField.getText());
+			MainWindow.calendar.addEvent(event);
 			
 		});
 		
@@ -103,7 +119,69 @@ public class BigEventPane extends VBox{
 	}
 	
 	private void init(Event e) {
+		HBox nameBox = new HBox();
+		HBox descBox = new HBox();
+		HBox startBox = new HBox();
+		HBox endBox = new HBox();
+		HBox locBox = new HBox();
+		HBox colorBox = new HBox();
+		HBox catBox = new HBox();
 		
+		Label nameLbl = new Label("Name of Event");
+		Label descLbl = new Label("Description");
+		Label startLbl = new Label("Start Date");
+		Label endLbl = new Label("End Date");
+		Label locLbl = new Label("Location");
+		Label colorLbl = new Label("Color");
+		Label catLbl = new Label("Category");
+		
+		nameBox.getChildren().add(nameLbl);
+		descBox.getChildren().add(descLbl);
+		startBox.getChildren().add(startLbl);
+		endBox.getChildren().add(endLbl);
+		locBox.getChildren().add(locLbl);
+		colorBox.getChildren().add(colorLbl);
+		catBox.getChildren().add(catLbl);
+		
+		
+		TextField nameField = new TextField();
+		nameField.setText(e.getName());
+		TextField descField = new TextField();
+		descField.setText(e.getDescription());
+		DatePicker startPicker = new DatePicker();
+		startPicker.setValue(LocalDate.of(Integer.parseInt(e.getStart().toString().substring(6, 9)), 
+										  Integer.parseInt(e.getStart().toString().substring(0, 1)), 
+										  Integer.parseInt(e.getStart().toString().substring(3, 4)))); 
+		TextField startField = new TextField();
+		startField.setText("" + e.getStart().getHours() + ":" + e.getStart().getMinutes());
+		ComboBox startCombo = new ComboBox();
+		startCombo.getItems().addAll(
+				"AM",
+				"PM");		
+		DatePicker endPicker = new DatePicker();
+		endPicker.setValue(LocalDate.of(Integer.parseInt(e.getEnd().toString().substring(6, 9)), 
+										  Integer.parseInt(e.getEnd().toString().substring(0, 1)), 
+										  Integer.parseInt(e.getEnd().toString().substring(3, 4)))); 
+		TextField endField = new TextField();
+		endField.setText("" + e.getEnd().getHours() + ":" + e.getEnd().getMinutes());
+		ComboBox endCombo = new ComboBox();
+		endCombo.getItems().addAll(
+				"AM",
+				"PM");		
+		TextField locField = new TextField();
+		locField.setText(e.getLocation());
+		TextField colorField = new TextField();
+		colorField.setText(e.getColor());
+		TextField catField = new TextField();
+		catField.setText(e.getCategory());
+		
+		nameBox.getChildren().add(nameField);
+		descBox.getChildren().add(descField);
+		startBox.getChildren().addAll(startPicker, startField, startCombo);
+		endBox.getChildren().addAll(endPicker, endField, endCombo);
+		locBox.getChildren().add(locField);
+		colorBox.getChildren().add(colorField);
+		catBox.getChildren().add(catField);
 	}
 	
 }
