@@ -83,29 +83,21 @@ public class BigEventPane extends VBox{
 		Button submitBtn = new Button("Create Event");
 		
 		submitBtn.setOnAction((e) -> {
-			/**
-			 * TODO: 	Format dates from DatePicker, input field for time, and am/pm
-			 * 			Create an event from all information
-			 * 			Add event to MainWindow.calendar;
-			 */
-			
 			String date = startPicker.getValue().toString();
 			
-			long startDate = (long) (Long.parseLong(date.substring(0, 1)) * (2.628 * Math.pow(10, 9)) + 
-							 Long.parseLong(date.substring(3, 4)) * (8.46 * Math.pow(10, 7)) +
-							 (Long.parseLong(date.substring(6)) - 1970) * (3.154 * Math.pow(10,  10)));
+			String[] tokens = date.toString().split("-");
+			
+			@SuppressWarnings("deprecation")
+			Date start = new Date(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]
+					) , Integer.parseInt(tokens[2]));
 			
 			date = endPicker.getValue().toString();
-			long endDate = (long) (Long.parseLong(date.substring(0, 1)) * (2.628 * Math.pow(10, 9)) + 
-					 Long.parseLong(date.substring(3, 4)) * (8.46 * Math.pow(10, 7)) +
-					 (Long.parseLong(date.substring(6)) - 1970) * (3.154 * Math.pow(10,  10)));
+			tokens = date.toString().split("-");
 			
-			// DatePicker gives us mm/dd/yyyy
-			// Date(long date) param is milliseconds since Jan 1 1970, 00:00:00
+			@SuppressWarnings("deprecation")
+			Date end = new Date(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]
+					) , Integer.parseInt(tokens[2]));
 			
-			
-			Date start = new Date(startDate);
-			Date end = new Date(endDate);
 			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
 					colorField.getText(), locField.getText());
 			MainWindow.calendar.addEvent(event);
