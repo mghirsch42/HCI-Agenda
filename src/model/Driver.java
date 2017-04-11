@@ -16,7 +16,7 @@ class Driver {
 		//Test notes.
 		Note n = new Note("Test Title", "Test Message"); 
 		Note n2 = new Note("Test Title2", "Test Message2");
-		
+		 
 		//Add test events to the agenda's calendar
 		a.getCalendar().addEvent(e);
 		a.getCalendar().addEvent(e2);
