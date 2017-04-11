@@ -1,14 +1,12 @@
 package agenda_view;
 
 import java.util.Date;
-
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
 import model.MyCalendar;
+import model.Agenda;
 import model.Event;
 
 /*
@@ -18,7 +16,6 @@ import model.Event;
  */
 public class WeekPane extends GridPane{
 	
-	private MyCalendar calendar;
 	private Date start;
 	private Date end;
 	
@@ -87,8 +84,8 @@ public class WeekPane extends GridPane{
 		this.add(saturdayLbl, 13, 0);		
 	}
 	
-	public void addEvents(MyCalendar calendar){
-		for(Event e : calendar.getEvents(start, end)) {
+	public void addEvents(Agenda agenda){
+		for(Event e : agenda.getCalendar().getEvents(start, end)) {
 			addEvent(e);
 		}
 	}

@@ -13,19 +13,22 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import model.Agenda;
 import model.Event;
 
 public class BigEventPane extends VBox{
 	private Event event;
+	private Agenda agenda;
 	
 	// for creating a new event
-	public BigEventPane() {
+	public BigEventPane(Agenda a) {
 		initEmpty();
+		this.agenda = a;
 	}
 	
-	public BigEventPane(Event e) {
+	public BigEventPane(Event e, Agenda a) {
 		init(e);
-		
+		this.agenda = a;
 	}
 	
 	private void initEmpty() {
@@ -100,14 +103,19 @@ public class BigEventPane extends VBox{
 			
 			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
 					colorField.getText(), locField.getText());
-			MainWindow.calendar.addEvent(event);
+			
+						
+			agenda.getCalendar().addEvent(event);
+			
+			//Testing output
+			//TODO: Remove when testing is complete.
+			System.out.println("Agenda After Adding Event");
+			System.out.println(agenda);
 			
 		});
 		
 		
 		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
-		
-		
 	}
 	
 	private void init(Event e) {

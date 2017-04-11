@@ -1,9 +1,12 @@
 package agenda_view;
 
+import java.util.Date;
 import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.MyCalendar;
+import model.Agenda;
+import model.Event;
+import model.Note;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -13,11 +16,13 @@ import javafx.scene.layout.BorderPane;
 
 public class MainWindow extends Application{
 	
-	public static MyCalendar calendar;
+	//This is the model, if needed pass into the function you need it for.
+	private Agenda agenda;
 	
 	@Override
 	public void start(Stage primaryStage) {
-
+		agenda = initTestAgenda();
+				
 		//Border Layout Root
 		BorderPane root = new BorderPane();
 		Scene scene = new Scene(root,800,600);
@@ -52,7 +57,7 @@ public class MainWindow extends Application{
 		WeekPane wp = new WeekPane();
 		root.setCenter(wp);
 		
-		//java.util Calendar (we might want to refactor our Calendar Class to avoid duplicate names).
+		//java.util Calendar (Used for constructing the monthview on the current date).
 		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
 		
 		//Use to test dates in the MonthPane. 
@@ -78,7 +83,8 @@ public class MainWindow extends Application{
             actions.getItems().removeAll(weekView);
         });
        addEvent.setOnAction( (e) -> {
-    	   root.setCenter(new BigEventPane());
+    	   //An agenda is passed in here so that the AddEventPand has a model to edit.
+    	   root.setCenter(new BigEventPane(agenda));
     	   
        });
 
@@ -96,9 +102,47 @@ public class MainWindow extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	/**
+	 * This is used for testing
+	 * @return An agenda with some elements.
+	 */
+	private Agenda initTestAgenda() {
+		//Creates a new agenda with an default constructor values
+		Agenda a = new Agenda();
+		
+		//Test events.
+		Event e = new Event("test", new Date(), new Date(), "description test");
+		Event e2 = new Event("test2", new Date(), new Date(), "description test2");
+		
+		//Test notes.
+		Note n = new Note("Test Title", "Test Message"); 
+		Note n2 = new Note("Test Title2", "Test Message2");
+		
+		//Add test events to the agenda's calendar
+		a.getCalendar().addEvent(e);
+		a.getCalendar().addEvent(e2);
+		
+		//Add test notes to the agenda's notepad
+		a.getNotepad().addNote(n);
+		a.getNotepad().addNote(n2);
+		
+		//Print out the agenda data
+		System.out.println("Default Generated Agenda Is Being Used!");
+		
+		return a;
+	}
 
-	public static void startGUI(String[] args) {
-		launch(args); 
+	private void loadAgenda(){
+		
+	}
+	
+	private void saveAgenda(){
+		
+	}
+
+	public void startGUI(String[] args) {
+		launch(args);
 	}
 
 }
