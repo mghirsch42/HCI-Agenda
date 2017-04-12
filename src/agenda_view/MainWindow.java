@@ -18,13 +18,14 @@ public class MainWindow extends Application{
 	
 	//This is the model, if needed pass into the function you need it for.
 	private Agenda agenda;
+	private static BorderPane root;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		agenda = initTestAgenda();
 				
 		//Border Layout Root
-		BorderPane root = new BorderPane();
+		root = new BorderPane();
 		Scene scene = new Scene(root,800,600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				
@@ -53,8 +54,24 @@ public class MainWindow extends Application{
 		//Add Elements to the root.
 		root.setTop(menuBar);
 				
+		///////////////////////////////
+		// TODO:
+		// ADD START AND END DATES TO WEEK PANE ON CREATION
+		// currently sets it up 2nd week of april 2017
+		///////////////////////////////
+		
 		// Add the Week Pane for testing.
-		WeekPane wp = new WeekPane();
+		WeekPane wp = new WeekPane(new Date(2017 - 1900,
+											4 - 1,
+											9,
+											12,
+											00),
+								   new Date(2017-1900,
+										    4 - 1,
+										    15,
+										    11,
+										    59),
+								   agenda);
 		root.setCenter(wp);
 		
 		//java.util Calendar (Used for constructing the monthview on the current date).
@@ -103,6 +120,14 @@ public class MainWindow extends Application{
 		primaryStage.show();
 	}
 	
+	public static BorderPane getRoot() {
+		return root;
+	}
+
+	public void setRoot(BorderPane root) {
+		this.root = root;
+	}
+
 	/**
 	 * This is used for testing
 	 * @return An agenda with some elements.

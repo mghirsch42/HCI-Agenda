@@ -86,23 +86,56 @@ public class BigEventPane extends VBox{
 		Button submitBtn = new Button("Create Event");
 		
 		submitBtn.setOnAction((e) -> {
+			
+			/*
+			 * Parse the fields and create appropriate event objects
+			 */
+			
+			/////////////////////////
+			// Determine start dates
+			/////////////////////////
+			
 			String date = startPicker.getValue().toString();
 			
+			System.out.println("Here is your date string: " +
+								date);
+			
+			// tokens will look like yyyy-mm-dd
 			String[] tokens = date.toString().split("-");
 			
+			String[] time = startField.getText().split(":");
+			
 			@SuppressWarnings("deprecation")
-			Date start = new Date(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]
-					) , Integer.parseInt(tokens[2]));
+			Date start = new Date(
+					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
+					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
+					Integer.parseInt(tokens[2]),	// day
+					Integer.parseInt(time[0]),		// hour
+					Integer.parseInt(time[1]));		// minute
+			
+			////////////////////////
+			// Determine end dates
+			////////////////////////
 			
 			date = endPicker.getValue().toString();
 			tokens = date.toString().split("-");
+			time = endField.getText().split(":");
 			
 			@SuppressWarnings("deprecation")
-			Date end = new Date(Integer.parseInt(tokens[0]), Integer.parseInt(tokens[1]
-					) , Integer.parseInt(tokens[2]));
+			Date end = new Date(
+					Integer.parseInt(tokens[0]) - 1900, // year
+					Integer.parseInt(tokens[1]) -1, 	// month
+					Integer.parseInt(tokens[2]),		// day
+					Integer.parseInt(time[0]),			// hour
+					Integer.parseInt(time[1]));			// minute
+			
+			/////////////////////
+			// Create and add the event
+			/////////////////////
 			
 			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
 					colorField.getText(), locField.getText());
+			
 			
 						
 			agenda.getCalendar().addEvent(event);

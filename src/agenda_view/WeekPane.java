@@ -16,16 +16,18 @@ import model.Event;
  */
 public class WeekPane extends GridPane{
 	
-	private Date start;
-	private Date end;
+	private Date start;			// start date for this time frame
+	private Date end;			// end date for this time frame
+	private Agenda agenda;		// agenda
 	
 	public WeekPane() {
 		init();
 	}
 	
-	public WeekPane(Date start, Date end) {
+	public WeekPane(Date start, Date end, Agenda a) {
 		this.start = start;
 		this.end = end;
+		this.agenda = a;
 		init();
 		//addEvents(calendar);
 	}
@@ -91,7 +93,7 @@ public class WeekPane extends GridPane{
 	}
 	
 	private void addEvent(Event e) {
-		WeekEventPane ep = new WeekEventPane(e);
+		WeekEventPane ep = new WeekEventPane(e, agenda);
 		
 		/** TODO: algorithm for adding the event pane to the right place. **/
 		
