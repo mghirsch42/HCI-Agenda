@@ -78,4 +78,14 @@ public class MyCalendar {
 		// sort events by category
 		return events;
 	}
+
+	public Calendar getCalendar() {
+		return calendar;
+	}
+
+	public void setCalendar(Calendar calendar) {
+		this.calendar = calendar;
+	}
+	
+
 }

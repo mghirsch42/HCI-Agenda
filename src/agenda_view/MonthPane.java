@@ -1,6 +1,7 @@
 package agenda_view;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -8,28 +9,38 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
+import model.Agenda;
+import model.Event;
 
 public class MonthPane extends GridPane {
 
 	private Map<Integer, String> weekdayName = new HashMap<Integer, String>();
 	private Map<Integer, String> monthName = new HashMap<Integer, String>();
+	private Date start;
+	private Date end;
+	private Agenda agenda;
 	
 	/**
 	 * Creates a Grid Pane that represents the month/day/year set in the Calendar object.
 	 * @param c, The Local Calendar and Time zone will be used if null is passed in. Otherwise the provided calendar will be used.
 	 */
-	public MonthPane(Calendar c){
+	public MonthPane(Agenda agenda){
+		this.agenda = agenda;
+		
 		//Initializes the maps used for translating dates to strings
 		initMaps();
 		
 		//Shows the grid.
 		this.setGridLinesVisible(true);
 		
+
+		Calendar c = agenda.getCalendar().getCalendar();
 		
 		//Sets the current day to the data if no Calendar was provided.
 		if(c == null){
-			c = Calendar.getInstance(TimeZone.getDefault());
+			agenda.setCalendar(Calendar.getInstance(TimeZone.getDefault()));
 		}
+		
 				
 		//Gather information about the current time. 
 		int day = c.get(Calendar.DATE);
@@ -87,11 +98,17 @@ public class MonthPane extends GridPane {
 		System.out.println("Week of Month: "+c.get(Calendar.WEEK_OF_MONTH));
 		System.out.println("Day of Week: "+c.get(Calendar.DAY_OF_WEEK));
 		
+		start = new Date(Calendar.YEAR, Calendar.MONTH, 1);
+		end = new Date(Calendar.YEAR, Calendar.MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		
+		
 		c.getActualMinimum(Calendar.DAY_OF_MONTH);
 		for(int i = c.getActualMinimum(Calendar.DAY_OF_MONTH); i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++ ){
 			c.set(Calendar.DAY_OF_MONTH, i);
 			this.add(new Label(""+i), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		}
+		
+		addEvents();
 		
 	}
 	
@@ -118,5 +135,18 @@ public class MonthPane extends GridPane {
 		monthName.put(9, "October");
 		monthName.put(10, "November");
 		monthName.put(11, "December");
+	}
+	
+	
+	public void addEvents() {
+		for(Event e : agenda.getCalendar().getEvents(start, end)) {
+			addEvent(e);
+		}
+	}
+	
+	private void addEvent(Event event) {
+		// TODO: Algorithm for adding events to right spot in month
+		this.add(new MonthEventPane(event, agenda), 5, 5);
+		
 	}
 }

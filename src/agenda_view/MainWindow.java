@@ -82,7 +82,7 @@ public class MainWindow extends Application{
 		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-		MonthPane mp = new MonthPane(c);
+		MonthPane mp = new MonthPane(agenda);
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
@@ -91,13 +91,14 @@ public class MainWindow extends Application{
         MenuItem weekView = new MenuItem("Week View");
         monthView.setOnAction( (e) -> {
             root.setCenter(mp);
-            actions.getItems().add(weekView);
-            actions.getItems().removeAll(monthView);
+            //actions.getItems().add(weekView);
+            //actions.getItems().removeAll(monthView);
         });
         weekView.setOnAction( (e) -> {
             root.setCenter(wp);
-            actions.getItems().add(monthView);
-            actions.getItems().removeAll(weekView);
+            //actions.getItems().add(monthView);
+            //actions.getItems().removeAll(weekView);
+            wp.addEvents();
         });
        addEvent.setOnAction( (e) -> {
     	   //An agenda is passed in here so that the AddEventPand has a model to edit.
@@ -108,6 +109,7 @@ public class MainWindow extends Application{
 
         //Add items to actions
         actions.getItems().add(monthView);
+        actions.getItems().add(weekView);
 
         //Add menus to bar
         menuBar.getMenus().add(actions);

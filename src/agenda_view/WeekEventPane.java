@@ -17,7 +17,7 @@ public class WeekEventPane extends VBox{
 		
 		title.setOnAction((e) -> {
 			BigEventPane pane = new BigEventPane(event, agenda);
-			MainWindow.getRoot().setCenter(pane);;
+			MainWindow.getRoot().setCenter(pane);
 		});
 		
 		this.getChildren().add(title);

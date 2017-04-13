@@ -26,11 +26,13 @@ public class BigEventPane extends VBox{
 		this.agenda = a;
 	}
 	
+	// for displaying/editing an event
 	public BigEventPane(Event e, Agenda a) {
 		init(e);
 		this.agenda = a;
 	}
 	
+	// initialize an empty form
 	private void initEmpty() {
 		HBox nameBox = new HBox();
 		HBox descBox = new HBox();
@@ -151,6 +153,7 @@ public class BigEventPane extends VBox{
 		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
 	}
 	
+	// initialize a form with event data
 	private void init(Event e) {
 		HBox nameBox = new HBox();
 		HBox descBox = new HBox();
@@ -182,9 +185,10 @@ public class BigEventPane extends VBox{
 		TextField descField = new TextField();
 		descField.setText(e.getDescription());
 		DatePicker startPicker = new DatePicker();
-		startPicker.setValue(LocalDate.of(Integer.parseInt(e.getStart().toString().substring(6, 9)), 
-										  Integer.parseInt(e.getStart().toString().substring(0, 1)), 
-										  Integer.parseInt(e.getStart().toString().substring(3, 4)))); 
+		
+		startPicker.setValue(LocalDate.of(e.getStart().getYear()+1900, 
+										  e.getStart().getMonth()+1, 
+										  e.getStart().getDate())); 
 		TextField startField = new TextField();
 		startField.setText("" + e.getStart().getHours() + ":" + e.getStart().getMinutes());
 		ComboBox startCombo = new ComboBox();
@@ -192,9 +196,9 @@ public class BigEventPane extends VBox{
 				"AM",
 				"PM");		
 		DatePicker endPicker = new DatePicker();
-		endPicker.setValue(LocalDate.of(Integer.parseInt(e.getEnd().toString().substring(6, 9)), 
-										  Integer.parseInt(e.getEnd().toString().substring(0, 1)), 
-										  Integer.parseInt(e.getEnd().toString().substring(3, 4)))); 
+		endPicker.setValue(LocalDate.of(e.getEnd().getYear()+1900, 
+										e.getEnd().getMonth()+1, 
+										e.getEnd().getDate())); 
 		TextField endField = new TextField();
 		endField.setText("" + e.getEnd().getHours() + ":" + e.getEnd().getMinutes());
 		ComboBox endCombo = new ComboBox();
@@ -215,6 +219,12 @@ public class BigEventPane extends VBox{
 		locBox.getChildren().add(locField);
 		colorBox.getChildren().add(colorField);
 		catBox.getChildren().add(catField);
+		
+		Button editButton = new Button("Edit");
+		
+		//TODO: add functionality to edit button
+		
+		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, editButton);
 	}
 	
 }

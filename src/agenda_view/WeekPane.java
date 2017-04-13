@@ -29,7 +29,7 @@ public class WeekPane extends GridPane{
 		this.end = end;
 		this.agenda = a;
 		init();
-		//addEvents(calendar);
+		addEvents();
 	}
 		
 	private void init() {
@@ -86,7 +86,7 @@ public class WeekPane extends GridPane{
 		this.add(saturdayLbl, 13, 0);		
 	}
 	
-	public void addEvents(Agenda agenda){
+	public void addEvents(){
 		for(Event e : agenda.getCalendar().getEvents(start, end)) {
 			addEvent(e);
 		}
@@ -95,8 +95,13 @@ public class WeekPane extends GridPane{
 	private void addEvent(Event e) {
 		WeekEventPane ep = new WeekEventPane(e, agenda);
 		
-		/** TODO: algorithm for adding the event pane to the right place. **/
+		System.out.println("This event:" + e.start);
 		
-		this.add(ep, 1, 5);
+		int col = (e.getStart().getDay()*2) + 1;
+		//if(e.getStart().getDay())
+		int row = e.getStart().getHours();
+		
+		this.add(ep, col, row);
+
 	}
 }
