@@ -64,11 +64,11 @@ public class MainWindow extends Application{
 		WeekPane wp = new WeekPane(new Date(2017 - 1900,
 											4 - 1,
 											9,
-											12,
+											16,
 											00),
 								   new Date(2017-1900,
 										    4 - 1,
-										    15,
+										    21,
 										    11,
 										    59),
 								   agenda);
@@ -82,7 +82,17 @@ public class MainWindow extends Application{
 		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-		MonthPane mp = new MonthPane(agenda);
+		MonthPane mp = new MonthPane(new Date(2017 - 1900,
+											4 - 1,
+											1,
+											12,
+											00),
+									 new Date(2017-1900,
+											 4 - 1,
+											 30,
+											 11,
+											 59),
+									 agenda);
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
