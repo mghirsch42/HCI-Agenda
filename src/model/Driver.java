@@ -1,5 +1,7 @@
 package model;
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import agenda_view.MainWindow;
 
 class Driver {
@@ -10,8 +12,8 @@ class Driver {
 		Agenda a = new Agenda();
 		
 		//Test events.
-		Event e = new Event("test", new Date(), new Date(), "description test");
-		Event e2 = new Event("test2", new Date(), new Date(), "description test2");
+		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
+		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
 		
 		//Test notes.
 		Note n = new Note("Test Title", "Test Message"); 
@@ -30,7 +32,6 @@ class Driver {
 		
 		//Opens the GUI
 		MainWindow.startGUI(args);
-		
 		//Runs after the GUI closes
 		
 	}

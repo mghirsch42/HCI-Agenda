@@ -9,7 +9,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 
-public class MonthPane extends GridPane {
+public class MonthPane extends GridPane{
 
 	private Map<Integer, String> weekdayName = new HashMap<Integer, String>();
 	private Map<Integer, String> monthName = new HashMap<Integer, String>();
@@ -119,4 +119,5 @@ public class MonthPane extends GridPane {
 		monthName.put(10, "November");
 		monthName.put(11, "December");
 	}
+
 }

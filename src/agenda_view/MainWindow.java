@@ -3,6 +3,7 @@ package agenda_view;
 import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import model.Agenda;
 import model.MyCalendar;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
@@ -13,13 +14,36 @@ import javafx.scene.layout.BorderPane;
 
 public class MainWindow extends Application{
 	
-	public static MyCalendar calendar;
+	//public static MyCalendar calendar;
+	
+	protected static model.Agenda agenda = new model.Agenda();
+	
+	
+	//the root
+	static BorderPane root = new BorderPane();
+	
+	//the actions menu
+	static Menu actions;
+	//the month pane
+	static MonthPane mp;
+	//the week pane
+	static WeekPane wp;
+	//menu item to move to week view
+	static MenuItem weekView = new MenuItem("Week View");
+	//menu item to move to month view
+	static MenuItem monthView = new MenuItem("Month View");;
+	
+
+	//sets the agenda used by the application-- should be called at beginning of program.
+	public void setAgenda(model.Agenda agenda) {
+		this.agenda = agenda;
+	}
 	
 	@Override
 	public void start(Stage primaryStage) {
 
 		//Border Layout Root
-		BorderPane root = new BorderPane();
+		
 		Scene scene = new Scene(root,800,600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				
@@ -27,7 +51,7 @@ public class MainWindow extends Application{
 		MenuBar menuBar = new MenuBar();
 
 		//Actions
-        Menu actions = new Menu("Actions");
+        actions = new Menu("Actions");
         MenuItem addEvent = new MenuItem("Add Event");
         actions.getItems().add(addEvent);
 
@@ -49,7 +73,7 @@ public class MainWindow extends Application{
 		root.setTop(menuBar);
 				
 		// Add the Week Pane for testing.
-		WeekPane wp = new WeekPane();
+		wp = new WeekPane();
 		root.setCenter(wp);
 		
 		//java.util Calendar (we might want to refactor our Calendar Class to avoid duplicate names).
@@ -60,26 +84,19 @@ public class MainWindow extends Application{
 		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-		MonthPane mp = new MonthPane(c);
+		mp = new MonthPane(c);
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
-        MenuItem monthView = new MenuItem("Month View");
-        MenuItem weekView = new MenuItem("Week View");
         monthView.setOnAction( (e) -> {
-            root.setCenter(mp);
-            actions.getItems().add(weekView);
-            actions.getItems().removeAll(monthView);
+            loadMonthView();
         });
         weekView.setOnAction( (e) -> {
-            root.setCenter(wp);
-            actions.getItems().add(monthView);
-            actions.getItems().removeAll(weekView);
+            loadWeekView();
         });
        addEvent.setOnAction( (e) -> {
-    	   root.setCenter(new BigEventPane());
-    	   
+    	   loadEventPane();
        });
 
 
@@ -99,6 +116,22 @@ public class MainWindow extends Application{
 
 	public static void startGUI(String[] args) {
 		launch(args); 
+	}
+	
+	protected static void loadWeekView(){
+		root.setCenter(wp);
+        actions.getItems().add(monthView);
+        actions.getItems().removeAll(weekView);
+	}
+	
+	protected static void loadMonthView(){
+		root.setCenter(mp);
+        actions.getItems().add(weekView);
+        actions.getItems().removeAll(monthView);
+	}
+	
+	protected static void loadEventPane(){
+		root.setCenter(new BigEventPane());
 	}
 
 }
