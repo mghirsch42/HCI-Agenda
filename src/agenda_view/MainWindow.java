@@ -1,9 +1,12 @@
 package agenda_view;
 
+import java.util.Date;
 import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import model.MyCalendar;
+import model.Agenda;
+import model.Event;
+import model.Note;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -13,13 +16,16 @@ import javafx.scene.layout.BorderPane;
 
 public class MainWindow extends Application{
 	
-	public static MyCalendar calendar;
+	//This is the model, if needed pass into the function you need it for.
+	private Agenda agenda;
+	private static BorderPane root;
 	
 	@Override
 	public void start(Stage primaryStage) {
-
+		agenda = initTestAgenda();
+				
 		//Border Layout Root
-		BorderPane root = new BorderPane();
+		root = new BorderPane();
 		Scene scene = new Scene(root,800,600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				
@@ -48,11 +54,27 @@ public class MainWindow extends Application{
 		//Add Elements to the root.
 		root.setTop(menuBar);
 				
+		///////////////////////////////
+		// TODO:
+		// ADD START AND END DATES TO WEEK PANE ON CREATION
+		// currently sets it up 2nd week of april 2017
+		///////////////////////////////
+		
 		// Add the Week Pane for testing.
-		WeekPane wp = new WeekPane();
+		WeekPane wp = new WeekPane(new Date(2017 - 1900,
+											4 - 1,
+											9,
+											16,
+											00),
+								   new Date(2017-1900,
+										    4 - 1,
+										    21,
+										    11,
+										    59),
+								   agenda);
 		root.setCenter(wp);
 		
-		//java.util Calendar (we might want to refactor our Calendar Class to avoid duplicate names).
+		//java.util Calendar (Used for constructing the monthview on the current date).
 		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
 		
 		//Use to test dates in the MonthPane. 
@@ -60,7 +82,17 @@ public class MainWindow extends Application{
 		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-		MonthPane mp = new MonthPane(c);
+		MonthPane mp = new MonthPane(new Date(2017 - 1900,
+											4 - 1,
+											1,
+											12,
+											00),
+									 new Date(2017-1900,
+											 4 - 1,
+											 30,
+											 11,
+											 59),
+									 agenda);
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
@@ -69,22 +101,25 @@ public class MainWindow extends Application{
         MenuItem weekView = new MenuItem("Week View");
         monthView.setOnAction( (e) -> {
             root.setCenter(mp);
-            actions.getItems().add(weekView);
-            actions.getItems().removeAll(monthView);
+            //actions.getItems().add(weekView);
+            //actions.getItems().removeAll(monthView);
         });
         weekView.setOnAction( (e) -> {
             root.setCenter(wp);
-            actions.getItems().add(monthView);
-            actions.getItems().removeAll(weekView);
+            //actions.getItems().add(monthView);
+            //actions.getItems().removeAll(weekView);
+            wp.addEvents();
         });
        addEvent.setOnAction( (e) -> {
-    	   root.setCenter(new BigEventPane());
+    	   //An agenda is passed in here so that the AddEventPand has a model to edit.
+    	   root.setCenter(new BigEventPane(agenda));
     	   
        });
 
 
         //Add items to actions
         actions.getItems().add(monthView);
+        actions.getItems().add(weekView);
 
         //Add menus to bar
         menuBar.getMenus().add(actions);
@@ -96,9 +131,55 @@ public class MainWindow extends Application{
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
+	
+	public static BorderPane getRoot() {
+		return root;
+	}
 
-	public static void startGUI(String[] args) {
-		launch(args); 
+	public void setRoot(BorderPane root) {
+		this.root = root;
+	}
+
+	/**
+	 * This is used for testing
+	 * @return An agenda with some elements.
+	 */
+	private Agenda initTestAgenda() {
+		//Creates a new agenda with an default constructor values
+		Agenda a = new Agenda();
+		
+		//Test events.
+		Event e = new Event("test", new Date(), new Date(), "description test");
+		Event e2 = new Event("test2", new Date(), new Date(), "description test2");
+		
+		//Test notes.
+		Note n = new Note("Test Title", "Test Message"); 
+		Note n2 = new Note("Test Title2", "Test Message2");
+		
+		//Add test events to the agenda's calendar
+		a.getCalendar().addEvent(e);
+		a.getCalendar().addEvent(e2);
+		
+		//Add test notes to the agenda's notepad
+		a.getNotepad().addNote(n);
+		a.getNotepad().addNote(n2);
+		
+		//Print out the agenda data
+		System.out.println("Default Generated Agenda Is Being Used!");
+		
+		return a;
+	}
+
+	private void loadAgenda(){
+		
+	}
+	
+	private void saveAgenda(){
+		
+	}
+
+	public void startGUI(String[] args) {
+		launch(args);
 	}
 
 }
