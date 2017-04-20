@@ -1,12 +1,17 @@
 package agenda_view;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import model.Agenda;
+
 import model.Event;
 import model.Note;
+
+import model.MyCalendar;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -16,16 +21,41 @@ import javafx.scene.layout.BorderPane;
 
 public class MainWindow extends Application{
 	
+
 	//This is the model, if needed pass into the function you need it for.
-	private Agenda agenda;
 	private static BorderPane root;
+
+	//public static MyCalendar calendar;
 	
+	protected static model.Agenda agenda = new model.Agenda();
+	
+	
+
+	//the actions menu
+	static Menu actions;
+	//the month pane
+	static MonthPane mp;
+	//the week pane
+	static WeekPane wp;
+	//menu item to move to week view
+	static MenuItem weekView = new MenuItem("Week View");
+	//menu item to move to month view
+	static MenuItem monthView = new MenuItem("Month View");;
+	
+
+	//sets the agenda used by the application-- should be called at beginning of program.
+	public void setAgenda(model.Agenda agenda) {
+		this.agenda = agenda;
+	}
+
 	@Override
 	public void start(Stage primaryStage) {
 		agenda = initTestAgenda();
 				
 		//Border Layout Root
+
 		root = new BorderPane();
+
 		Scene scene = new Scene(root,800,600);
 		scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 				
@@ -33,7 +63,7 @@ public class MainWindow extends Application{
 		MenuBar menuBar = new MenuBar();
 
 		//Actions
-        Menu actions = new Menu("Actions");
+        actions = new Menu("Actions");
         MenuItem addEvent = new MenuItem("Add Event");
         actions.getItems().add(addEvent);
 
@@ -61,7 +91,7 @@ public class MainWindow extends Application{
 		///////////////////////////////
 		
 		// Add the Week Pane for testing.
-		WeekPane wp = new WeekPane(new Date(2017 - 1900,
+		wp = new WeekPane(new Date(2017 - 1900,
 											4 - 1,
 											9,
 											16,
@@ -72,6 +102,8 @@ public class MainWindow extends Application{
 										    11,
 										    59),
 								   agenda);
+
+
 		root.setCenter(wp);
 		
 		//java.util Calendar (Used for constructing the monthview on the current date).
@@ -82,7 +114,8 @@ public class MainWindow extends Application{
 		//c.set(2017, 3, 31);
 		
 		//null as a parameter will result in the same as the c above.
-		MonthPane mp = new MonthPane(new Date(2017 - 1900,
+
+		mp = new MonthPane(new Date(2017 - 1900,
 											4 - 1,
 											1,
 											12,
@@ -93,27 +126,20 @@ public class MainWindow extends Application{
 											 11,
 											 59),
 									 agenda);
+
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
-        MenuItem monthView = new MenuItem("Month View");
-        MenuItem weekView = new MenuItem("Week View");
         monthView.setOnAction( (e) -> {
-            root.setCenter(mp);
-            //actions.getItems().add(weekView);
-            //actions.getItems().removeAll(monthView);
+            loadMonthView();
         });
         weekView.setOnAction( (e) -> {
-            root.setCenter(wp);
-            //actions.getItems().add(monthView);
-            //actions.getItems().removeAll(weekView);
-            wp.addEvents();
+            loadWeekView();
         });
        addEvent.setOnAction( (e) -> {
-    	   //An agenda is passed in here so that the AddEventPand has a model to edit.
-    	   root.setCenter(new BigEventPane(agenda));
-    	   
+    	   loadEventPane();
+
        });
 
 
@@ -149,8 +175,8 @@ public class MainWindow extends Application{
 		Agenda a = new Agenda();
 		
 		//Test events.
-		Event e = new Event("test", new Date(), new Date(), "description test");
-		Event e2 = new Event("test2", new Date(), new Date(), "description test2");
+		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
+		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
 		
 		//Test notes.
 		Note n = new Note("Test Title", "Test Message"); 
@@ -180,6 +206,24 @@ public class MainWindow extends Application{
 
 	public void startGUI(String[] args) {
 		launch(args);
+	}
+	
+	protected static void loadWeekView(){
+		root.setCenter(wp);
+        monthView.setVisible(true);
+        weekView.setVisible(false);
+	}
+	
+	protected static void loadMonthView(){
+		root.setCenter(mp);
+        weekView.setVisible(true);
+        monthView.setVisible(false);
+	}
+	
+	protected static void loadEventPane(){
+		weekView.setVisible(true);
+		monthView.setVisible(true);
+		root.setCenter(new BigEventPane(agenda));
 	}
 
 }

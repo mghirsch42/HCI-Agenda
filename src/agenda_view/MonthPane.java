@@ -2,6 +2,7 @@ package agenda_view;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -15,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import model.Agenda;
 import model.Event;
+
 
 public class MonthPane extends VBox {
 
@@ -152,6 +154,7 @@ public class MonthPane extends VBox {
 		monthName.put(10, "November");
 		monthName.put(11, "December");
 	}
+
 	
 	
 	public void addEvents() {
@@ -165,8 +168,8 @@ public class MonthPane extends VBox {
 	private void addEvent(Event event) {
 		// TODO: Algorithm for adding events to right spot in month
 		Calendar c = agenda.getCalendar().getCalendar();
-		c.set(Calendar.MONTH, event.getStart().getMonth());
-		c.set(Calendar.DAY_OF_MONTH, event.getStart().getDate());
+		c.set(Calendar.MONTH, event.getStart().get(GregorianCalendar.MONTH));
+		c.set(Calendar.DAY_OF_MONTH, event.getStart().get(GregorianCalendar.DAY_OF_MONTH));
 		gridPane.add(new MonthEventPane(event, agenda), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		
 	}

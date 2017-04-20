@@ -1,8 +1,13 @@
 package agenda_view;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
+import javafx.collections.ObservableList;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -20,6 +25,7 @@ public class BigEventPane extends VBox{
 	private Event event;
 	private Agenda agenda;
 	
+	
 	// for creating a new event
 	public BigEventPane(Agenda a) {
 		initEmpty();
@@ -34,6 +40,8 @@ public class BigEventPane extends VBox{
 	
 	// initialize an empty form
 	private void initEmpty() {
+		
+		
 		HBox nameBox = new HBox();
 		HBox descBox = new HBox();
 		HBox startBox = new HBox();
@@ -61,26 +69,58 @@ public class BigEventPane extends VBox{
 		
 		TextField nameField = new TextField();
 		TextField descField = new TextField();
+		
 		DatePicker startPicker = new DatePicker();
-		TextField startField = new TextField();
-		ComboBox startCombo = new ComboBox();
+		startPicker.setEditable(false);
+		startPicker.setValue(LocalDate.now());
+		ComboBox<Integer> startFieldHour = new ComboBox<Integer>();
+		for(int i  = 1; i <= 12; i++){
+			startFieldHour.getItems().add((Integer) i);
+		}
+		startFieldHour.setValue(12);
+		Label startColon = new Label(" : ");
+		ComboBox<Integer> startFieldMinute = new ComboBox<Integer>();
+		for(int i = 0; i < 60; i++){
+			startFieldMinute.getItems().add((Integer) i);
+		}
+		startFieldMinute.setValue(0);
+		ComboBox<String> startCombo = new ComboBox<String>();
 		startCombo.getItems().addAll(
+
 				"AM",
 				"PM");		
+
+		startCombo.setValue("AM");
+
 		DatePicker endPicker = new DatePicker();
-		TextField endField = new TextField();
-		ComboBox endCombo = new ComboBox();
+		endPicker.setValue(LocalDate.now());
+		endPicker.setEditable(false);
+		ComboBox<Integer> endFieldHour = new ComboBox<Integer>();
+		for(int i  = 1; i <= 12; i++){
+			endFieldHour.getItems().add((Integer) i);
+		}
+		endFieldHour.setValue(12);
+		Label endColon = new Label(" : ");
+		ComboBox<Integer> endFieldMinute = new ComboBox<Integer>();
+		for(int i = 0; i < 60; i++){
+			endFieldMinute.getItems().add((Integer) i);
+		}
+		endFieldMinute.setValue(0);
+		ComboBox<String> endCombo = new ComboBox<String>();
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
+
+		endCombo.setValue("PM");
+		
 		TextField locField = new TextField();
 		TextField colorField = new TextField();
 		TextField catField = new TextField();
 		
 		nameBox.getChildren().add(nameField);
 		descBox.getChildren().add(descField);
-		startBox.getChildren().addAll(startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endPicker, endField, endCombo);
+		startBox.getChildren().addAll(startPicker, startFieldHour, startColon, startFieldMinute,  startCombo);
+		endBox.getChildren().addAll(endPicker, endFieldHour, endColon, endFieldMinute, endCombo);
 		locBox.getChildren().add(locField);
 		colorBox.getChildren().add(colorField);
 		catBox.getChildren().add(catField);
@@ -88,67 +128,25 @@ public class BigEventPane extends VBox{
 		Button submitBtn = new Button("Create Event");
 		
 		submitBtn.setOnAction((e) -> {
+			String name = nameField.getText();
+			LocalDate startDate = startPicker.getValue();
+			LocalDate endDate = endPicker.getValue();
+			int startTimeHour = startFieldHour.getValue();
+			if (startCombo.getValue().equalsIgnoreCase("pm")) startTimeHour = startTimeHour + 12;
+			int startTimeMinute = startFieldMinute.getValue();
+			int endTimeHour = endFieldHour.getValue();
+			if (endCombo.getValue().equalsIgnoreCase("pm")) endTimeHour = endTimeHour + 12;
+			int endTimeMinute = endFieldMinute.getValue();
 			
-			/*
-			 * Parse the fields and create appropriate event objects
-			 */
+			GregorianCalendar start = new GregorianCalendar(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth(), startTimeHour, startTimeMinute);
+			GregorianCalendar end = new GregorianCalendar(endDate.getYear(), endDate.getMonthValue(), endDate.getDayOfMonth(), endTimeHour, endTimeMinute);
 			
-			/////////////////////////
-			// Determine start dates
-			/////////////////////////
-			
-			String date = startPicker.getValue().toString();
-			
-			System.out.println("Here is your date string: " +
-								date);
-			
-			// tokens will look like yyyy-mm-dd
-			String[] tokens = date.toString().split("-");
-			
-			String[] time = startField.getText().split(":");
-			
-			@SuppressWarnings("deprecation")
-			Date start = new Date(
-					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
-					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
-					Integer.parseInt(tokens[2]),	// day
-					Integer.parseInt(time[0]),		// hour
-					Integer.parseInt(time[1]));		// minute
-			
-			////////////////////////
-			// Determine end dates
-			////////////////////////
-			
-			date = endPicker.getValue().toString();
-			tokens = date.toString().split("-");
-			time = endField.getText().split(":");
-			
-			@SuppressWarnings("deprecation")
-			Date end = new Date(
-					Integer.parseInt(tokens[0]) - 1900, // year
-					Integer.parseInt(tokens[1]) -1, 	// month
-					Integer.parseInt(tokens[2]),		// day
-					Integer.parseInt(time[0]),			// hour
-					Integer.parseInt(time[1]));			// minute
-			
-			/////////////////////
-			// Create and add the event
-			/////////////////////
-			
-			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
-					colorField.getText(), locField.getText());
-			
-			
-						
+			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), colorField.getText(), locField.getText());
 			agenda.getCalendar().addEvent(event);
 			
-			//Testing output
-			//TODO: Remove when testing is complete.
-			System.out.println("Agenda After Adding Event");
-			System.out.println(agenda);
-			
+			//exit the view
+			MainWindow.loadWeekView();
 		});
-		
 		
 		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
 	}
@@ -185,37 +183,70 @@ public class BigEventPane extends VBox{
 		TextField descField = new TextField();
 		descField.setText(e.getDescription());
 		DatePicker startPicker = new DatePicker();
-		
-		startPicker.setValue(LocalDate.of(e.getStart().getYear()+1900, 
-										  e.getStart().getMonth()+1, 
-										  e.getStart().getDate())); 
-		TextField startField = new TextField();
-		startField.setText("" + e.getStart().getHours() + ":" + e.getStart().getMinutes());
-		ComboBox startCombo = new ComboBox();
+		startPicker.setValue(LocalDate.of(e.getStart().get(GregorianCalendar.YEAR), 
+										  e.getStart().get(GregorianCalendar.MONTH) + 1, 
+										  e.getStart().get(GregorianCalendar.DATE))); 
+		ComboBox<Integer> startFieldHour = new ComboBox<Integer>();
+		for(int i  = 1; i <= 12; i++){
+			startFieldHour.getItems().add((Integer) i);
+		}
+		startFieldHour.setValue(e.getStart().get(GregorianCalendar.HOUR));
+		Label startColon = new Label(" : ");
+		ComboBox<Integer> startFieldMinute = new ComboBox<Integer>();
+		for(int i = 0; i < 60; i++){
+			startFieldMinute.getItems().add((Integer) i);
+		}
+		startFieldMinute.setValue(e.getStart().get(GregorianCalendar.MINUTE));
+		ComboBox<String> startCombo = new ComboBox<String>();
 		startCombo.getItems().addAll(
+
 				"AM",
-				"PM");		
+				"PM");	
+		if (e.getStart().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM) {
+			startCombo.setValue("AM");	
+		} else {
+			startCombo.setValue("PM");
+		}
+		
+		
+		
 		DatePicker endPicker = new DatePicker();
-		endPicker.setValue(LocalDate.of(e.getEnd().getYear()+1900, 
-										e.getEnd().getMonth()+1, 
-										e.getEnd().getDate())); 
-		TextField endField = new TextField();
-		endField.setText("" + e.getEnd().getHours() + ":" + e.getEnd().getMinutes());
-		ComboBox endCombo = new ComboBox();
+		endPicker.setValue(LocalDate.of(e.getEnd().get(GregorianCalendar.YEAR), 
+										  e.getEnd().get(GregorianCalendar.MONTH) + 1, 
+										  e.getEnd().get(GregorianCalendar.DATE)));
+		ComboBox<Integer> endFieldHour = new ComboBox<Integer>();
+		for(int i  = 1; i <= 12; i++){
+			endFieldHour.getItems().add((Integer) i);
+		}
+		endFieldHour.setValue(e.getEnd().get(GregorianCalendar.HOUR));
+		Label endColon = new Label(" : ");
+		ComboBox<Integer> endFieldMinute = new ComboBox<Integer>();
+		for(int i = 0; i < 60; i++){
+			endFieldMinute.getItems().add((Integer) i);
+		}
+		endFieldMinute.setValue(e.getEnd().get(GregorianCalendar.MINUTE));
+		ComboBox<String> endCombo = new ComboBox<String>();
 		endCombo.getItems().addAll(
+
 				"AM",
-				"PM");		
+				"PM");	
+		if (e.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM) {
+			endCombo.setValue("AM");	
+		} else {
+			endCombo.setValue("PM");
+		}
+		
 		TextField locField = new TextField();
 		locField.setText(e.getLocation());
 		TextField colorField = new TextField();
 		colorField.setText(e.getColor());
 		TextField catField = new TextField();
 		catField.setText(e.getCategory());
-		
+
 		nameBox.getChildren().add(nameField);
 		descBox.getChildren().add(descField);
-		startBox.getChildren().addAll(startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endPicker, endField, endCombo);
+		startBox.getChildren().addAll(startPicker, startFieldHour, startColon, startFieldMinute,  startCombo);
+		endBox.getChildren().addAll(endPicker, endFieldHour, endColon, endFieldMinute, endCombo);
 		locBox.getChildren().add(locField);
 		colorBox.getChildren().add(colorField);
 		catBox.getChildren().add(catField);
