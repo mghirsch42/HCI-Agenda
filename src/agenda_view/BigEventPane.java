@@ -108,7 +108,6 @@ public class BigEventPane extends VBox{
 			
 			String[] time = startField.getText().split(":");
 			
-			@SuppressWarnings("deprecation")
 			GregorianCalendar start = new GregorianCalendar(
 					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
@@ -124,7 +123,6 @@ public class BigEventPane extends VBox{
 			tokens = date.toString().split("-");
 			time = endField.getText().split(":");
 			
-			@SuppressWarnings("deprecation")
 			GregorianCalendar end = new GregorianCalendar(
 					Integer.parseInt(tokens[0]) - 1900, // year
 					Integer.parseInt(tokens[1]) -1, 	// month
@@ -155,7 +153,7 @@ public class BigEventPane extends VBox{
 	}
 	
 	// initialize a form with event data
-	private void init(Event e) {
+	private void init(Event event) {
 		HBox nameBox = new HBox();
 		HBox descBox = new HBox();
 		HBox startBox = new HBox();
@@ -182,36 +180,36 @@ public class BigEventPane extends VBox{
 		
 		
 		TextField nameField = new TextField();
-		nameField.setText(e.getName());
+		nameField.setText(event.getName());
 		TextField descField = new TextField();
-		descField.setText(e.getDescription());
+		descField.setText(event.getDescription());
 		DatePicker startPicker = new DatePicker();
 		
-		startPicker.setValue(LocalDate.of(e.getStart().get(GregorianCalendar.YEAR)+1900, 
-										  e.getStart().get(GregorianCalendar.MONTH)+1, 
-										  e.getStart().get(GregorianCalendar.DATE))); 
+		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR)+1900, 
+										  event.getStart().get(GregorianCalendar.MONTH)+1, 
+										  event.getStart().get(GregorianCalendar.DATE))); 
 		TextField startField = new TextField();
-		startField.setText("" + e.getStart().get(GregorianCalendar.HOUR) + ":" + e.getStart().get(GregorianCalendar.MINUTE));
+		startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
 		ComboBox startCombo = new ComboBox();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
 		DatePicker endPicker = new DatePicker();
-		endPicker.setValue(LocalDate.of(e.getEnd().get(GregorianCalendar.YEAR)+1900, 
-										e.getEnd().get(GregorianCalendar.MONTH)+1, 
-										e.getEnd().get(GregorianCalendar.DATE))); 
+		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR)+1900, 
+										event.getEnd().get(GregorianCalendar.MONTH)+1, 
+										event.getEnd().get(GregorianCalendar.DATE))); 
 		TextField endField = new TextField();
-		endField.setText("" + e.getEnd().get(GregorianCalendar.HOUR) + ":" + e.getEnd().get(GregorianCalendar.MINUTE));
+		endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
 		ComboBox endCombo = new ComboBox();
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
 		TextField locField = new TextField();
-		locField.setText(e.getLocation());
+		locField.setText(event.getLocation());
 		TextField colorField = new TextField();
-		colorField.setText(e.getColor());
+		colorField.setText(event.getColor());
 		TextField catField = new TextField();
-		catField.setText(e.getCategory());
+		catField.setText(event.getCategory());
 		
 		nameBox.getChildren().add(nameField);
 		descBox.getChildren().add(descField);
@@ -224,6 +222,41 @@ public class BigEventPane extends VBox{
 		Button editButton = new Button("Edit");
 		
 		//TODO: add functionality to edit button
+		
+		editButton.setOnAction((e) -> {
+			event.setName(nameField.getText());
+			event.setDescription(descField.getText());
+			
+			String date = startPicker.getValue().toString();
+			
+			// tokens will look like yyyy-mm-dd
+			String[] tokens = date.toString().split("-");
+			
+			String[] time = startField.getText().split(":");
+			
+			GregorianCalendar start = new GregorianCalendar(
+					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
+					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
+					Integer.parseInt(tokens[2]),	// day
+					Integer.parseInt(time[0]),		// hour
+					Integer.parseInt(time[1]));		// minute
+			event.setStart(start);
+			
+			date = endPicker.getValue().toString();
+			tokens = date.toString().split("-");
+			time = endField.getText().split(":");
+			
+			GregorianCalendar end = new GregorianCalendar(
+					Integer.parseInt(tokens[0]) - 1900, // year
+					Integer.parseInt(tokens[1]) -1, 	// month
+					Integer.parseInt(tokens[2]),		// day
+					Integer.parseInt(time[0]),			// hour
+					Integer.parseInt(time[1]));			// minute
+			event.setEnd(end);
+			event.setColor(colorField.getText());
+			event.setCategory(catField.getText());
+			event.setLocation(locField.getText());
+		});
 		
 		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, editButton);
 	}
