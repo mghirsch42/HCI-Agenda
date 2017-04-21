@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Map;
 
 
@@ -12,7 +13,7 @@ import java.util.Map;
  *
  */
 public class MyCalendar {
-	public Calendar calendar = Calendar.getInstance();
+	public GregorianCalendar calendar;
 	public ArrayList<Event> events;
 	public Map<Integer, String> categories;
 	
@@ -21,6 +22,7 @@ public class MyCalendar {
 	 */
 	public MyCalendar() {
 		events = new ArrayList<Event>();
+		calendar = new GregorianCalendar();
 	}
 	
 	/**
@@ -47,7 +49,7 @@ public class MyCalendar {
 		return events;
 	}
 	
-	public ArrayList<Event> getEvents(Date start, Date end){
+	public ArrayList<Event> getEvents(GregorianCalendar start, GregorianCalendar end){
 		Collections.sort(events, new DateCompare());
 		ArrayList<Event> result = new ArrayList<Event>();
 		// simple search and grab algorithm - can be optimized by using the sorted list
@@ -79,11 +81,11 @@ public class MyCalendar {
 		return events;
 	}
 
-	public Calendar getCalendar() {
+	public GregorianCalendar getCalendar() {
 		return calendar;
 	}
 
-	public void setCalendar(Calendar calendar) {
+	public void setCalendar(GregorianCalendar calendar) {
 		this.calendar = calendar;
 	}
 	

@@ -1,6 +1,8 @@
 package agenda_view;
 
 import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -17,12 +19,12 @@ import model.Event;
  */
 public class WeekPane extends VBox{
 	
-	private Date start;			// start date for this time frame
-	private Date end;			// end date for this time frame
+	private GregorianCalendar start;			// start date for this time frame
+	private GregorianCalendar end;			// end date for this time frame
 	private Agenda agenda;		// agenda
 	private GridPane gridPane;
 	
-	public WeekPane(Date start, Date end, Agenda a) {
+	public WeekPane(GregorianCalendar start, GregorianCalendar end, Agenda a) {
 		this.start = start;
 		this.end = end;
 		this.agenda = a;
@@ -31,7 +33,7 @@ public class WeekPane extends VBox{
 		addEvents();
 		
 		// TODO: convert to month name
-		Label monthLbl = new Label(""+start.getMonth());
+		Label monthLbl = new Label(""+start.get(GregorianCalendar.MONTH));
 		this.getChildren().add(monthLbl);
 		
 		this.getChildren().add(gridPane);
@@ -102,9 +104,9 @@ public class WeekPane extends VBox{
 		
 		System.out.println("This event:" + e.start);
 		
-		int col = (e.getStart().getDay()*2) + 1;
-		//if(e.getStart().getDay())
-		int row = e.getStart().getHours();
+		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
+		
+		int row = e.getStart().get(GregorianCalendar.HOUR);
 		
 		gridPane.add(ep, col, row);
 

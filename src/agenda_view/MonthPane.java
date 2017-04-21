@@ -2,6 +2,7 @@ package agenda_view;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
@@ -20,8 +21,8 @@ public class MonthPane extends VBox {
 
 	private Map<Integer, String> weekdayName = new HashMap<Integer, String>();
 	private Map<Integer, String> monthName = new HashMap<Integer, String>();
-	private Date start;
-	private Date end;
+	private GregorianCalendar start;
+	private GregorianCalendar end;
 	private Agenda agenda;
 	private GridPane gridPane;
 	
@@ -29,7 +30,7 @@ public class MonthPane extends VBox {
 	 * Creates a Grid Pane that represents the month/day/year set in the Calendar object.
 	 * @param c, The Local Calendar and Time zone will be used if null is passed in. Otherwise the provided calendar will be used.
 	 */
-	public MonthPane(Date start, Date end, Agenda agenda){
+	public MonthPane(GregorianCalendar start, GregorianCalendar end, Agenda agenda){
 		this.start = start;
 		this.end = end;
 		this.agenda = agenda;
@@ -40,7 +41,7 @@ public class MonthPane extends VBox {
 		//Initializes the maps used for translating dates to strings
 				initMaps();
 		
-		Label monthLbl = new Label(""+monthName.get(start.getMonth()));
+		Label monthLbl = new Label(""+monthName.get(start.get(GregorianCalendar.MONTH)));
 		this.getChildren().add(monthLbl);
 		
 		
@@ -48,11 +49,11 @@ public class MonthPane extends VBox {
 		gridPane.setGridLinesVisible(true);
 		
 
-		Calendar c = agenda.getCalendar().getCalendar();
+		GregorianCalendar c = agenda.getCalendar().getCalendar();
 		
 		//Sets the current day to the data if no Calendar was provided.
 		if(c == null){
-			agenda.setCalendar(Calendar.getInstance(TimeZone.getDefault()));
+			agenda.setCalendar(new GregorianCalendar());
 		}
 		
 				
@@ -139,18 +140,18 @@ public class MonthPane extends VBox {
 		weekdayName.put(7, "Saturday");
 	
 		//Set up monthName map
-		monthName.put(0, "January");
-		monthName.put(1, "Febuary");
-		monthName.put(2, "March");
-		monthName.put(3, "April");
-		monthName.put(4, "May");
-		monthName.put(5, "June");
-		monthName.put(6, "July");
-		monthName.put(7, "August");
-		monthName.put(8, "September");
-		monthName.put(9, "October");
-		monthName.put(10, "November");
-		monthName.put(11, "December");
+		monthName.put(1, "January");
+		monthName.put(2, "Febuary");
+		monthName.put(3, "March");
+		monthName.put(4, "April");
+		monthName.put(5, "May");
+		monthName.put(6, "June");
+		monthName.put(7, "July");
+		monthName.put(8, "August");
+		monthName.put(9, "September");
+		monthName.put(10, "October");
+		monthName.put(11, "November");
+		monthName.put(12, "December");
 	}
 	
 	
@@ -165,8 +166,8 @@ public class MonthPane extends VBox {
 	private void addEvent(Event event) {
 		// TODO: Algorithm for adding events to right spot in month
 		Calendar c = agenda.getCalendar().getCalendar();
-		c.set(Calendar.MONTH, event.getStart().getMonth());
-		c.set(Calendar.DAY_OF_MONTH, event.getStart().getDate());
+		c.set(Calendar.MONTH, event.getStart().get(GregorianCalendar.MONTH));
+		c.set(Calendar.DAY_OF_MONTH, event.getStart().get(GregorianCalendar.DATE));
 		gridPane.add(new MonthEventPane(event, agenda), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		
 	}

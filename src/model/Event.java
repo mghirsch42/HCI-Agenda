@@ -1,5 +1,6 @@
 package model;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * @author MG Hirsch
@@ -7,8 +8,8 @@ import java.util.Date;
  */
 public class Event {
 	public String name;			// name of event
-	public Date start;			// Start date and time
-	public Date end;			// End date and time
+	public GregorianCalendar start;			// Start date and time
+	public GregorianCalendar end;			// End date and time
 	public String description;	// description of event
 	public String category;		// category of event
 	public String color;		// color of event
@@ -21,7 +22,7 @@ public class Event {
 	 * @param end			the end date of this event
 	 * @param description	the description of this event
 	 */
-	public Event(String name, Date start, Date end, String description) {
+	public Event(String name, GregorianCalendar start, GregorianCalendar end, String description) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
@@ -38,7 +39,7 @@ public class Event {
 	 * @param color			the color of this event
 	 * @param location		the location of this event
 	 */
-	public Event(String name, Date start, Date end, String description, String category,
+	public Event(String name, GregorianCalendar start, GregorianCalendar end, String description, String category,
 				String color, String location) {
 		this.name = name;
 		this.start = start;
@@ -69,7 +70,7 @@ public class Event {
 	 * 
 	 * @return	the start date of this event
 	 */
-	public Date getStart() {
+	public GregorianCalendar getStart() {
 		return start;
 	}
 
@@ -77,7 +78,7 @@ public class Event {
 	 * 
 	 * @param start	the start date of this event
 	 */
-	public void setStart(Date start) {
+	public void setStart(GregorianCalendar start) {
 		this.start = start;
 	}
 
@@ -85,7 +86,7 @@ public class Event {
 	 * 
 	 * @return	the end date of this event
 	 */
-	public Date getEnd() {
+	public GregorianCalendar getEnd() {
 		return end;
 	}
 
@@ -93,7 +94,7 @@ public class Event {
 	 * 
 	 * @param end	the end date of this event
 	 */
-	public void setEnd(Date end) {
+	public void setEnd(GregorianCalendar end) {
 		this.end = end;
 	}
 

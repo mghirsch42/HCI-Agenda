@@ -2,6 +2,7 @@ package agenda_view;
 
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -108,7 +109,7 @@ public class BigEventPane extends VBox{
 			String[] time = startField.getText().split(":");
 			
 			@SuppressWarnings("deprecation")
-			Date start = new Date(
+			GregorianCalendar start = new GregorianCalendar(
 					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
@@ -124,7 +125,7 @@ public class BigEventPane extends VBox{
 			time = endField.getText().split(":");
 			
 			@SuppressWarnings("deprecation")
-			Date end = new Date(
+			GregorianCalendar end = new GregorianCalendar(
 					Integer.parseInt(tokens[0]) - 1900, // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
@@ -186,21 +187,21 @@ public class BigEventPane extends VBox{
 		descField.setText(e.getDescription());
 		DatePicker startPicker = new DatePicker();
 		
-		startPicker.setValue(LocalDate.of(e.getStart().getYear()+1900, 
-										  e.getStart().getMonth()+1, 
-										  e.getStart().getDate())); 
+		startPicker.setValue(LocalDate.of(e.getStart().get(GregorianCalendar.YEAR)+1900, 
+										  e.getStart().get(GregorianCalendar.MONTH)+1, 
+										  e.getStart().get(GregorianCalendar.DATE))); 
 		TextField startField = new TextField();
-		startField.setText("" + e.getStart().getHours() + ":" + e.getStart().getMinutes());
+		startField.setText("" + e.getStart().get(GregorianCalendar.HOUR) + ":" + e.getStart().get(GregorianCalendar.MINUTE));
 		ComboBox startCombo = new ComboBox();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
 		DatePicker endPicker = new DatePicker();
-		endPicker.setValue(LocalDate.of(e.getEnd().getYear()+1900, 
-										e.getEnd().getMonth()+1, 
-										e.getEnd().getDate())); 
+		endPicker.setValue(LocalDate.of(e.getEnd().get(GregorianCalendar.YEAR)+1900, 
+										e.getEnd().get(GregorianCalendar.MONTH)+1, 
+										e.getEnd().get(GregorianCalendar.DATE))); 
 		TextField endField = new TextField();
-		endField.setText("" + e.getEnd().getHours() + ":" + e.getEnd().getMinutes());
+		endField.setText("" + e.getEnd().get(GregorianCalendar.HOUR) + ":" + e.getEnd().get(GregorianCalendar.MINUTE));
 		ComboBox endCombo = new ComboBox();
 		endCombo.getItems().addAll(
 				"AM",
