@@ -1,12 +1,13 @@
 package model;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * @author MG Hirsch
+ * @author MG Hirsch, edited by Robert Daro
  *
  */
-public class Event {
+public class Event implements Serializable {
 	public String name;			// name of event
 	public GregorianCalendar start;			// Start date and time
 	public GregorianCalendar end;			// End date and time
@@ -14,7 +15,10 @@ public class Event {
 	public String category;		// category of event
 	public String color;		// color of event
 	public String location;		// location of event
-	
+
+	//This is most likely needed to make serialization work
+	//private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 * @param name			the name of this event
