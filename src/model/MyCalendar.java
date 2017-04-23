@@ -53,8 +53,9 @@ public class MyCalendar {
 		Collections.sort(events, new DateCompare());
 		ArrayList<Event> result = new ArrayList<Event>();
 		// simple search and grab algorithm - can be optimized by using the sorted list
+				
 		for(Event e : events) {
-			if(e.getStart().after(start) || e.getEnd().before(end)) {
+			if(e.getStart().after(start) && e.getEnd().before(end)) {
 				result.add(e);
 			}
 		}
