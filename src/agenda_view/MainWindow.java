@@ -62,12 +62,12 @@ public class MainWindow extends Application{
 		///////////////////////////////
 		
 		// Add the Week Pane for testing.
-		GregorianCalendar start = new GregorianCalendar();
-		start.set(2017, 4, 16, 12, 00);
-		GregorianCalendar end = new GregorianCalendar();
-		end.set(2017, 4, 22, 11, 59);
-		WeekPane weekPane = new WeekPane(start,
-										end,
+		GregorianCalendar weekStart = new GregorianCalendar();
+		weekStart.set(2017, 3, 16, 0, 00);
+		GregorianCalendar weekEnd = new GregorianCalendar();
+		weekEnd.set(2017, 3, 22, 23, 59);
+		WeekPane weekPane = new WeekPane(weekStart,
+										weekEnd,
 										agenda);
 		root.setCenter(weekPane);
 		
@@ -75,8 +75,10 @@ public class MainWindow extends Application{
 		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
 		
 		//null as a parameter will result in the same as the c above.
-		start.set(2017, 4, 1, 12, 00);
-		end.set(2017, 4, 30, 11, 59);
+		GregorianCalendar start = new GregorianCalendar();
+		GregorianCalendar end = new GregorianCalendar();
+		start.set(2017, 4, 1, 00, 00);
+		end.set(2017, 4, 31, 23, 59);
 		MonthPane monthPane = new MonthPane(start,
 											end,
 											agenda);
@@ -96,6 +98,7 @@ public class MainWindow extends Application{
             root.setCenter(weekPane);
             //actions.getItems().add(monthView);
             //actions.getItems().removeAll(weekView);
+            weekPane.removeEvents();
             weekPane.addEvents();
         });
        addEvent.setOnAction( (e) -> {
@@ -138,6 +141,12 @@ public class MainWindow extends Application{
 		
 		//Test events.
 		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
+		GregorianCalendar temp1 = e.getStart();
+		GregorianCalendar temp2 = e.getEnd();
+		temp1.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
+		temp2.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
+		e.setStart(temp1);
+		e.setEnd(temp2);
 		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
 		
 		//Test notes.
@@ -154,6 +163,7 @@ public class MainWindow extends Application{
 		
 		//Print out the agenda data
 		System.out.println("Default Generated Agenda Is Being Used!");
+		System.out.println(a);
 		
 		return a;
 	}
