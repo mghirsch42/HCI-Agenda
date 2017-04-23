@@ -1,7 +1,6 @@
 package agenda_view;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import javafx.scene.control.Button;
@@ -9,10 +8,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import model.Agenda;
 import model.Event;
@@ -22,13 +18,13 @@ public class BigEventPane extends VBox{
 	private Agenda agenda;
 	
 	// for creating a new event
-	public BigEventPane(Agenda a) {
+	public BigEventPane(final Agenda a) {
 		initEmpty();
 		this.agenda = a;
 	}
 	
 	// for displaying/editing an event
-	public BigEventPane(Event e, Agenda a) {
+	public BigEventPane(Event e, final Agenda a) {
 		init(e);
 		this.agenda = a;
 	}
@@ -109,7 +105,7 @@ public class BigEventPane extends VBox{
 			String[] time = startField.getText().split(":");
 			
 			GregorianCalendar start = new GregorianCalendar(
-					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
+					Integer.parseInt(tokens[0]),	// year
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
 					Integer.parseInt(time[0]),		// hour
@@ -124,7 +120,7 @@ public class BigEventPane extends VBox{
 			time = endField.getText().split(":");
 			
 			GregorianCalendar end = new GregorianCalendar(
-					Integer.parseInt(tokens[0]) - 1900, // year
+					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
 					Integer.parseInt(time[0]),			// hour
@@ -185,7 +181,7 @@ public class BigEventPane extends VBox{
 		descField.setText(event.getDescription());
 		DatePicker startPicker = new DatePicker();
 		
-		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR)+1900, 
+		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR), 
 										  event.getStart().get(GregorianCalendar.MONTH)+1, 
 										  event.getStart().get(GregorianCalendar.DATE))); 
 		TextField startField = new TextField();
@@ -195,7 +191,7 @@ public class BigEventPane extends VBox{
 				"AM",
 				"PM");		
 		DatePicker endPicker = new DatePicker();
-		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR)+1900, 
+		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR), 
 										event.getEnd().get(GregorianCalendar.MONTH)+1, 
 										event.getEnd().get(GregorianCalendar.DATE))); 
 		TextField endField = new TextField();
@@ -235,7 +231,7 @@ public class BigEventPane extends VBox{
 			String[] time = startField.getText().split(":");
 			
 			GregorianCalendar start = new GregorianCalendar(
-					Integer.parseInt(tokens[0]) - 1900,	// year - date takes years since 1900
+					Integer.parseInt(tokens[0]),	// year - date takes years since 1900
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
 					Integer.parseInt(time[0]),		// hour
@@ -247,7 +243,7 @@ public class BigEventPane extends VBox{
 			time = endField.getText().split(":");
 			
 			GregorianCalendar end = new GregorianCalendar(
-					Integer.parseInt(tokens[0]) - 1900, // year
+					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
 					Integer.parseInt(time[0]),			// hour
