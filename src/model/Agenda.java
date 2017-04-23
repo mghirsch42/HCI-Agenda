@@ -1,5 +1,8 @@
 package model;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 public class Agenda {
 	
 	private MyCalendar calendar;	
@@ -10,7 +13,7 @@ public class Agenda {
 	 * Constructor for a new agenda
 	 */
 	public Agenda(){
-		setCalendar(new MyCalendar());
+		calendar = new MyCalendar();
 		setNotepad(new Notepad());
 	}
 	
@@ -21,7 +24,7 @@ public class Agenda {
 	 * @param notepad The Notepad to use
 	 */
 	public Agenda(MyCalendar calendar, Notepad notepad){
-		setCalendar(calendar);
+		this.calendar = calendar;
 		setNotepad(notepad);
 	}
 
@@ -35,10 +38,10 @@ public class Agenda {
 
 	/**
 	 * Sets this.calendar equal to a new one.
-	 * @param calendar the new Calendar. 
+	 * @param calendar2 the new Calendar. 
 	 */
-	public void setCalendar(MyCalendar calendar) {
-		this.calendar = calendar;
+	public void setCalendar(GregorianCalendar calendar2) {
+		this.calendar.setCalendar(calendar2);
 	}
 
 	/**
