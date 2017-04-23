@@ -1,7 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.GregorianCalendar;
 
 import agenda_view.MainWindow;
 
@@ -24,10 +24,10 @@ class Driver {
 
 	public static void eventSaveTest()
 	{
-		EventSaveHandler handler = new EventSaveHandler("TestFileSaves");
-		Event testEvent1 = new Event("Test One", new Date(), new Date(), "YOLO", "Fish", "THIS SHOULD NOT BE A STRING", "OU");
-		Event testEvent2 = new Event("Test Two", new Date(), new Date(), "YOLOSWAG", "Sausage", "THIS SHOULD NOT BE A STRING", "OSU");
-		Event testEvent3 = new Event("Test Three", new Date(), new Date(), "SWAGGERDOSE", "Apple", "THIS SHOULD NOT BE A STRING", "UCO");
+		EventSaveHandler handler = new EventSaveHandler("TestFileSaves.txt");
+		Event testEvent1 = new Event("Test One", new GregorianCalendar(), new GregorianCalendar(), "YOLO", "Fish", "THIS SHOULD NOT BE A STRING", "OU");
+		Event testEvent2 = new Event("Test Two", new GregorianCalendar(), new GregorianCalendar(), "YOLOSWAG", "Sausage", "THIS SHOULD NOT BE A STRING", "OSU");
+		Event testEvent3 = new Event("Test Three", new GregorianCalendar(), new GregorianCalendar(), "SWAGGERDOSE", "Apple", "THIS SHOULD NOT BE A STRING", "UCO");
 
 		ArrayList<Event> list = new ArrayList<Event>();
 		list.add(testEvent1);
