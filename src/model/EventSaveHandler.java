@@ -98,7 +98,8 @@ public class EventSaveHandler {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Probably nothing to read");
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

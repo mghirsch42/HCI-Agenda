@@ -10,15 +10,15 @@ class Driver {
 	public static void main(String[] args) {
     
 		//Opens the GUI
-		MainWindow window = new MainWindow(); 
+		MainWindow window = new MainWindow();
 		window.startGUI(args);
 		
 		//Runs after the GUI closes
 
 		//Unit test for EventSaveHandler
-		System.out.println("Starting EventSaveHandler test...");
-		eventSaveTest();
-		System.out.println("Ending test.");
+		//System.out.println("Starting EventSaveHandler test...");
+		//eventSaveTest();
+		//System.out.println("Ending test.");
     
 	}
 

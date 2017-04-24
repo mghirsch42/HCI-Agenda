@@ -1,9 +1,11 @@
 package agenda_view;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import javafx.application.Application;
+import javafx.scene.control.ScrollPane;
 import javafx.stage.Stage;
 import model.Agenda;
 import model.Event;
@@ -20,6 +22,7 @@ public class MainWindow extends Application{
 	//This is the model, if needed pass into the function you need it for.
 	private Agenda agenda;
 	private static BorderPane root;
+	private static ScrollPane scroll;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -69,7 +72,10 @@ public class MainWindow extends Application{
 		WeekPane weekPane = new WeekPane(weekStart,
 										weekEnd,
 										agenda);
-		root.setCenter(weekPane);
+		scroll = new ScrollPane(weekPane);
+		scroll.setFitToHeight(true);
+		scroll.setFitToWidth(true);
+		root.setCenter(scroll);
 		
 		//java.util Calendar (Used for constructing the monthview on the current date).
 		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
@@ -148,6 +154,14 @@ public class MainWindow extends Application{
 		e.setStart(temp1);
 		e.setEnd(temp2);
 		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
+
+		//Test Array for scroll purposes
+		ArrayList<Event> eventList = new ArrayList<Event>();
+		for(int i = 0; i < 3; i++)
+		{
+			Event tempEvent = new Event("testList " + i, new GregorianCalendar(), new GregorianCalendar(), "description testList");
+			eventList.add(tempEvent);
+		}
 		
 		//Test notes.
 		Note n = new Note("Test Title", "Test Message"); 
@@ -156,6 +170,10 @@ public class MainWindow extends Application{
 		//Add test events to the agenda's calendar
 		a.getCalendar().addEvent(e);
 		a.getCalendar().addEvent(e2);
+		for(int i = 0; i < eventList.size(); i++)
+		{
+			a.getCalendar().addEvent(eventList.get(i));
+		}
 		
 		//Add test notes to the agenda's notepad
 		a.getNotepad().addNote(n);

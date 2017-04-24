@@ -9,6 +9,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -31,13 +32,18 @@ public class WeekPane extends VBox{
 	private GregorianCalendar end;			// end date for this time frame
 	private Agenda agenda;		// agenda
 	private GridPane gridPane;
+	//private ScrollPane scrollPane;
 	private Label dateLbl = new Label("");
+	private VBox[][] boxes; //14x25
 	
 	public WeekPane(GregorianCalendar start, GregorianCalendar end, final Agenda a) { 
 		this.start = start;
 		this.end = end;
 		this.agenda = a;
 		gridPane = new GridPane();
+		//scrollPane = new ScrollPane(gridPane);
+		boxes = new VBox[14][25];
+		//scrollPane.setFitToHeight(true);
 		init();
 		addEvents();
 		
@@ -130,22 +136,22 @@ public class WeekPane extends VBox{
 		System.out.println("This event:" + e.start);
 		
 		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
-		
+
 		int row = e.getStart().get(GregorianCalendar.HOUR);
 		
-		gridPane.add(ep, col, row);
-
+		//gridPane.add(ep, col, row);
+		boxes[col][row].getChildren().add(ep);
 	}
 	
 	public void removeEvents(){
 //		gridPane.getChildren().remove(gridPane.getChildren().size() - 1);
 		ArrayList<Object> objectsToRemove = new ArrayList<Object>(); 
 		for(Node n: gridPane.getChildren()){
-			if( n.getClass().getName() == "agenda_view.WeekEventPane"){
-				objectsToRemove.add(n); 
+			if( n instanceof VBox){
+				((VBox) n).getChildren().removeAll(((VBox) n).getChildren());
 			}
 		}
-		gridPane.getChildren().removeAll(objectsToRemove); 
+		//gridPane.getChildren().removeAll(objectsToRemove);
 	}
 
 	private void initMaps(){
@@ -225,6 +231,16 @@ public class WeekPane extends VBox{
 		gridPane.add(fridayLbl, 11, 0);
 		
 		Label saturdayLbl = new Label ("Saturday");
-		gridPane.add(saturdayLbl, 13, 0);		
+		gridPane.add(saturdayLbl, 13, 0);
+
+		//Setup boxes
+		for(int i = 1; i <= 13; i = i + 2)
+		{
+			for(int j = 1; j <= 24; j++)
+			{
+				boxes[i][j] = new VBox();
+				gridPane.add(boxes[i][j], i, j);
+			}
+		}
 	}
 }
