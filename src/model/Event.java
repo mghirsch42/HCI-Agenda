@@ -1,11 +1,14 @@
 package model;
+
+import java.io.Serializable;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * @author MG Hirsch
+ * @author MG Hirsch, edited by Robert Daro
  *
  */
-public class Event {
+public class Event implements Serializable {
 	public String name;			// name of event
 	public GregorianCalendar start;			// Start date and time
 	public GregorianCalendar end;			// End date and time
@@ -13,7 +16,10 @@ public class Event {
 	public String category;		// category of event
 	public String color;		// color of event
 	public String location;		// location of event
-	
+
+	//This is most likely needed to make serialization work
+	//private static final long serialVersionUID = 1L;
+
 	/**
 	 * 
 	 * @param name			the name of this event
@@ -167,10 +173,8 @@ public class Event {
 	public String toString() {
 		String result = "";
 		result += "Name: " + name + "\n";
-		result += "Start Date: " + start.get(GregorianCalendar.DAY_OF_MONTH) + "/" + start.get(GregorianCalendar.MONTH) + "/"+ start.get(GregorianCalendar.YEAR) + "\n";
-		result += "Start Time: " + start.get(GregorianCalendar.HOUR_OF_DAY) + ":" + start.get(GregorianCalendar.MINUTE) + "\n";
-		result += "End Date: " + end.get(GregorianCalendar.DAY_OF_MONTH) + "/" + end.get(GregorianCalendar.MONTH) + "/"+ end.get(GregorianCalendar.YEAR) + "\n";
-		result += "End Time: " + end.get(GregorianCalendar.HOUR_OF_DAY) + ":" + end.get(GregorianCalendar.MINUTE) + "\n";
+		result += "Start: " + start + "\n";
+		result += "End: " + end + "\n";
 		result += "Description: " + description + "\n";
 		return result;
 	}
