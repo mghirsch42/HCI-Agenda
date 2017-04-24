@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="136729b7-09c2-46d9-9b60-06c9cd01f8f5" name="Default" comment="">
+<<<<<<< HEAD
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/BigEventPane.class" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/MonthEventPane.class" />
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/WeekEventPane.class" />
@@ -19,11 +20,16 @@
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/model/EventSaveHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/agenda_view/MainWindow.class" afterPath="$PROJECT_DIR$/bin/agenda_view/MainWindow.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/bin/agenda_view/WeekPane.class" afterPath="$PROJECT_DIR$/bin/agenda_view/WeekPane.class" />
+=======
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/model/EventSaveHandler.java" />
+>>>>>>> refs/remotes/origin/master
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/MainWindow.class" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/MainWindow.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/MonthPane.class" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/MonthPane.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/WeekPane.class" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/WeekPane.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+<<<<<<< HEAD
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/application.css" afterPath="$PROJECT_DIR$/out/production/HCI-Agenda/agenda_view/application.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/agenda_view/BigEventPane.java" afterPath="$PROJECT_DIR$/src/agenda_view/BigEventPane.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/agenda_view/MainWindow.java" afterPath="$PROJECT_DIR$/src/agenda_view/MainWindow.java" />
@@ -32,6 +38,10 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Driver.java" afterPath="$PROJECT_DIR$/src/model/Driver.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Event.java" afterPath="$PROJECT_DIR$/src/model/Event.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/MyCalendar.java" afterPath="$PROJECT_DIR$/src/model/MyCalendar.java" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Driver.java" afterPath="$PROJECT_DIR$/src/model/Driver.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/model/Event.java" afterPath="$PROJECT_DIR$/src/model/Event.java" />
+>>>>>>> refs/remotes/origin/master
     </list>
     <ignored path="HCI-Agenda.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -57,11 +67,17 @@
       <file leaf-file-name="MainWindow.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/agenda_view/MainWindow.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="260">
               <caret line="76" column="35" selection-start-line="76" selection-start-column="35" selection-end-line="76" selection-end-column="35" />
               <folding>
                 <element signature="e#4802#4809#0" expanded="true" />
               </folding>
+=======
+            <state relative-caret-position="425">
+              <caret line="79" column="31" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="31" />
+              <folding />
+>>>>>>> refs/remotes/origin/master
             </state>
           </provider>
         </entry>
@@ -69,13 +85,18 @@
       <file leaf-file-name="MonthPane.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/agenda_view/MonthPane.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="671">
+=======
+            <state relative-caret-position="1615">
+>>>>>>> refs/remotes/origin/master
               <caret line="102" column="40" selection-start-line="102" selection-start-column="40" selection-end-line="102" selection-end-column="40" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="WeekPane.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/agenda_view/WeekPane.java">
           <provider selected="true" editor-type-id="text-editor">
@@ -95,6 +116,16 @@
               <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
               <folding>
                 <element signature="e#1070#1077#0" expanded="true" />
+=======
+      <file leaf-file-name="Driver.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/model/Driver.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="654">
+              <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+              <folding>
+                <element signature="e#1584#1591#0" expanded="true" />
+                <element signature="e#1822#1829#0" expanded="true" />
+>>>>>>> refs/remotes/origin/master
               </folding>
             </state>
           </provider>
@@ -103,7 +134,11 @@
       <file leaf-file-name="Event.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/Event.java">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
             <state relative-caret-position="272">
+=======
+            <state relative-caret-position="-1666">
+>>>>>>> refs/remotes/origin/master
               <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -112,11 +147,19 @@
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file leaf-file-name="EventSaveHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/EventSaveHandler.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="748">
               <caret line="96" column="0" selection-start-line="96" selection-start-column="0" selection-end-line="96" selection-end-column="0" />
+=======
+      <file leaf-file-name="EventSaveHandler.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/model/EventSaveHandler.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="450">
+              <caret line="91" column="42" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
+>>>>>>> refs/remotes/origin/master
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#430#431#0" expanded="true" />
@@ -157,6 +200,10 @@
         <option value="$PROJECT_DIR$/src/model/Driver.java" />
         <option value="$PROJECT_DIR$/src/agenda_view/WeekPane.java" />
         <option value="$PROJECT_DIR$/src/agenda_view/MainWindow.java" />
+        <option value="$PROJECT_DIR$/src/model/EventSaver.java" />
+        <option value="$PROJECT_DIR$/src/model/Event.java" />
+        <option value="$PROJECT_DIR$/src/model/EventSaveHandler.java" />
+        <option value="$PROJECT_DIR$/src/model/Driver.java" />
       </list>
     </option>
   </component>
@@ -204,6 +251,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
+=======
+      <pane id="Scratches" />
+      <pane id="Scope" />
+>>>>>>> refs/remotes/origin/master
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -738,13 +790,20 @@
       <workItem from="1491072376391" duration="1241000" />
       <workItem from="1492299215247" duration="1376000" />
       <workItem from="1492315138424" duration="5252000" />
+<<<<<<< HEAD
       <workItem from="1492973657449" duration="228000" />
       <workItem from="1492973945895" duration="5198000" />
+=======
+>>>>>>> refs/remotes/origin/master
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="13295000" />
+=======
+    <option name="totallyTimeSpent" value="7869000" />
+>>>>>>> refs/remotes/origin/master
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -762,8 +821,14 @@
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+=======
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980973" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+>>>>>>> refs/remotes/origin/master
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -799,16 +864,23 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/agenda_view/MainWindow.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
             <element signature="e#4802#4809#0" expanded="true" />
           </folding>
+=======
+        <state relative-caret-position="1207">
+          <caret line="79" column="31" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="31" />
+          <folding />
+>>>>>>> refs/remotes/origin/master
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/agenda_view/MonthPane.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="1479">
           <caret line="102" column="40" selection-start-line="102" selection-start-column="40" selection-end-line="102" selection-end-column="40" />
           <folding />
@@ -925,6 +997,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/agenda_view/MonthPane.java">
       <provider selected="true" editor-type-id="text-editor">
+=======
+>>>>>>> refs/remotes/origin/master
         <state relative-caret-position="1615">
           <caret line="102" column="40" selection-start-line="102" selection-start-column="40" selection-end-line="102" selection-end-column="40" />
           <folding />
@@ -961,9 +1035,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
           <folding>
             <element signature="e#4802#4809#0" expanded="true" />
           </folding>
+=======
+          <folding />
+>>>>>>> refs/remotes/origin/master
         </state>
       </provider>
     </entry>
@@ -982,6 +1060,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/model/TestFile.txt" />
     <entry file="file://$PROJECT_DIR$/TestFile.txt" />
     <entry file="file://$PROJECT_DIR$/TestFile.ser" />
@@ -989,6 +1068,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/model/TestFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/agenda_view/MonthPane.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1615">
+          <caret line="102" column="40" selection-start-line="102" selection-start-column="40" selection-end-line="102" selection-end-column="40" />
+>>>>>>> refs/remotes/origin/master
           <folding />
         </state>
       </provider>
@@ -1019,7 +1112,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Event.java">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state relative-caret-position="272">
+=======
+        <state relative-caret-position="425">
+          <caret line="79" column="31" selection-start-line="79" selection-start-column="31" selection-end-line="79" selection-end-column="31" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/model/Event.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1666">
+>>>>>>> refs/remotes/origin/master
           <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1027,14 +1132,30 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/agenda_view/MonthPane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="671">
           <caret line="102" column="40" selection-start-line="102" selection-start-column="40" selection-end-line="102" selection-end-column="40" />
+=======
+    <entry file="file://$PROJECT_DIR$/TestFile.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="1" column="27" selection-start-line="1" selection-start-column="27" selection-end-line="1" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/TestFile.ser">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> refs/remotes/origin/master
+          <folding />
+        </state>
+      </provider>
+    </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/agenda_view/WeekPane.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2941">
@@ -1051,16 +1172,40 @@
           <caret line="76" column="35" selection-start-line="76" selection-start-column="35" selection-end-line="76" selection-end-column="35" />
           <folding>
             <element signature="e#4802#4809#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/model/Driver.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="654">
+          <caret line="61" column="0" selection-start-line="61" selection-start-column="0" selection-end-line="61" selection-end-column="0" />
+          <folding>
+            <element signature="e#1584#1591#0" expanded="true" />
+            <element signature="e#1822#1829#0" expanded="true" />
+>>>>>>> refs/remotes/origin/master
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/src/model/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="20" column="10" selection-start-line="20" selection-start-column="10" selection-end-line="20" selection-end-column="10" />
           <folding>
             <element signature="e#1070#1077#0" expanded="true" />
+=======
+    <entry file="file://$PROJECT_DIR$/src/model/EventSaveHandler.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="91" column="42" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="42" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#430#431#0" expanded="true" />
+            <element signature="e#462#463#0" expanded="true" />
+            <element signature="e#586#587#0" expanded="true" />
+            <element signature="e#618#619#0" expanded="true" />
+            <element signature="e#720#721#0" expanded="true" />
+            <element signature="e#751#752#0" expanded="true" />
+>>>>>>> refs/remotes/origin/master
           </folding>
         </state>
       </provider>

@@ -136,12 +136,11 @@ public class WeekPane extends VBox{
 		System.out.println("This event:" + e.start);
 		
 		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
-		
+
 		int row = e.getStart().get(GregorianCalendar.HOUR);
 		
 		//gridPane.add(ep, col, row);
 		boxes[col][row].getChildren().add(ep);
-
 	}
 	
 	public void removeEvents(){
