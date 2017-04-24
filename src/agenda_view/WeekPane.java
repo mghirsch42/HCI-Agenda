@@ -1,21 +1,14 @@
 package agenda_view;
 
-
-import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.Map;
 
-import javafx.geometry.Pos;
-import javafx.scene.Node;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-
+import model.MyCalendar;
 import model.Agenda;
 import model.Event;
 
@@ -26,15 +19,12 @@ import model.Event;
  */
 public class WeekPane extends VBox{
 	
-	private Map<Integer, String> weekdayName = new HashMap<Integer, String>();
-	private Map<Integer, String> monthName = new HashMap<Integer, String>();
-	private GregorianCalendar start;			// start date for this time frame
-	private GregorianCalendar end;			// end date for this time frame
+	private Date start;			// start date for this time frame
+	private Date end;			// end date for this time frame
 	private Agenda agenda;		// agenda
 	private GridPane gridPane;
-	private Label dateLbl = new Label("");
 	
-	public WeekPane(GregorianCalendar start, GregorianCalendar end, final Agenda a) { 
+	public WeekPane(Date start, Date end, Agenda a) {
 		this.start = start;
 		this.end = end;
 		this.agenda = a;
@@ -42,140 +32,14 @@ public class WeekPane extends VBox{
 		init();
 		addEvents();
 		
-		Button prevButton = new Button("Prev Week");
-		Button nextButton= new Button("Next Week");
+		// TODO: convert to month name
+		Label monthLbl = new Label(""+start.getMonth());
+		this.getChildren().add(monthLbl);
 		
-		prevButton.setOnAction(e -> {
-			this.start = subtractWeek(this.start);
-			this.end = subtractWeek(this.end);
-			dateLbl.setText(getDateString(this.start));
-			updateEvents();
-		});
-		
-		nextButton.setOnAction(e -> {
-			this.start = addWeek(this.start);
-			this.end = addWeek(this.end);
-			dateLbl.setText(getDateString(this.start));
-			updateEvents();
-		});
-		
-		dateLbl.setText(getDateString(this.start));
-		dateLbl.setAlignment(Pos.CENTER);
-		
-		BorderPane topBar = new BorderPane();
-		topBar.setCenter(dateLbl);
-		topBar.setLeft(prevButton);
-		topBar.setRight(nextButton);
-		
-		this.getChildren().addAll(topBar, gridPane);
+		this.getChildren().add(gridPane);
 	}
-
-	private String getDateString(GregorianCalendar day) {
-		String s = "Week of "+monthName.get(day.get(GregorianCalendar.MONTH)) + " " + day.get(GregorianCalendar.DATE) + ", " + day.get(GregorianCalendar.YEAR);
-		return s;
-	}
-	
-	private GregorianCalendar addWeek(GregorianCalendar day) {
-		int daysInMonth = day.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-		int date = day.get(GregorianCalendar.DATE);
-		if(daysInMonth - date >= 7){ 												//If there isn't a new month
-			day.set(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), date + 7);
-		}else{																		//If there is a new month, calculate the new values for the dates. 
-			int daysIn = -(daysInMonth-(date+7));
-			int month = day.get(GregorianCalendar.MONTH);
-			if( month < 11){ 														//If there isn't a new year.
-				day.set(day.get(GregorianCalendar.YEAR), month + 1, daysIn);
-			}else{
-				day.set(day.get(GregorianCalendar.YEAR)+1, 0, daysIn); // December has 31 days, is the 12th (11) month. //No checking for min year.
-			}
-		}
 		
-		return day;
-	}
-
-	private GregorianCalendar subtractWeek(GregorianCalendar day) {
-		int date = day.get(GregorianCalendar.DATE);
-		if(date > 7){ 																//If there isn't a new month
-			day.set(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), date - 7);
-		}else{																		//If there is a new month, calculate the new values for the dates. 
-			int daysBack = 7 - date;
-			int month = day.get(GregorianCalendar.MONTH);
-			if( month > 0){ 														//If there isn't a new year.
-				GregorianCalendar temp = new GregorianCalendar();					//Used to calculate how many dats will be in the new month.
-				temp.set(day.get(GregorianCalendar.YEAR), month - 1, 1);			
-				int numberOfDaysInNewMonth = temp.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
-				day.set(day.get(GregorianCalendar.YEAR), month - 1, numberOfDaysInNewMonth - daysBack);
-			}else{
-				day.set(day.get(GregorianCalendar.YEAR)-1, 11, 31 - daysBack); // December has 31 days, is the 12th (11) month. //No checking for min year.
-			}
-		}
-		
-		return day;
-	}
-	
-	private void updateEvents() {
-		removeEvents();
-		addEvents();
-	}
-	
-	public void addEvents(){
-		System.out.println(agenda);
-		for(Event e : agenda.getCalendar().getEvents(start, end)) {
-			addEvent(e);
-		}
-	}
-	
-	private void addEvent(Event e) {
-		WeekEventPane ep = new WeekEventPane(e, agenda);
-		
-		System.out.println("This event:" + e.start);
-		
-		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
-		
-		int row = e.getStart().get(GregorianCalendar.HOUR);
-		
-		gridPane.add(ep, col, row);
-
-	}
-	
-	public void removeEvents(){
-//		gridPane.getChildren().remove(gridPane.getChildren().size() - 1);
-		ArrayList<Object> objectsToRemove = new ArrayList<Object>(); 
-		for(Node n: gridPane.getChildren()){
-			if( n.getClass().getName() == "agenda_view.WeekEventPane"){
-				objectsToRemove.add(n); 
-			}
-		}
-		gridPane.getChildren().removeAll(objectsToRemove); 
-	}
-
-	private void initMaps(){
-		//Set up weekdayName map
-		weekdayName.put(1, "Sunday");
-		weekdayName.put(2, "Monday");
-		weekdayName.put(3, "Tuesday");
-		weekdayName.put(4, "Wednesday");
-		weekdayName.put(5, "Thursday");
-		weekdayName.put(6, "Friday");
-		weekdayName.put(7, "Saturday");
-	
-		//Set up monthName map
-		monthName.put(0, "January");
-		monthName.put(1, "Febuary");
-		monthName.put(2, "March");
-		monthName.put(3, "April");
-		monthName.put(4, "May");
-		monthName.put(5, "June");
-		monthName.put(6, "July");
-		monthName.put(7, "August");
-		monthName.put(8, "September");
-		monthName.put(9, "October");
-		monthName.put(10, "November");
-		monthName.put(11, "December");
-	}
-	
 	private void init() {
-		initMaps();
 		gridPane.setGridLinesVisible(true);
 		final int numCols = 14;
 		final int numRows = 24;
@@ -228,5 +92,23 @@ public class WeekPane extends VBox{
 		Label saturdayLbl = new Label ("Saturday");
 		gridPane.add(saturdayLbl, 13, 0);		
 	}
+	
+	public void addEvents(){
+		for(Event e : agenda.getCalendar().getEvents(start, end)) {
+			addEvent(e);
+		}
+	}
+	
+	private void addEvent(Event e) {
+		WeekEventPane ep = new WeekEventPane(e, agenda);
+		
+		System.out.println("This event:" + e.start);
+		
+		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) + 1;
+		//if(e.getStart().getDay())
+		int row = e.getStart().get(GregorianCalendar.HOUR_OF_DAY);
+		
+		gridPane.add(ep, col, row);
 
+	}
 }

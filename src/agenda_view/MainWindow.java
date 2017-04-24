@@ -91,40 +91,51 @@ public class MainWindow extends Application{
 		///////////////////////////////
 		
 		// Add the Week Pane for testing.
+		wp = new WeekPane(new Date(2017 - 1900,
+											4 - 1,
+											9,
+											16,
+											00),
+								   new Date(2017-1900,
+										    4 - 1,
+										    21,
+										    11,
+										    59),
+								   agenda);
 
-		GregorianCalendar weekStart = new GregorianCalendar();
-		weekStart.set(2017, 3, 16, 0, 00);
-		GregorianCalendar weekEnd = new GregorianCalendar();
-		weekEnd.set(2017, 3, 22, 23, 59);
-		wp = new WeekPane(weekStart,
-										weekEnd,
-										agenda);
+
 		root.setCenter(wp);
-
 		
 		//java.util Calendar (Used for constructing the monthview on the current date).
 		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
 		
+		//Use to test dates in the MonthPane. 
+		//Month is 0 based, year and day start at 1.
+		//c.set(2017, 3, 31);
+		
 		//null as a parameter will result in the same as the c above.
 
-		GregorianCalendar start = new GregorianCalendar();
-		GregorianCalendar end = new GregorianCalendar();
-		start.set(2017, 4, 1, 00, 00);
-		end.set(2017, 4, 31, 23, 59);
-		mp = new MonthPane(start,
-							end,
-							agenda);
+		mp = new MonthPane(new Date(2017 - 1900,
+											4 - 1,
+											1,
+											12,
+											00),
+									 new Date(2017-1900,
+											 4 - 1,
+											 30,
+											 11,
+											 59),
+									 agenda);
 
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
         monthView.setOnAction( (e) -> {
-
             loadMonthView();
         });
         weekView.setOnAction( (e) -> {
-        	loadWeekView();
+            loadWeekView();
         });
        addEvent.setOnAction( (e) -> {
     	   loadEventPane();
@@ -165,14 +176,6 @@ public class MainWindow extends Application{
 		
 		//Test events.
 		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
-
-		GregorianCalendar temp1 = e.getStart();
-		GregorianCalendar temp2 = e.getEnd();
-		temp1.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
-		temp2.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
-		e.setStart(temp1);
-		e.setEnd(temp2);
-
 		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
 		
 		//Test notes.
@@ -189,7 +192,6 @@ public class MainWindow extends Application{
 		
 		//Print out the agenda data
 		System.out.println("Default Generated Agenda Is Being Used!");
-		System.out.println(a);
 		
 		return a;
 	}

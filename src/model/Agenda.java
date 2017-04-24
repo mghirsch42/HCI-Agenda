@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 public class Agenda {
 	
@@ -40,7 +39,7 @@ public class Agenda {
 	 * Sets this.calendar equal to a new one.
 	 * @param calendar2 the new Calendar. 
 	 */
-	public void setCalendar(GregorianCalendar calendar2) {
+	public void setCalendar(Calendar calendar2) {
 		this.calendar.setCalendar(calendar2);
 	}
 
