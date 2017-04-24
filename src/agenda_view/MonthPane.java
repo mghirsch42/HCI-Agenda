@@ -1,19 +1,19 @@
 package agenda_view;
 
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TimeZone;
+
+import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import model.Agenda;
 import model.Event;
 
@@ -22,8 +22,8 @@ public class MonthPane extends VBox {
 
 	private Map<Integer, String> weekdayName = new HashMap<Integer, String>();
 	private Map<Integer, String> monthName = new HashMap<Integer, String>();
-	private Date start;
-	private Date end;
+	private GregorianCalendar start;
+	private GregorianCalendar end;
 	private Agenda agenda;
 	private GridPane gridPane;
 	
@@ -31,30 +31,45 @@ public class MonthPane extends VBox {
 	 * Creates a Grid Pane that represents the month/day/year set in the Calendar object.
 	 * @param c, The Local Calendar and Time zone will be used if null is passed in. Otherwise the provided calendar will be used.
 	 */
-	public MonthPane(Date start, Date end, Agenda agenda){
+	public MonthPane(GregorianCalendar start, GregorianCalendar end, final Agenda agenda){
 		this.start = start;
 		this.end = end;
 		this.agenda = agenda;
 		gridPane = new GridPane();
 		
-		
-		
 		//Initializes the maps used for translating dates to strings
-				initMaps();
+		initMaps();
 		
-		Label monthLbl = new Label(""+monthName.get(start.getMonth()));
-		this.getChildren().add(monthLbl);
+		Label monthLbl = new Label("");
+		monthLbl.setText(getMonthString(this.start));
 		
+		Button prevButton = new Button("Prev Week");
+		Button nextButton = new Button("Next Week");
 		
-		//Shows the grid.
-		gridPane.setGridLinesVisible(true);
+		prevButton.setOnAction(e -> {
+			this.start = subtractMonth(this.start);
+			this.end = subtractMonth(this.end);
+			monthLbl.setText(getMonthString(this.start));
+			updateGrid((GregorianCalendar) start.clone());
+		});
 		
-
-		Calendar c = agenda.getCalendar().getCalendar();
+		nextButton.setOnAction(e -> {
+			this.start = addMonth(this.start);
+			this.end = addMonth(this.end);
+			monthLbl.setText(getMonthString(this.start));
+			updateGrid((GregorianCalendar) start.clone());
+		});
+		
+		BorderPane topBar = new BorderPane();
+		topBar.setLeft(prevButton);
+		topBar.setRight(nextButton);
+		topBar.setCenter(monthLbl);
+		
+		GregorianCalendar c = agenda.getCalendar().getCalendar();
 		
 		//Sets the current day to the data if no Calendar was provided.
 		if(c == null){
-			agenda.setCalendar(Calendar.getInstance(TimeZone.getDefault()));
+			agenda.setCalendar(new GregorianCalendar());
 		}
 		
 				
@@ -63,6 +78,30 @@ public class MonthPane extends VBox {
 		int month = c.get(Calendar.MONTH);
 		int year = c.get(Calendar.YEAR);
 		int weekday = c.get(Calendar.DAY_OF_WEEK);
+		
+		//Updates the grid
+		updateGrid((GregorianCalendar) start.clone());
+		
+		//Testing output
+		System.out.println(weekdayName.get(weekday));
+		System.out.println(monthName.get(month));
+		System.out.println("Day: "+day );
+		System.out.println("Year: "+year );
+		
+		System.out.println("Week of Month: "+c.get(Calendar.WEEK_OF_MONTH));
+		System.out.println("Day of Week: "+c.get(Calendar.DAY_OF_WEEK));
+		
+		//start = new Date(Calendar.YEAR, Calendar.MONTH, 1);
+		//end = new Date(Calendar.YEAR, Calendar.MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		
+		this.getChildren().addAll(topBar, gridPane);
+		
+	}
+
+	private void updateGrid(Calendar c) {
+		gridPane.getChildren().clear();
+		gridPane.getRowConstraints().clear();
+		gridPane.getColumnConstraints().clear();
 		
 		//The number of cols stays the same regardles.
 		//numRows variates based off the number of 'weeks' in the month.
@@ -106,28 +145,65 @@ public class MonthPane extends VBox {
 		Label saturdayLbl = new Label ("Saturday");
 		gridPane.add(saturdayLbl, 6, 0);
 		
-		System.out.println(weekdayName.get(weekday));
-		System.out.println(monthName.get(month));
-		System.out.println("Day: "+day );
-		System.out.println("Year: "+year );
-		
-		System.out.println("Week of Month: "+c.get(Calendar.WEEK_OF_MONTH));
-		System.out.println("Day of Week: "+c.get(Calendar.DAY_OF_WEEK));
-		
-		//start = new Date(Calendar.YEAR, Calendar.MONTH, 1);
-		//end = new Date(Calendar.YEAR, Calendar.MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
-		
-		
 		c.getActualMinimum(Calendar.DAY_OF_MONTH);
 		for(int i = c.getActualMinimum(Calendar.DAY_OF_MONTH); i <= c.getActualMaximum(Calendar.DAY_OF_MONTH); i++ ){
 			c.set(Calendar.DAY_OF_MONTH, i);
 			gridPane.add(new Label(""+i), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		}
 		
+		updateEvents();
+		
+		//Shows the grid. Must be toggled to redraw
+		gridPane.setGridLinesVisible(false);
+		gridPane.setGridLinesVisible(true);
+	}
+	
+	private String getMonthString(GregorianCalendar start2) {
+		String s = monthName.get(start.get(GregorianCalendar.MONTH)) + ", " + start.get(GregorianCalendar.YEAR);
+		return s;
+	}
+
+	private GregorianCalendar addMonth(GregorianCalendar day) {
+		int month = day.get(GregorianCalendar.MONTH);																		//If there is a new month, calculate the new values for the dates. 
+		
+		if( month < 11){ 														//If there isn't a new year.
+			day.set(GregorianCalendar.MONTH, day.get(GregorianCalendar.MONTH) + 1); //Add 1 from the month.
+		}else{
+			day.set(GregorianCalendar.MONTH, 0); // Loop back the the start of the nexts year
+			day.set(GregorianCalendar.YEAR, day.get(GregorianCalendar.YEAR)+1); // Add a year
+		}
+		
+		return day;
+	}
+
+	private GregorianCalendar subtractMonth(GregorianCalendar day) {
+		int month = day.get(GregorianCalendar.MONTH);																		//If there is a new month, calculate the new values for the dates. 
+		
+		if( month > 0){ 														//If there isn't a new year.
+			day.set(GregorianCalendar.MONTH, day.get(GregorianCalendar.MONTH) - 1); //Subtract 1 from the month.
+		}else{
+			day.set(GregorianCalendar.MONTH, 11); // Loop back the the end of the last year
+			day.set(GregorianCalendar.YEAR, day.get(GregorianCalendar.YEAR)-1); // Subtract a year
+		}
+		
+		return day;
+	}
+	
+	private void updateEvents() {
+		removeEvents();
 		addEvents();
-		
-		this.getChildren().add(gridPane);
-		
+	}
+	
+
+	
+	private void removeEvents() {
+		ArrayList<Object> objectsToRemove = new ArrayList<Object>(); 
+		for(Node n: gridPane.getChildren()){
+			if( n.getClass().getName() == "agenda_view.MonthEventPane"){
+				objectsToRemove.add(n); 
+			}
+		}
+		gridPane.getChildren().removeAll(objectsToRemove); 
 	}
 	
 	private void initMaps(){
@@ -155,7 +231,6 @@ public class MonthPane extends VBox {
 		monthName.put(11, "December");
 	}
 
-	
 	
 	public void addEvents() {
 		System.out.println("Adding events to MonthPane");
