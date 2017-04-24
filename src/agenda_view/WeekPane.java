@@ -1,8 +1,6 @@
 package agenda_view;
 
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 import javafx.scene.control.Label;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -104,9 +102,9 @@ public class WeekPane extends VBox{
 		
 		System.out.println("This event:" + e.start);
 		
-		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) + 1;
+		int col = (e.getStart().getDay()*2) + 1;
 		//if(e.getStart().getDay())
-		int row = e.getStart().get(GregorianCalendar.HOUR_OF_DAY);
+		int row = e.getStart().getHours();
 		
 		gridPane.add(ep, col, row);
 
