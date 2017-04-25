@@ -1,6 +1,10 @@
 package model;
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Logan
+ */
 public class Notepad {
 	private ArrayList<Note> notes;
 	

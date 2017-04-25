@@ -93,12 +93,16 @@ public class MainWindow extends Application{
 											monthEnd,
 											agenda);
 		
+		//Note Pane
+		NotePane notePane = new NotePane(agenda);
+		
 //		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
         MenuItem monthView = new MenuItem("Month View");
         MenuItem weekView = new MenuItem("Week View");
+        MenuItem noteView = new MenuItem("Note View");
         monthView.setOnAction( (e) -> {
             root.setCenter(monthPane);
             //actions.getItems().add(weekView);
@@ -116,11 +120,15 @@ public class MainWindow extends Application{
     	   root.setCenter(new BigEventPane(agenda));
     	   
        });
+       noteView.setOnAction( (e) ->{
+    	   root.setCenter(notePane);
+       });
 
 
         //Add items to actions
         actions.getItems().add(monthView);
         actions.getItems().add(weekView);
+        actions.getItems().add(noteView);
 
         //Add menus to bar
         menuBar.getMenus().add(actions);

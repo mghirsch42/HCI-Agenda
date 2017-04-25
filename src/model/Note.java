@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * 
+ * @author Logan
+ */
 public class Note {
 	private String title;
 	private String message;
