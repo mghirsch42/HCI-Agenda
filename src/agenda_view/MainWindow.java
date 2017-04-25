@@ -1,20 +1,19 @@
 package agenda_view;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
+
 import javafx.application.Application;
-import javafx.scene.control.ScrollPane;
-import javafx.stage.Stage;
-import model.Agenda;
-import model.Event;
-import model.Note;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import model.Agenda;
+import model.Event;
+import model.Note;
 
 
 public class MainWindow extends Application{
@@ -64,11 +63,17 @@ public class MainWindow extends Application{
 		// currently sets it up 2nd week of april 2017
 		///////////////////////////////
 		
+		GregorianCalendar today = new GregorianCalendar();
+		int currentDayInWeek = today.get(GregorianCalendar.DAY_OF_WEEK);
+		int currentDayInMonth = today.get(GregorianCalendar.DAY_OF_MONTH);
+		
 		// Add the Week Pane for testing.
-		GregorianCalendar weekStart = new GregorianCalendar();
-		weekStart.set(2017, 3, 16, 0, 00);
-		GregorianCalendar weekEnd = new GregorianCalendar();
-		weekEnd.set(2017, 3, 22, 23, 59);
+		GregorianCalendar weekStart = subtractDays((GregorianCalendar)today.clone(), currentDayInWeek - 1);
+		weekStart.set(GregorianCalendar.HOUR, 0);
+		weekStart.set(GregorianCalendar.MINUTE, 0);
+		GregorianCalendar weekEnd = addDays((GregorianCalendar)today.clone(), 7 - currentDayInWeek);
+		weekStart.set(GregorianCalendar.HOUR, 0);
+		weekStart.set(GregorianCalendar.MINUTE, 0);
 		WeekPane weekPane = new WeekPane(weekStart,
 										weekEnd,
 										agenda);
@@ -77,16 +82,15 @@ public class MainWindow extends Application{
 		scroll.setFitToWidth(true);
 		root.setCenter(scroll);
 		
-		//java.util Calendar (Used for constructing the monthview on the current date).
-		java.util.Calendar c = java.util.Calendar.getInstance(TimeZone.getDefault());
-		
 		//null as a parameter will result in the same as the c above.
-		GregorianCalendar start = new GregorianCalendar();
-		GregorianCalendar end = new GregorianCalendar();
-		start.set(2017, 4, 1, 00, 00);
-		end.set(2017, 4, 31, 23, 59);
-		MonthPane monthPane = new MonthPane(start,
-											end,
+		GregorianCalendar monthStart = subtractDays((GregorianCalendar)today.clone(), currentDayInMonth - 1);
+		monthStart.set(GregorianCalendar.HOUR, 0);
+		monthStart.set(GregorianCalendar.MINUTE, 0);
+		GregorianCalendar monthEnd = addDays((GregorianCalendar)today.clone(), today.getActualMaximum(GregorianCalendar.DAY_OF_MONTH) - currentDayInMonth);
+		monthStart.set(GregorianCalendar.HOUR, 23);
+		monthStart.set(GregorianCalendar.MINUTE, 59);
+		MonthPane monthPane = new MonthPane(monthStart,
+											monthEnd,
 											agenda);
 		
 //		root.setCenter(mp);
@@ -127,6 +131,44 @@ public class MainWindow extends Application{
 		primaryStage.setMinHeight(600);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+	}
+	
+	private GregorianCalendar addDays(GregorianCalendar day, int numberOfDays) {
+		int daysInMonth = day.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+		int date = day.get(GregorianCalendar.DATE);
+		if(daysInMonth - date >= numberOfDays){ 												//If there isn't a new month
+			day.set(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), date + numberOfDays);
+		}else{																		//If there is a new month, calculate the new values for the dates. 
+			int daysIn = -(daysInMonth-(date+numberOfDays));
+			int month = day.get(GregorianCalendar.MONTH);
+			if( month < 11){ 														//If there isn't a new year.
+				day.set(day.get(GregorianCalendar.YEAR), month + 1, daysIn);
+			}else{
+				day.set(day.get(GregorianCalendar.YEAR)+1, 0, daysIn); // December has 31 days, is the 12th (11) month. //No checking for min year.
+			}
+		}
+		
+		return day;
+	}
+
+	private GregorianCalendar subtractDays(GregorianCalendar day, int numberOfDays) {
+		int date = day.get(GregorianCalendar.DATE);
+		if(date > numberOfDays){ 																//If there isn't a new month
+			day.set(day.get(GregorianCalendar.YEAR), day.get(GregorianCalendar.MONTH), date - numberOfDays);
+		}else{																		//If there is a new month, calculate the new values for the dates. 
+			int daysBack = numberOfDays - date;
+			int month = day.get(GregorianCalendar.MONTH);
+			if( month > 0){ 														//If there isn't a new year.
+				GregorianCalendar temp = new GregorianCalendar();					//Used to calculate how many dats will be in the new month.
+				temp.set(day.get(GregorianCalendar.YEAR), month - 1, 1);			
+				int numberOfDaysInNewMonth = temp.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
+				day.set(day.get(GregorianCalendar.YEAR), month - 1, numberOfDaysInNewMonth - daysBack);
+			}else{
+				day.set(day.get(GregorianCalendar.YEAR)-1, 11, 31 - daysBack); // December has 31 days, is the 12th (11) month. //No checking for min year.
+			}
+		}
+		
+		return day;
 	}
 	
 	public static BorderPane getRoot() {
