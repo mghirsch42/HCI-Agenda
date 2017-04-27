@@ -1,4 +1,5 @@
 package model;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;

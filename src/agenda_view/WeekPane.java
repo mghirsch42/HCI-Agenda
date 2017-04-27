@@ -15,9 +15,9 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-
 import model.Agenda;
 import model.Event;
+import model.MyCalendar;
 
 /*
  * This class will define the view for a week
