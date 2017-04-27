@@ -1,5 +1,6 @@
 package agenda_view;
 
+import javafx.geometry.Insets;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -13,9 +14,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
-
+import javafx.scene.text.Font;
 import model.Agenda;
 import model.Event;
 
@@ -41,6 +43,9 @@ public class WeekPane extends VBox{
 		this.end = end;
 		this.agenda = a;
 		gridPane = new GridPane();
+		gridPane.setPadding(new Insets(10));
+		gridPane.setSnapToPixel(false);
+		
 		//scrollPane = new ScrollPane(gridPane);
 		boxes = new VBox[14][25];
 		//scrollPane.setFitToHeight(true);
@@ -66,11 +71,13 @@ public class WeekPane extends VBox{
 		
 		dateLbl.setText(getDateString(this.start));
 		dateLbl.setAlignment(Pos.CENTER);
+		dateLbl.setFont(Font.font("Arial", 20));
 		
 		BorderPane topBar = new BorderPane();
 		topBar.setCenter(dateLbl);
 		topBar.setLeft(prevButton);
 		topBar.setRight(nextButton);
+		topBar.setPadding(new Insets(10, 10, 0, 10));
 		
 		this.getChildren().addAll(topBar, gridPane);
 	}
@@ -187,7 +194,7 @@ public class WeekPane extends VBox{
 		for(int i = 0; i < numCols; i++ ) {
 			ColumnConstraints colConst = new ColumnConstraints();
 			if(i % 2 == 0) {
-				colConst.setPercentWidth(100.0 / numCols /2);
+				colConst.setPercentWidth(100.0 / numCols / 2);
 			}
 			else {
 				colConst.setPercentWidth(100.0 / numCols * 2);

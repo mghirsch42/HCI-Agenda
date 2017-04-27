@@ -6,14 +6,20 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import model.Agenda;
 import model.Event;
 
@@ -35,12 +41,18 @@ public class MonthPane extends VBox {
 		this.end = end;
 		this.agenda = agenda;
 		gridPane = new GridPane();
+
+		gridPane.setPadding(new Insets (10));
+		
+		gridPane.prefWidthProperty().bind(this.widthProperty());
+		gridPane.prefHeightProperty().bind(this.heightProperty());
 		
 		//Initializes the maps used for translating dates to strings
 		initMaps();
 		
 		Label monthLbl = new Label("");
 		monthLbl.setText(getMonthString(this.start));
+		monthLbl.setFont(Font.font("Arial", 20));
 		
 		Button prevButton = new Button("Prev Week");
 		Button nextButton = new Button("Next Week");
@@ -63,6 +75,7 @@ public class MonthPane extends VBox {
 		topBar.setLeft(prevButton);
 		topBar.setRight(nextButton);
 		topBar.setCenter(monthLbl);
+		topBar.setPadding(new Insets(10, 10, 0, 10));
 		
 		GregorianCalendar c = agenda.getCalendar().getCalendar();
 		

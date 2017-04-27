@@ -3,13 +3,19 @@ package agenda_view;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Agenda;
 import model.Event;
@@ -77,6 +83,8 @@ public class MainWindow extends Application{
 		WeekPane weekPane = new WeekPane(weekStart,
 										weekEnd,
 										agenda);
+		weekPane.prefWidthProperty().bind(scene.widthProperty());
+		weekPane.prefHeightProperty().bind(scene.heightProperty());
 		scroll = new ScrollPane(weekPane);
 		scroll.setFitToHeight(true);
 		scroll.setFitToWidth(true);
@@ -92,11 +100,13 @@ public class MainWindow extends Application{
 		MonthPane monthPane = new MonthPane(monthStart,
 											monthEnd,
 											agenda);
+
+		monthPane.prefWidthProperty().bind(scene.widthProperty());
+		monthPane.prefHeightProperty().bind(scene.heightProperty());
 		
 		//Note Pane
 		NotePane notePane = new NotePane(agenda);
 		
-//		root.setCenter(mp);
 
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
