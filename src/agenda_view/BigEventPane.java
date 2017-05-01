@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -54,7 +55,7 @@ public class BigEventPane extends BorderPane{
 	private ComboBox<String> endCombo = new ComboBox<String>();
 	
 	private TextField locField = new TextField();
-	private TextField colorField = new TextField();
+	private ComboBox<String> colorPicker = new ComboBox<String>();
 	private TextField catField = new TextField();
 	
 	private Button submitBtn = new Button("Create Event");
@@ -94,6 +95,10 @@ public class BigEventPane extends BorderPane{
 			startMinuteCombo.getItems().add(i);
 			endMinuteCombo.getItems().add(i);
 		}
+		
+		//add the colors to the color box
+		colorPicker.getItems().addAll("Blue", "Red", "Yellow", "Green");
+		
 		//give all the combo boxes default values
 		startCombo.setValue("PM");
 		endCombo.setValue("PM");
@@ -101,6 +106,11 @@ public class BigEventPane extends BorderPane{
 		endHourCombo.setValue(1);
 		startMinuteCombo.setValue(0);
 		endMinuteCombo.setValue(0);
+		colorPicker.setValue("Blue");
+		
+		//set default value for date pickers
+		startPicker.setValue(LocalDate.now());
+		endPicker.setValue(LocalDate.now());
 		
 		//Aligning the test fields 
 		nameLbl.setPadding(new Insets(0, 1, 0, 0));
@@ -128,7 +138,7 @@ public class BigEventPane extends BorderPane{
 		startBox.getChildren().addAll(startLbl, startPicker, startHourCombo, startColon, startMinuteCombo, startCombo);
 		endBox.getChildren().addAll(endLbl, endPicker, endHourCombo, endColon, endMinuteCombo, endCombo);
 		locBox.getChildren().addAll(locLbl, locField);
-		colorBox.getChildren().addAll(colorLbl, colorField);
+		colorBox.getChildren().addAll(colorLbl, colorPicker);
 		catBox.getChildren().addAll(catLbl, catField);
 		
 		submitBtn.setOnAction((e) -> {
@@ -176,7 +186,7 @@ public class BigEventPane extends BorderPane{
 			/////////////////////
 			
 			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
-					colorField.getText(), locField.getText());
+					colorPicker.getValue(), locField.getText());
 			
 			
 						
@@ -186,6 +196,8 @@ public class BigEventPane extends BorderPane{
 			//TODO: Remove when testing is complete.
 			System.out.println("Agenda After Adding Event");
 			System.out.println(agenda);
+			
+			
 			
 		});
 		
@@ -206,7 +218,11 @@ public class BigEventPane extends BorderPane{
 			startMinuteCombo.getItems().add(i);
 			endMinuteCombo.getItems().add(i);
 		}
-				
+
+		//add the colors to the color box
+		colorPicker.getItems().addAll("Blue", "Red", "Yellow", "Green");
+		
+		colorPicker.setValue(event.getColor());		
 		nameField.setText(event.getName());
 		descField.setText(event.getDescription());
 		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR), 
@@ -244,7 +260,7 @@ public class BigEventPane extends BorderPane{
 		}
 		
 		locField.setText(event.getLocation());
-		colorField.setText(event.getColor());
+		colorPicker.setValue(event.getColor());
 		catField.setText(event.getCategory());
 		
 		
@@ -271,7 +287,7 @@ public class BigEventPane extends BorderPane{
 		startBox.getChildren().addAll(startLbl, startPicker, startHourCombo, startColon, startMinuteCombo, startCombo);
 		endBox.getChildren().addAll(endLbl, endPicker, endHourCombo, endColon, endMinuteCombo, endCombo);
 		locBox.getChildren().addAll(locLbl, locField);
-		colorBox.getChildren().addAll(colorLbl, colorField);
+		colorBox.getChildren().addAll(colorLbl, colorPicker);
 		catBox.getChildren().addAll(catLbl, catField);
 				
 		editButton.setOnAction((e) -> {
@@ -301,9 +317,10 @@ public class BigEventPane extends BorderPane{
 					endHourCombo.getValue(),			// hour
 					endMinuteCombo.getValue());			// minute
 			event.setEnd(end);
-			event.setColor(colorField.getText());
+			event.setColor(colorPicker.getValue());
 			event.setCategory(catField.getText());
 			event.setLocation(locField.getText());
+			
 		});
 		
 				
