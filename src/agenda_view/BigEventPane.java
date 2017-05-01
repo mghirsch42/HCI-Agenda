@@ -121,7 +121,8 @@ public class BigEventPane extends BorderPane{
 			eventList.add(e);
 		}
 
-
+		startCombo.getItems().clear();
+		endCombo.getItems().clear();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
@@ -427,7 +428,7 @@ public class BigEventPane extends BorderPane{
 				Integer.parseInt(tokens[0]),	// year
 				Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 				Integer.parseInt(tokens[2]),	// day
-				startHour - 1,		// hour
+				startHour,		// hour
 				startMinuteCombo.getValue());		// minute
 
 		// Determine end dates
@@ -438,7 +439,7 @@ public class BigEventPane extends BorderPane{
 				Integer.parseInt(tokens[0]), // year
 				Integer.parseInt(tokens[1]) -1, 	// month
 				Integer.parseInt(tokens[2]),		// day
-				endHour - 1,			// hour
+				endHour,			// hour
 				endMinuteCombo.getValue());			// minute
 
 		String eventDesc = descField.getText();

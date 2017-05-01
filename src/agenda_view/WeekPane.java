@@ -145,7 +145,7 @@ public class WeekPane extends VBox{
 		
 		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
 
-		int row = e.getStart().get(GregorianCalendar.HOUR) + 1;
+		int row = e.getStart().get(GregorianCalendar.HOUR_OF_DAY);
 		
 		//gridPane.add(ep, col, row);
 		boxes[col][row].getChildren().add(ep);
