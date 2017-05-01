@@ -44,6 +44,7 @@ public class BigEventPane extends BorderPane{
 	//private TextField startField = new TextField();
 	private ComboBox<Integer> startHourCombo = new ComboBox<Integer>();
 	private Label startColon = new Label(":");
+	private ComboBox<Integer> startMinuteCombo = new ComboBox<Integer>();
 	private ComboBox<String> startCombo = new ComboBox<String>();
 	
 	private DatePicker endPicker = new DatePicker();
