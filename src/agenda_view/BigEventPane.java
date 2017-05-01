@@ -428,7 +428,7 @@ public class BigEventPane extends BorderPane{
 				Integer.parseInt(tokens[0]),	// year
 				Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 				Integer.parseInt(tokens[2]),	// day
-				startHour,		// hour
+				startHour - 1,		// hour
 				startMinuteCombo.getValue());		// minute
 
 		// Determine end dates
@@ -439,7 +439,7 @@ public class BigEventPane extends BorderPane{
 				Integer.parseInt(tokens[0]), // year
 				Integer.parseInt(tokens[1]) -1, 	// month
 				Integer.parseInt(tokens[2]),		// day
-				endHour,			// hour
+				endHour - 1,			// hour
 				endMinuteCombo.getValue());			// minute
 
 		String eventDesc = descField.getText();
@@ -483,6 +483,7 @@ public class BigEventPane extends BorderPane{
 		//startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
 		startHourCombo.setValue(event.getStart().get(GregorianCalendar.HOUR) + 1);
 		startMinuteCombo.setValue(event.getStart().get(GregorianCalendar.MINUTE));
+		startCombo.getItems().clear();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
@@ -500,6 +501,7 @@ public class BigEventPane extends BorderPane{
 		//endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
 		endHourCombo.setValue(event.getEnd().get(GregorianCalendar.HOUR) + 1);
 		endMinuteCombo.setValue(event.getEnd().get(GregorianCalendar.MINUTE));
+		endCombo.getItems().clear();
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
