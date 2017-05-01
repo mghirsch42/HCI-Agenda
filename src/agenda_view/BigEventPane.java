@@ -159,12 +159,20 @@ public class BigEventPane extends BorderPane{
 			// tokens will look like yyyy-mm-dd
 			String[] tokens = date.toString().split("-");
 			
+			int startHour = startHourCombo.getValue();
+			if (startCombo.getValue().equalsIgnoreCase("PM")){
+				startHour = startHour + 12;
+			}
+			int endHour = endHourCombo.getValue();
+			if (endCombo.getValue().equalsIgnoreCase("PM")){
+				endHour = endHour + 12;
+			}
 			
 			GregorianCalendar start = new GregorianCalendar(
 					Integer.parseInt(tokens[0]),	// year
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
-					startHourCombo.getValue(),		// hour
+					startHour,		// hour
 					startMinuteCombo.getValue());		// minute
 			
 			////////////////////////
@@ -178,7 +186,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
-					endHourCombo.getValue(),			// hour
+					endHour,			// hour
 					endMinuteCombo.getValue());			// minute
 			
 			/////////////////////
@@ -295,6 +303,14 @@ public class BigEventPane extends BorderPane{
 			event.setDescription(descField.getText());
 			
 			String date = startPicker.getValue().toString();
+			int startHour = startHourCombo.getValue();
+			if (startCombo.getValue().equalsIgnoreCase("PM")){
+				startHour = startHour + 12;
+			}
+			int endHour = endHourCombo.getValue();
+			if (endCombo.getValue().equalsIgnoreCase("PM")){
+				endHour = endHour + 12;
+			}
 			
 			// tokens will look like yyyy-mm-dd
 			String[] tokens = date.toString().split("-");
@@ -303,7 +319,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]),	// year - date takes years since 1900
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
-					startHourCombo.getValue(),		// hour
+					startHour,		// hour
 					startMinuteCombo.getValue());		// minute
 			event.setStart(start);
 			
@@ -314,7 +330,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
-					endHourCombo.getValue(),			// hour
+					endHour,			// hour
 					endMinuteCombo.getValue());			// minute
 			event.setEnd(end);
 			event.setColor(colorPicker.getValue());
