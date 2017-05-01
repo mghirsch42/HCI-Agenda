@@ -3,6 +3,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javafx.scene.paint.Color;
+
 /**
  * @author MG Hirsch, edited by Robert Daro
  *
@@ -25,13 +27,14 @@ public class Event implements Serializable {
 	 * @param start			the start date of this event
 	 * @param end			the end date of this event
 	 * @param description	the description of this event
-	 */
+	 
 	public Event(String name, GregorianCalendar start, GregorianCalendar end, String description) {
 		this.name = name;
 		this.start = start;
 		this.end = end;
 		this.description = description;
 	}
+	*/
 	
 	/**
 	 * 
