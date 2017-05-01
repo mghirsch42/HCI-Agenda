@@ -33,7 +33,9 @@ public class BigEventPane extends BorderPane{
 	
 	private ArrayList<TextField> textFieldList = new ArrayList<TextField>(); 
 	private ArrayList<DatePicker> datePickerList = new ArrayList<DatePicker>(); 
-	private ArrayList<ComboBox<String>> comboBoxList = new ArrayList<ComboBox<String>>(); 
+	private ArrayList<ComboBox<String>> ampmList = new ArrayList<ComboBox<String>>();
+	private ArrayList<ComboBox<Integer>> hourList = new ArrayList<ComboBox<Integer>>();
+	private ArrayList<ComboBox<Integer>> minuteList = new ArrayList<ComboBox<Integer>>();
 	
 	private VBox centerBox = new VBox(5);
 	private VBox blank = new VBox();
@@ -61,12 +63,18 @@ public class BigEventPane extends BorderPane{
 	
 	private TextField nameField = new TextField();
 	private TextField descField = new TextField();
+	
 	private DatePicker startPicker = new DatePicker();
-	private TextField startField = new TextField();
+	//private TextField startField = new TextField();
+	private ComboBox<Integer> startHourCombo = new ComboBox<Integer>();
+	private Label startColon = new Label(":");
+	private ComboBox<Integer> startMinuteCombo = new ComboBox<Integer>();
 	private ComboBox<String> startCombo = new ComboBox<String>();
 	
 	private DatePicker endPicker = new DatePicker();
-	private TextField endField = new TextField();
+	private ComboBox<Integer> endHourCombo = new ComboBox<Integer>();
+	private Label endColon = new Label(":");
+	private ComboBox<Integer> endMinuteCombo = new ComboBox<Integer>();
 	private ComboBox<String> endCombo = new ComboBox<String>();
 	
 	private TextField locField = new TextField();
@@ -97,7 +105,7 @@ public class BigEventPane extends BorderPane{
 	private void init() {
 		//variable init
 		selectedEventIndex = -1;
-		
+
 		//Init the list 
 		eventList = FXCollections.observableArrayList(); 
 		eventListView = new ListView<Event>(eventList);
@@ -121,6 +129,17 @@ public class BigEventPane extends BorderPane{
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
+		
+		//add the hours to the hour combo boxes
+		for (int i = 1; i <= 12; i++){
+			startHourCombo.getItems().add(i);
+			endHourCombo.getItems().add(i);
+		}
+		//add the minutes to the minute combo boxes
+		for (int i = 0; i <= 60; i++){
+			startMinuteCombo.getItems().add(i);
+			endMinuteCombo.getItems().add(i);
+		}
 				
 		
 		//ListInfoBar
@@ -131,6 +150,24 @@ public class BigEventPane extends BorderPane{
 		//Left Display
 		leftDisplay.setTop(listInfoBar);
 		leftDisplay.setCenter(eventListView);
+
+		//add the hours to the hour combo boxes
+		for (int i = 1; i <= 12; i++){
+			startHourCombo.getItems().add(i);
+			endHourCombo.getItems().add(i);
+		}
+		//add the minutes to the minute combo boxes
+		for (int i = 0; i <= 60; i++){
+			startMinuteCombo.getItems().add(i);
+			endMinuteCombo.getItems().add(i);
+		}
+		//give all the combo boxes default values
+		startCombo.setValue("PM");
+		endCombo.setValue("PM");
+		startHourCombo.setValue(12);
+		endHourCombo.setValue(1);
+		startMinuteCombo.setValue(0);
+		endMinuteCombo.setValue(0);
 		
 		//Aligning the test fields 
 		nameLbl.setPadding(new Insets(0, 1, 0, 0));
@@ -152,22 +189,42 @@ public class BigEventPane extends BorderPane{
 		buttonBox.setPadding(new Insets(0, 0, 5, 5));
 		
 		
-		comboBoxList.add(startCombo);
-		comboBoxList.add(endCombo);
+		ampmList.add(startCombo);
+		ampmList.add(endCombo);
+		
+		hourList.add(startHourCombo);
+		hourList.add(endHourCombo);
+		
+		minuteList.add(startMinuteCombo);
+		minuteList.add(endMinuteCombo);
 		
 		datePickerList.add(startPicker);
 		datePickerList.add(endPicker);
 		
 		textFieldList.add(nameField); 
 		textFieldList.add(descField);
-		textFieldList.add(startField);
-		textFieldList.add(endField);
 		textFieldList.add(locField); 
 		textFieldList.add(colorField);
 		textFieldList.add(catField);
 		
 		
-		for(ComboBox<String> c : comboBoxList){
+		for(ComboBox<String> c : ampmList){
+			c.valueProperty().addListener( (e) -> {
+				if(editButton.isDisabled()){
+					editButton.setDisable(false);
+				}
+			});	
+		}
+		
+		for(ComboBox<Integer> c : hourList){
+			c.valueProperty().addListener( (e) -> {
+				if(editButton.isDisabled()){
+					editButton.setDisable(false);
+				}
+			});	
+		}
+		
+		for(ComboBox<Integer> c : minuteList){
 			c.valueProperty().addListener( (e) -> {
 				if(editButton.isDisabled()){
 					editButton.setDisable(false);
@@ -192,15 +249,16 @@ public class BigEventPane extends BorderPane{
 		}
 
 		
+		
+		
 		nameBox.getChildren().addAll(nameLbl, nameField);
 		descBox.getChildren().addAll(descLbl, descField);
-		startBox.getChildren().addAll(startLbl, startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endLbl, endPicker, endField, endCombo);
+		startBox.getChildren().addAll(startLbl, startPicker, startHourCombo, startColon, startMinuteCombo, startCombo);
+		endBox.getChildren().addAll(endLbl, endPicker, endHourCombo, endColon, endMinuteCombo, endCombo);
 		locBox.getChildren().addAll(locLbl, locField);
 		colorBox.getChildren().addAll(colorLbl, colorField);
 		catBox.getChildren().addAll(catLbl, catField);
 		buttonBox.getChildren().addAll(editButton, eventClose, eventDelete);
-		
 		
 		//Select Listener
 		eventListView.getSelectionModel().selectedItemProperty().addListener( (e) -> {
@@ -278,7 +336,6 @@ public class BigEventPane extends BorderPane{
 		
 		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, buttonBox);
 		setLeft(leftDisplay);
-		this.setCenter(centerBox);
 	}
 	
 	private void clearArea() {
@@ -286,8 +343,16 @@ public class BigEventPane extends BorderPane{
 			t.setText("");
 		}
 		
-		for(ComboBox<String> c: comboBoxList){
-			c.setValue("");
+		for(ComboBox<Integer> c: hourList){
+			c.getSelectionModel().select(new Integer(1));
+		}
+		
+		for(ComboBox<Integer> c: minuteList){
+			c.getSelectionModel().select(new Integer(0));
+		}
+		
+		for(ComboBox<String> c: ampmList){
+			c.getSelectionModel().select("AM");
 		}
 		
 		for(DatePicker d: datePickerList){
@@ -334,26 +399,24 @@ public class BigEventPane extends BorderPane{
 		
 		// tokens will look like yyyy-mm-dd
 		String[] tokens = date.toString().split("-");
-		String[] time = startField.getText().split(":");
 		
 		GregorianCalendar eventStart = new GregorianCalendar(
 				Integer.parseInt(tokens[0]),	// year
 				Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 				Integer.parseInt(tokens[2]),	// day
-				Integer.parseInt(time[0]),		// hour
-				Integer.parseInt(time[1]));		// minute
+				startHourCombo.getValue(),		// hour
+				startMinuteCombo.getValue());		// minute
 		
 		// Determine end dates
 		date = endPicker.getValue().toString();
 		tokens = date.toString().split("-");
-		time = endField.getText().split(":");
-		
+			
 		GregorianCalendar eventEnd = new GregorianCalendar(
 				Integer.parseInt(tokens[0]), // year
 				Integer.parseInt(tokens[1]) -1, 	// month
 				Integer.parseInt(tokens[2]),		// day
-				Integer.parseInt(time[0]),			// hour
-				Integer.parseInt(time[1]));			// minute
+				endHourCombo.getValue(),			// hour
+				endMinuteCombo.getValue());			// minute
 		
 		String eventDesc = descField.getText();
 		String eventCat = catField.getText();
@@ -375,27 +438,63 @@ public class BigEventPane extends BorderPane{
 	}
 	
 	// initialize a form with event data
+
 	private void onListClick(Event event) {
-				
 		nameField.setText(event.getName());
 		descField.setText(event.getDescription());
 		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR), 
 										  event.getStart().get(GregorianCalendar.MONTH)+1, 
 										  event.getStart().get(GregorianCalendar.DATE))); 
-		startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
+		startHourCombo.getSelectionModel().select(event.getStart().get(GregorianCalendar.HOUR));
+		startMinuteCombo.getSelectionModel().select(event.getStart().get(GregorianCalendar.MINUTE));
 		startCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM? "AM" : "PM");
 		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR), 
 										event.getEnd().get(GregorianCalendar.MONTH)+1, 
 										event.getEnd().get(GregorianCalendar.DATE))); 
-		endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
+		endHourCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.HOUR));
+		endMinuteCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.MINUTE));
 		endCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM? "AM" : "PM");	
 
+		
+		//startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
+		startHourCombo.setValue(event.getStart().get(GregorianCalendar.HOUR) + 1);
+		startMinuteCombo.setValue(event.getStart().get(GregorianCalendar.MINUTE));
+		startCombo.getItems().addAll(
+				"AM",
+				"PM");		
+		//check if start time is am or pm
+		if (event.getStart().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM){
+			startCombo.setValue("AM");
+		} else {
+			startCombo.setValue("PM");
+		}
+		
+		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR), 
+										event.getEnd().get(GregorianCalendar.MONTH)+1, 
+										event.getEnd().get(GregorianCalendar.DATE))); 
+		
+		//endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
+		endHourCombo.setValue(event.getEnd().get(GregorianCalendar.HOUR) + 1);
+		endMinuteCombo.setValue(event.getEnd().get(GregorianCalendar.MINUTE));
+		endCombo.getItems().addAll(
+				"AM",
+				"PM");		
+		//check if end time is am or pm
+		if (event.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM){
+			endCombo.setValue("AM");
+		} else {
+			endCombo.setValue("PM");
+		}
+		
 		locField.setText(event.getLocation());
 		colorField.setText(event.getColor());
 		catField.setText(event.getCategory());
 		
+
 		editButton.setDisable(true);
-		eventDelete.setDisable(false);
+		eventDelete.setDisable(false);			
+		
+		this.setCenter(centerBox);
 	}
 	
 	public void selectEvent(Event event) {
@@ -419,6 +518,4 @@ public class BigEventPane extends BorderPane{
 		}
 	}
 
-
-	
 }

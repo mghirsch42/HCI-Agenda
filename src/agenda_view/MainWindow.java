@@ -217,8 +217,6 @@ public class MainWindow extends Application{
 		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
 		GregorianCalendar temp1 = e.getStart();
 		GregorianCalendar temp2 = e.getEnd();
-		temp1.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
-		temp2.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
 		e.setStart(temp1);
 		e.setEnd(temp2);
 		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
@@ -236,11 +234,11 @@ public class MainWindow extends Application{
 		Note n2 = new Note("Test Title2", "Test Message2");
 		
 		//Add test events to the agenda's calendar
-		a.getCalendar().addEvent(e);
-		a.getCalendar().addEvent(e2);
+		//a.getCalendar().addEvent(e);
+		//a.getCalendar().addEvent(e2);
 		for(int i = 0; i < eventList.size(); i++)
 		{
-			a.getCalendar().addEvent(eventList.get(i));
+		//	a.getCalendar().addEvent(eventList.get(i));
 		}
 		
 		//Add test notes to the agenda's notepad
