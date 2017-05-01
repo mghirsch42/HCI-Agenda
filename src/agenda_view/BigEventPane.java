@@ -172,7 +172,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]),	// year
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
-					startHour,		// hour
+					startHour - 1,		// hour
 					startMinuteCombo.getValue());		// minute
 			
 			////////////////////////
@@ -186,7 +186,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
-					endHour,			// hour
+					endHour - 1,			// hour
 					endMinuteCombo.getValue());			// minute
 			
 			/////////////////////
@@ -319,7 +319,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]),	// year - date takes years since 1900
 					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
 					Integer.parseInt(tokens[2]),	// day
-					startHour,		// hour
+					startHour -1,		// hour
 					startMinuteCombo.getValue());		// minute
 			event.setStart(start);
 			
@@ -330,7 +330,7 @@ public class BigEventPane extends BorderPane{
 					Integer.parseInt(tokens[0]), // year
 					Integer.parseInt(tokens[1]) -1, 	// month
 					Integer.parseInt(tokens[2]),		// day
-					endHour,			// hour
+					endHour -1,			// hour
 					endMinuteCombo.getValue());			// minute
 			event.setEnd(end);
 			event.setColor(colorPicker.getValue());
