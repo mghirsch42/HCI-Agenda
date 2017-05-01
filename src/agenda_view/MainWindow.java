@@ -128,6 +128,12 @@ public class MainWindow extends Application{
         });
         weekView.setOnAction( (e) -> {
             root.setCenter(weekPane);
+            weekPane.prefWidthProperty().bind(scene.widthProperty());
+    		weekPane.prefHeightProperty().bind(scene.heightProperty());
+    		scroll = new ScrollPane(weekPane);
+    		scroll.setFitToHeight(true);
+    		scroll.setFitToWidth(true);
+    		root.setCenter(scroll);
             //actions.getItems().add(monthView);
             //actions.getItems().removeAll(weekView);
             weekPane.removeEvents();
