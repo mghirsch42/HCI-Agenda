@@ -31,6 +31,7 @@ public class Event implements Serializable {
 		this.start = start;
 		this.end = end;
 		this.description = description;
+		this.color = "Blue";
 	}
 	
 	/**
