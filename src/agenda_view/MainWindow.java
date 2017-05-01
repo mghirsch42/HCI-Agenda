@@ -19,6 +19,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import model.Agenda;
 import model.Event;
+import model.EventSaveHandler;
 import model.Note;
 
 
@@ -28,11 +29,16 @@ public class MainWindow extends Application{
 	private Agenda agenda;
 	private static BorderPane root;
 	private static ScrollPane scroll;
+	private static EventSaveHandler handler;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		agenda = initTestAgenda();
-				
+
+		handler = new EventSaveHandler("SaveFiles.txt");
+
+		handler.readToList(agenda.getCalendar().events);
+
 		//Border Layout Root
 		root = new BorderPane();
 		Scene scene = new Scene(root,800,600);
@@ -50,9 +56,14 @@ public class MainWindow extends Application{
 		Menu file = new Menu("File");
 		MenuItem quit = new MenuItem("Quit"); 
 		quit.setOnAction( (e) -> {
+			handler.writeFromList(agenda.getCalendar().events);
 			primaryStage.close();
 		});
-		
+
+		primaryStage.setOnCloseRequest(e->{
+			handler.writeFromList(agenda.getCalendar().events);
+		});
+
 		//Add items to file
 		file.getItems().add(quit);
 		
