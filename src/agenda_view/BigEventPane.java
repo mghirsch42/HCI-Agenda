@@ -3,19 +3,56 @@ package agenda_view;
 import java.time.LocalDate;
 import java.util.GregorianCalendar;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import model.Agenda;
 import model.Event;
 
-public class BigEventPane extends VBox{
+public class BigEventPane extends BorderPane{
 	private Event event;
 	private Agenda agenda;
+	
+	private VBox centerBox = new VBox(5);
+	
+	private HBox nameBox = new HBox(5);
+	private HBox descBox = new HBox(5);
+	private HBox startBox = new HBox(5);
+	private HBox endBox = new HBox(5);
+	private HBox locBox = new HBox(5);
+	private HBox colorBox = new HBox(5);
+	private HBox catBox = new HBox(5);
+	
+	private Label nameLbl = new Label("Name of Event");
+	private Label descLbl = new Label("Description");
+	private Label startLbl = new Label("Start Date");
+	private Label endLbl = new Label("End Date");
+	private Label locLbl = new Label("Location");
+	private Label colorLbl = new Label("Color");
+	private Label catLbl = new Label("Category");
+	
+	private TextField nameField = new TextField();
+	private TextField descField = new TextField();
+	private DatePicker startPicker = new DatePicker();
+	private TextField startField = new TextField();
+	private ComboBox<String> startCombo = new ComboBox<String>();
+	
+	private DatePicker endPicker = new DatePicker();
+	private TextField endField = new TextField();
+	private ComboBox<String> endCombo = new ComboBox<String>();
+	
+	private TextField locField = new TextField();
+	private TextField colorField = new TextField();
+	private TextField catField = new TextField();
+	
+	private Button submitBtn = new Button("Create Event");
+	private Button editButton = new Button("Edit");
 	
 	// for creating a new event
 	public BigEventPane(final Agenda a) {
@@ -31,58 +68,44 @@ public class BigEventPane extends VBox{
 	
 	// initialize an empty form
 	private void initEmpty() {
-		HBox nameBox = new HBox();
-		HBox descBox = new HBox();
-		HBox startBox = new HBox();
-		HBox endBox = new HBox();
-		HBox locBox = new HBox();
-		HBox colorBox = new HBox();
-		HBox catBox = new HBox();
-		
-		Label nameLbl = new Label("Name of Event");
-		Label descLbl = new Label("Description");
-		Label startLbl = new Label("Start Date");
-		Label endLbl = new Label("End Date");
-		Label locLbl = new Label("Location");
-		Label colorLbl = new Label("Color");
-		Label catLbl = new Label("Category");
-		
-		nameBox.getChildren().add(nameLbl);
-		descBox.getChildren().add(descLbl);
-		startBox.getChildren().add(startLbl);
-		endBox.getChildren().add(endLbl);
-		locBox.getChildren().add(locLbl);
-		colorBox.getChildren().add(colorLbl);
-		catBox.getChildren().add(catLbl);
 		
 		
-		TextField nameField = new TextField();
-		TextField descField = new TextField();
-		DatePicker startPicker = new DatePicker();
-		TextField startField = new TextField();
-		ComboBox startCombo = new ComboBox();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
-		DatePicker endPicker = new DatePicker();
-		TextField endField = new TextField();
-		ComboBox endCombo = new ComboBox();
+		
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
-		TextField locField = new TextField();
-		TextField colorField = new TextField();
-		TextField catField = new TextField();
+				
 		
-		nameBox.getChildren().add(nameField);
-		descBox.getChildren().add(descField);
-		startBox.getChildren().addAll(startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endPicker, endField, endCombo);
-		locBox.getChildren().add(locField);
-		colorBox.getChildren().add(colorField);
-		catBox.getChildren().add(catField);
 		
-		Button submitBtn = new Button("Create Event");
+		//Aligning the test fields 
+		nameLbl.setPadding(new Insets(0, 1, 0, 0));
+		descLbl.setPadding(new Insets(0, 19, 0, 0));
+		startLbl.setPadding(new Insets(0, 27, 0, 0));
+		endLbl.setPadding(new Insets(0, 31, 0, 0));
+		locLbl.setPadding(new Insets(0, 34, 0, 0));
+		colorLbl.setPadding(new Insets(0, 51, 0, 0));
+		catLbl.setPadding(new Insets(0, 32, 0, 0));
+		
+		//Padding around boxes
+		nameBox.setPadding(new Insets(10, 0, 5, 5));
+		descBox.setPadding(new Insets(0, 0, 5, 5));
+		startBox.setPadding(new Insets(0, 0, 5, 5));
+		endBox.setPadding(new Insets(0, 0, 5, 5));
+		locBox.setPadding(new Insets(0, 0, 5, 5));
+		colorBox.setPadding(new Insets(0, 0, 5, 5));
+		catBox.setPadding(new Insets(0, 0, 5, 5));
+		
+		
+		nameBox.getChildren().addAll(nameLbl, nameField);
+		descBox.getChildren().addAll(descLbl, descField);
+		startBox.getChildren().addAll(startLbl, startPicker, startField, startCombo);
+		endBox.getChildren().addAll(endLbl, endPicker, endField, endCombo);
+		locBox.getChildren().addAll(locLbl, locField);
+		colorBox.getChildren().addAll(colorLbl, colorField);
+		catBox.getChildren().addAll(catLbl, catField);
 		
 		submitBtn.setOnAction((e) -> {
 			
@@ -144,81 +167,61 @@ public class BigEventPane extends VBox{
 			
 		});
 		
-		
-		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
+		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
+		this.setCenter(centerBox);
 	}
 	
 	// initialize a form with event data
 	private void init(Event event) {
-		HBox nameBox = new HBox();
-		HBox descBox = new HBox();
-		HBox startBox = new HBox();
-		HBox endBox = new HBox();
-		HBox locBox = new HBox();
-		HBox colorBox = new HBox();
-		HBox catBox = new HBox();
-		
-		Label nameLbl = new Label("Name of Event");
-		Label descLbl = new Label("Description");
-		Label startLbl = new Label("Start Date");
-		Label endLbl = new Label("End Date");
-		Label locLbl = new Label("Location");
-		Label colorLbl = new Label("Color");
-		Label catLbl = new Label("Category");
-		
-		nameBox.getChildren().add(nameLbl);
-		descBox.getChildren().add(descLbl);
-		startBox.getChildren().add(startLbl);
-		endBox.getChildren().add(endLbl);
-		locBox.getChildren().add(locLbl);
-		colorBox.getChildren().add(colorLbl);
-		catBox.getChildren().add(catLbl);
-		
-		
-		TextField nameField = new TextField();
+				
 		nameField.setText(event.getName());
-		TextField descField = new TextField();
 		descField.setText(event.getDescription());
-		DatePicker startPicker = new DatePicker();
-		
 		startPicker.setValue(LocalDate.of(event.getStart().get(GregorianCalendar.YEAR), 
 										  event.getStart().get(GregorianCalendar.MONTH)+1, 
 										  event.getStart().get(GregorianCalendar.DATE))); 
-		TextField startField = new TextField();
 		startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
-		ComboBox startCombo = new ComboBox();
 		startCombo.getItems().addAll(
 				"AM",
 				"PM");		
-		DatePicker endPicker = new DatePicker();
 		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR), 
 										event.getEnd().get(GregorianCalendar.MONTH)+1, 
 										event.getEnd().get(GregorianCalendar.DATE))); 
-		TextField endField = new TextField();
 		endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
-		ComboBox endCombo = new ComboBox();
 		endCombo.getItems().addAll(
 				"AM",
 				"PM");		
-		TextField locField = new TextField();
+
 		locField.setText(event.getLocation());
-		TextField colorField = new TextField();
 		colorField.setText(event.getColor());
-		TextField catField = new TextField();
 		catField.setText(event.getCategory());
 		
-		nameBox.getChildren().add(nameField);
-		descBox.getChildren().add(descField);
-		startBox.getChildren().addAll(startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endPicker, endField, endCombo);
-		locBox.getChildren().add(locField);
-		colorBox.getChildren().add(colorField);
-		catBox.getChildren().add(catField);
 		
-		Button editButton = new Button("Edit");
+		//Aligning the test fields 
+		nameLbl.setPadding(new Insets(0, 1, 0, 0));
+		descLbl.setPadding(new Insets(0, 19, 0, 0));
+		startLbl.setPadding(new Insets(0, 27, 0, 0));
+		endLbl.setPadding(new Insets(0, 31, 0, 0));
+		locLbl.setPadding(new Insets(0, 34, 0, 0));
+		colorLbl.setPadding(new Insets(0, 51, 0, 0));
+		catLbl.setPadding(new Insets(0, 32, 0, 0));
 		
-		//TODO: add functionality to edit button
+		//Padding around boxes
+		nameBox.setPadding(new Insets(10, 0, 5, 5));
+		descBox.setPadding(new Insets(0, 0, 5, 5));
+		startBox.setPadding(new Insets(0, 0, 5, 5));
+		endBox.setPadding(new Insets(0, 0, 5, 5));
+		locBox.setPadding(new Insets(0, 0, 5, 5));
+		colorBox.setPadding(new Insets(0, 0, 5, 5));
+		catBox.setPadding(new Insets(0, 0, 5, 5));
 		
+		nameBox.getChildren().addAll(nameLbl, nameField);
+		descBox.getChildren().addAll(descLbl, descField);
+		startBox.getChildren().addAll(startLbl, startPicker, startField, startCombo);
+		endBox.getChildren().addAll(endLbl, endPicker, endField, endCombo);
+		locBox.getChildren().addAll(locLbl, locField);
+		colorBox.getChildren().addAll(colorLbl, colorField);
+		catBox.getChildren().addAll(catLbl, catField);
+				
 		editButton.setOnAction((e) -> {
 			event.setName(nameField.getText());
 			event.setDescription(descField.getText());
@@ -254,7 +257,9 @@ public class BigEventPane extends VBox{
 			event.setLocation(locField.getText());
 		});
 		
-		this.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, editButton);
+				
+		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, editButton);
+		this.setCenter(centerBox);
 	}
 	
 }

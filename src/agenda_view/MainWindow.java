@@ -95,8 +95,8 @@ public class MainWindow extends Application{
 		monthStart.set(GregorianCalendar.HOUR, 0);
 		monthStart.set(GregorianCalendar.MINUTE, 0);
 		GregorianCalendar monthEnd = addDays((GregorianCalendar)today.clone(), today.getActualMaximum(GregorianCalendar.DAY_OF_MONTH) - currentDayInMonth);
-		monthStart.set(GregorianCalendar.HOUR, 23);
-		monthStart.set(GregorianCalendar.MINUTE, 59);
+		monthEnd.set(GregorianCalendar.HOUR, 23);
+		monthEnd.set(GregorianCalendar.MINUTE, 59);
 		MonthPane monthPane = new MonthPane(monthStart,
 											monthEnd,
 											agenda);
