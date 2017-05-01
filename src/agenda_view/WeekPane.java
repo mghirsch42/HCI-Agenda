@@ -33,15 +33,17 @@ public class WeekPane extends VBox{
 	private GregorianCalendar start;			// start date for this time frame
 	private GregorianCalendar end;			// end date for this time frame
 	private Agenda agenda;		// agenda
+	private BigEventPane bigEvent;
 	private GridPane gridPane;
 	//private ScrollPane scrollPane;
 	private Label dateLbl = new Label("");
 	private VBox[][] boxes; //14x25
 	
-	public WeekPane(GregorianCalendar start, GregorianCalendar end, final Agenda a) { 
+	public WeekPane(GregorianCalendar start, GregorianCalendar end, final Agenda a, final BigEventPane bigEvent) { 
 		this.start = start;
 		this.end = end;
 		this.agenda = a;
+		this.bigEvent = bigEvent;
 		gridPane = new GridPane();
 		gridPane.setPadding(new Insets(10));
 		gridPane.setSnapToPixel(false);
@@ -131,14 +133,13 @@ public class WeekPane extends VBox{
 	}
 	
 	public void addEvents(){
-		System.out.println(agenda);
 		for(Event e : agenda.getCalendar().getEvents(start, end)) {
 			addEvent(e);
 		}
 	}
 	
 	private void addEvent(Event e) {
-		WeekEventPane ep = new WeekEventPane(e, agenda);
+		WeekEventPane ep = new WeekEventPane(bigEvent, e, agenda);
 		
 		System.out.println("This event:" + e.start);
 		

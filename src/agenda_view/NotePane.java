@@ -225,7 +225,9 @@ public class NotePane extends BorderPane{
 
 	private void saveNote() {
 		if(selectedNoteIndex > -1){
-			noteList.set(selectedNoteIndex, new Note(noteTitle.getText(), noteContent.getText()));
+			Note tmpNote = new Note(noteTitle.getText(), noteContent.getText());
+			agenda.getNotepad().getNotes().set(agenda.getNotepad().getNotes().indexOf(noteList.get(selectedNoteIndex)), tmpNote);
+			noteList.set(selectedNoteIndex, tmpNote);
 		}else{
 			Note noteToAdd = new Note(noteTitle.getText(), noteContent.getText());
 			noteList.add(noteToAdd);

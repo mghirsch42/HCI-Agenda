@@ -1,25 +1,45 @@
 package agenda_view;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Optional;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 import model.Agenda;
 import model.Event;
 
 public class BigEventPane extends BorderPane{
-	private Event event;
 	private Agenda agenda;
+	private ObservableList<Event> eventList; 
+	private ListView<Event> eventListView;
+	
+	private ArrayList<TextField> textFieldList = new ArrayList<TextField>(); 
+	private ArrayList<DatePicker> datePickerList = new ArrayList<DatePicker>(); 
+	private ArrayList<ComboBox<String>> comboBoxList = new ArrayList<ComboBox<String>>(); 
 	
 	private VBox centerBox = new VBox(5);
+	private VBox blank = new VBox();
+	
+	private BorderPane listInfoBar = new BorderPane();
+	private BorderPane leftDisplay = new BorderPane();
 	
 	private HBox nameBox = new HBox(5);
 	private HBox descBox = new HBox(5);
@@ -28,7 +48,9 @@ public class BigEventPane extends BorderPane{
 	private HBox locBox = new HBox(5);
 	private HBox colorBox = new HBox(5);
 	private HBox catBox = new HBox(5);
+	private HBox buttonBox = new HBox(5);
 	
+	private Label listInfo = new Label("Events");
 	private Label nameLbl = new Label("Name of Event");
 	private Label descLbl = new Label("Description");
 	private Label startLbl = new Label("Start Date");
@@ -51,23 +73,45 @@ public class BigEventPane extends BorderPane{
 	private TextField colorField = new TextField();
 	private TextField catField = new TextField();
 	
-	private Button submitBtn = new Button("Create Event");
-	private Button editButton = new Button("Edit");
+	private Button newEvent = new Button("New Event");
+	private Button editButton = new Button("Save Changes");
+	private Button eventClose = new Button("Close");
+	private Button eventDelete = new Button("Delete");
+	
+	private int selectedEventIndex;
 	
 	// for creating a new event
 	public BigEventPane(final Agenda a) {
-		initEmpty();
 		this.agenda = a;
+		init();
 	}
 	
 	// for displaying/editing an event
 	public BigEventPane(Event e, final Agenda a) {
-		init(e);
 		this.agenda = a;
+		init();
+		onListClick(e);
 	}
 	
 	// initialize an empty form
-	private void initEmpty() {
+	private void init() {
+		//variable init
+		selectedEventIndex = -1;
+		
+		//Init the list 
+		eventList = FXCollections.observableArrayList(); 
+		eventListView = new ListView<Event>(eventList);
+		
+		eventListView.setCellFactory(new Callback<ListView<Event>, ListCell<Event>>() {
+			@Override
+			public ListCell<Event> call(ListView<Event> param) {
+				return new eventListCell();
+			}
+		});
+		
+		for(Event e: agenda.getCalendar().getEvents()){
+			eventList.add(e);
+		}
 		
 		
 		startCombo.getItems().addAll(
@@ -79,6 +123,14 @@ public class BigEventPane extends BorderPane{
 				"PM");		
 				
 		
+		//ListInfoBar
+		listInfoBar.setPadding(new Insets(5));
+		listInfoBar.setCenter(listInfo);
+		listInfoBar.setRight(newEvent);
+		
+		//Left Display
+		leftDisplay.setTop(listInfoBar);
+		leftDisplay.setCenter(eventListView);
 		
 		//Aligning the test fields 
 		nameLbl.setPadding(new Insets(0, 1, 0, 0));
@@ -97,7 +149,48 @@ public class BigEventPane extends BorderPane{
 		locBox.setPadding(new Insets(0, 0, 5, 5));
 		colorBox.setPadding(new Insets(0, 0, 5, 5));
 		catBox.setPadding(new Insets(0, 0, 5, 5));
+		buttonBox.setPadding(new Insets(0, 0, 5, 5));
 		
+		
+		comboBoxList.add(startCombo);
+		comboBoxList.add(endCombo);
+		
+		datePickerList.add(startPicker);
+		datePickerList.add(endPicker);
+		
+		textFieldList.add(nameField); 
+		textFieldList.add(descField);
+		textFieldList.add(startField);
+		textFieldList.add(endField);
+		textFieldList.add(locField); 
+		textFieldList.add(colorField);
+		textFieldList.add(catField);
+		
+		
+		for(ComboBox<String> c : comboBoxList){
+			c.valueProperty().addListener( (e) -> {
+				if(editButton.isDisabled()){
+					editButton.setDisable(false);
+				}
+			});	
+		}
+		
+		for(DatePicker d : datePickerList){
+			d.valueProperty().addListener( (e) -> {
+				if(editButton.isDisabled()){
+					editButton.setDisable(false);
+				}
+			});	
+		}
+		
+		for(TextField t : textFieldList){
+			t.textProperty().addListener( (e) -> {
+				if(editButton.isDisabled()){
+					editButton.setDisable(false);
+				}
+			});
+		}
+
 		
 		nameBox.getChildren().addAll(nameLbl, nameField);
 		descBox.getChildren().addAll(descLbl, descField);
@@ -106,73 +199,183 @@ public class BigEventPane extends BorderPane{
 		locBox.getChildren().addAll(locLbl, locField);
 		colorBox.getChildren().addAll(colorLbl, colorField);
 		catBox.getChildren().addAll(catLbl, catField);
+		buttonBox.getChildren().addAll(editButton, eventClose, eventDelete);
 		
-		submitBtn.setOnAction((e) -> {
+		
+		//Select Listener
+		eventListView.getSelectionModel().selectedItemProperty().addListener( (e) -> {
+			Event selectedEvent = eventListView.getSelectionModel().getSelectedItem();
+			selectedEventIndex = eventListView.getSelectionModel().getSelectedIndex();
 			
-			/*
-			 * Parse the fields and create appropriate event objects
-			 */
-			
-			/////////////////////////
-			// Determine start dates
-			/////////////////////////
-			
-			String date = startPicker.getValue().toString();
-			
-			System.out.println("Here is your date string: " +
-								date);
-			
-			// tokens will look like yyyy-mm-dd
-			String[] tokens = date.toString().split("-");
-			
-			String[] time = startField.getText().split(":");
-			
-			GregorianCalendar start = new GregorianCalendar(
-					Integer.parseInt(tokens[0]),	// year
-					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
-					Integer.parseInt(tokens[2]),	// day
-					Integer.parseInt(time[0]),		// hour
-					Integer.parseInt(time[1]));		// minute
-			
-			////////////////////////
-			// Determine end dates
-			////////////////////////
-			
-			date = endPicker.getValue().toString();
-			tokens = date.toString().split("-");
-			time = endField.getText().split(":");
-			
-			GregorianCalendar end = new GregorianCalendar(
-					Integer.parseInt(tokens[0]), // year
-					Integer.parseInt(tokens[1]) -1, 	// month
-					Integer.parseInt(tokens[2]),		// day
-					Integer.parseInt(time[0]),			// hour
-					Integer.parseInt(time[1]));			// minute
-			
-			/////////////////////
-			// Create and add the event
-			/////////////////////
-			
-			Event event = new Event(nameField.getText(), start, end, descField.getText(), catField.getText(), 
-					colorField.getText(), locField.getText());
-			
-			
-						
-			agenda.getCalendar().addEvent(event);
-			
-			//Testing output
-			//TODO: Remove when testing is complete.
-			System.out.println("Agenda After Adding Event");
-			System.out.println(agenda);
-			
+			//Change the text to the selected event. 
+			if(selectedEvent != null){
+				onListClick(selectedEvent);
+			}
+			setCenter(centerBox);
 		});
 		
-		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, submitBtn);
+		//Select the first item if there is one
+		if(eventList.size() > 0){
+			eventListView.getSelectionModel().selectFirst();
+			Event selectedEvent = eventListView.getSelectionModel().getSelectedItem();
+			
+			onListClick(selectedEvent);
+			
+			setCenter(centerBox);
+			selectedEventIndex = 1; 
+		}else{
+			setCenter(blank);
+			selectedEventIndex = -2;
+		}
+		
+		//Alert box
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Unsaved Changes");
+		alert.setHeaderText("Would you like to save the current changes?");
+		
+		ButtonType yesBtn = new ButtonType("Yes");
+		ButtonType noBtn = new ButtonType("No");
+		ButtonType cancelBtn = new ButtonType("Cancel", ButtonData.CANCEL_CLOSE);
+		
+		alert.getButtonTypes().setAll(yesBtn, noBtn, cancelBtn); 
+		
+		editButton.setOnAction((e) -> {
+			saveEvent();
+		});
+		
+		eventClose.setOnAction( (e) -> {
+			clearArea();
+			setCenter(blank);
+		});
+		
+		
+		eventDelete.setOnAction( (e) -> {
+			int index = eventListView.getSelectionModel().getSelectedIndex();
+			clearArea();
+			eventList.remove(index); 
+			agenda.getCalendar().getEvents().remove(index);
+			setCenter(blank);
+		});
+		
+		newEvent.setOnAction( (e) -> {
+			if( selectedEventIndex == -1 && (!isTextBlank())){
+				Optional<ButtonType> result = alert.showAndWait();
+				if(result.get() == yesBtn){
+					saveEvent();
+					createNewEvent();
+				}else if(result.get() == noBtn){
+					createNewEvent();
+				}else if(result.get() == cancelBtn){
+					
+				}
+			}else{
+				createNewEvent();
+			}
+			eventListView.getSelectionModel().clearSelection();
+			eventDelete.setDisable(true);
+		});
+		
+		
+		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, buttonBox);
+		setLeft(leftDisplay);
 		this.setCenter(centerBox);
 	}
 	
+	private void clearArea() {
+		for(TextField t: textFieldList){
+			t.setText("");
+		}
+		
+		for(ComboBox<String> c: comboBoxList){
+			c.setValue("");
+		}
+		
+		for(DatePicker d: datePickerList){
+			d.setValue(null);
+		}
+
+		eventListView.getSelectionModel().clearSelection();
+	}
+
+	private void createNewEvent() {
+		clearArea();
+		editButton.setDisable(true);
+		setCenter(centerBox);
+	}
+
+	private void saveEvent() {
+		if(selectedEventIndex > -1){
+			Event tmpEvent = newEventFromFields();
+			agenda.getCalendar().getEvents().set(agenda.getCalendar().getEvents().indexOf(eventList.get(selectedEventIndex)), tmpEvent);
+			eventList.set(selectedEventIndex, tmpEvent);
+			
+		}else{
+			Event eventToAdd = newEventFromFields();
+			eventList.add(eventToAdd);
+			agenda.getCalendar().getEvents().add(eventToAdd);
+			setCenter(blank);
+			eventListView.getSelectionModel().clearSelection();
+			selectedEventIndex = -2;
+		}
+	}
+
+	private Event newEventFromFields() {
+		/*
+		 * Parse the fields and create appropriate event objects
+		 */
+		
+		//Name
+		String eventName = nameField.getText();
+		
+		// Determine start dates
+		String date = startPicker.getValue().toString();
+		System.out.println("Here is your date string: " +
+							date);
+		
+		// tokens will look like yyyy-mm-dd
+		String[] tokens = date.toString().split("-");
+		String[] time = startField.getText().split(":");
+		
+		GregorianCalendar eventStart = new GregorianCalendar(
+				Integer.parseInt(tokens[0]),	// year
+				Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
+				Integer.parseInt(tokens[2]),	// day
+				Integer.parseInt(time[0]),		// hour
+				Integer.parseInt(time[1]));		// minute
+		
+		// Determine end dates
+		date = endPicker.getValue().toString();
+		tokens = date.toString().split("-");
+		time = endField.getText().split(":");
+		
+		GregorianCalendar eventEnd = new GregorianCalendar(
+				Integer.parseInt(tokens[0]), // year
+				Integer.parseInt(tokens[1]) -1, 	// month
+				Integer.parseInt(tokens[2]),		// day
+				Integer.parseInt(time[0]),			// hour
+				Integer.parseInt(time[1]));			// minute
+		
+		String eventDesc = descField.getText();
+		String eventCat = catField.getText();
+		String eventCol = colorField.getText();
+		String eventLoc = locField.getText();
+		Event tmpEvent = new Event(eventName, eventStart, eventEnd, eventDesc, eventCat, eventCol, eventLoc);
+		return(tmpEvent);
+	}
+
+	private boolean isTextBlank(){
+		boolean flag = true;
+		for(TextField t : textFieldList){
+			if(!t.getText().equals("")){
+				flag = false;
+				break;
+			}
+		}
+		return flag;
+	}
+	
 	// initialize a form with event data
-	private void init(Event event) {
+	private void onListClick(Event event) {
 				
 		nameField.setText(event.getName());
 		descField.setText(event.getDescription());
@@ -180,86 +383,42 @@ public class BigEventPane extends BorderPane{
 										  event.getStart().get(GregorianCalendar.MONTH)+1, 
 										  event.getStart().get(GregorianCalendar.DATE))); 
 		startField.setText("" + event.getStart().get(GregorianCalendar.HOUR) + ":" + event.getStart().get(GregorianCalendar.MINUTE));
-		startCombo.getItems().addAll(
-				"AM",
-				"PM");		
+		startCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM? "AM" : "PM");
 		endPicker.setValue(LocalDate.of(event.getEnd().get(GregorianCalendar.YEAR), 
 										event.getEnd().get(GregorianCalendar.MONTH)+1, 
 										event.getEnd().get(GregorianCalendar.DATE))); 
 		endField.setText("" + event.getEnd().get(GregorianCalendar.HOUR) + ":" + event.getEnd().get(GregorianCalendar.MINUTE));
-		endCombo.getItems().addAll(
-				"AM",
-				"PM");		
+		endCombo.getSelectionModel().select(event.getEnd().get(GregorianCalendar.AM_PM) == GregorianCalendar.AM? "AM" : "PM");	
 
 		locField.setText(event.getLocation());
 		colorField.setText(event.getColor());
 		catField.setText(event.getCategory());
 		
-		
-		//Aligning the test fields 
-		nameLbl.setPadding(new Insets(0, 1, 0, 0));
-		descLbl.setPadding(new Insets(0, 19, 0, 0));
-		startLbl.setPadding(new Insets(0, 27, 0, 0));
-		endLbl.setPadding(new Insets(0, 31, 0, 0));
-		locLbl.setPadding(new Insets(0, 34, 0, 0));
-		colorLbl.setPadding(new Insets(0, 51, 0, 0));
-		catLbl.setPadding(new Insets(0, 32, 0, 0));
-		
-		//Padding around boxes
-		nameBox.setPadding(new Insets(10, 0, 5, 5));
-		descBox.setPadding(new Insets(0, 0, 5, 5));
-		startBox.setPadding(new Insets(0, 0, 5, 5));
-		endBox.setPadding(new Insets(0, 0, 5, 5));
-		locBox.setPadding(new Insets(0, 0, 5, 5));
-		colorBox.setPadding(new Insets(0, 0, 5, 5));
-		catBox.setPadding(new Insets(0, 0, 5, 5));
-		
-		nameBox.getChildren().addAll(nameLbl, nameField);
-		descBox.getChildren().addAll(descLbl, descField);
-		startBox.getChildren().addAll(startLbl, startPicker, startField, startCombo);
-		endBox.getChildren().addAll(endLbl, endPicker, endField, endCombo);
-		locBox.getChildren().addAll(locLbl, locField);
-		colorBox.getChildren().addAll(colorLbl, colorField);
-		catBox.getChildren().addAll(catLbl, catField);
-				
-		editButton.setOnAction((e) -> {
-			event.setName(nameField.getText());
-			event.setDescription(descField.getText());
-			
-			String date = startPicker.getValue().toString();
-			
-			// tokens will look like yyyy-mm-dd
-			String[] tokens = date.toString().split("-");
-			
-			String[] time = startField.getText().split(":");
-			
-			GregorianCalendar start = new GregorianCalendar(
-					Integer.parseInt(tokens[0]),	// year - date takes years since 1900
-					Integer.parseInt(tokens[1]) -1, 	// month - not sure why, maybe indexes months from 0?
-					Integer.parseInt(tokens[2]),	// day
-					Integer.parseInt(time[0]),		// hour
-					Integer.parseInt(time[1]));		// minute
-			event.setStart(start);
-			
-			date = endPicker.getValue().toString();
-			tokens = date.toString().split("-");
-			time = endField.getText().split(":");
-			
-			GregorianCalendar end = new GregorianCalendar(
-					Integer.parseInt(tokens[0]), // year
-					Integer.parseInt(tokens[1]) -1, 	// month
-					Integer.parseInt(tokens[2]),		// day
-					Integer.parseInt(time[0]),			// hour
-					Integer.parseInt(time[1]));			// minute
-			event.setEnd(end);
-			event.setColor(colorField.getText());
-			event.setCategory(catField.getText());
-			event.setLocation(locField.getText());
-		});
-		
-				
-		centerBox.getChildren().addAll(nameBox, descBox, startBox, endBox, locBox, colorBox, catBox, editButton);
-		this.setCenter(centerBox);
+		editButton.setDisable(true);
+		eventDelete.setDisable(false);
 	}
+	
+	public void selectEvent(Event event) {
+		if(eventList.contains(event)){
+			eventListView.getSelectionModel().select(eventList.indexOf(event));
+			eventDelete.setDisable(false);
+		}
+	}
+	
+	static class eventListCell extends ListCell<Event>{
+
+		@Override
+		protected void updateItem(Event item, boolean empty) {
+			super.updateItem(item, empty);
+			if (item != null) {
+				Label title = new Label(item.getName());
+				setGraphic(title);
+			}else{
+				setGraphic(null);
+			}
+		}
+	}
+
+
 	
 }

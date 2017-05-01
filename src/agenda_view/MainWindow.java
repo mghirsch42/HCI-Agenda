@@ -73,16 +73,22 @@ public class MainWindow extends Application{
 		int currentDayInWeek = today.get(GregorianCalendar.DAY_OF_WEEK);
 		int currentDayInMonth = today.get(GregorianCalendar.DAY_OF_MONTH);
 		
+		//BigEvent Pane
+		BigEventPane bigEventPane = new BigEventPane(agenda);
+
+		
 		// Add the Week Pane for testing.
 		GregorianCalendar weekStart = subtractDays((GregorianCalendar)today.clone(), currentDayInWeek - 1);
-		weekStart.set(GregorianCalendar.HOUR, 0);
+		weekStart.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		weekStart.set(GregorianCalendar.MINUTE, 0);
 		GregorianCalendar weekEnd = addDays((GregorianCalendar)today.clone(), 7 - currentDayInWeek);
-		weekStart.set(GregorianCalendar.HOUR, 0);
+		weekStart.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		weekStart.set(GregorianCalendar.MINUTE, 0);
+		weekStart.set(GregorianCalendar.SECOND, 0);
 		WeekPane weekPane = new WeekPane(weekStart,
 										weekEnd,
-										agenda);
+										agenda,
+										bigEventPane);
 		weekPane.prefWidthProperty().bind(scene.widthProperty());
 		weekPane.prefHeightProperty().bind(scene.heightProperty());
 		scroll = new ScrollPane(weekPane);
@@ -92,14 +98,15 @@ public class MainWindow extends Application{
 		
 		//null as a parameter will result in the same as the c above.
 		GregorianCalendar monthStart = subtractDays((GregorianCalendar)today.clone(), currentDayInMonth - 1);
-		monthStart.set(GregorianCalendar.HOUR, 0);
+		monthStart.set(GregorianCalendar.HOUR_OF_DAY, 0);
 		monthStart.set(GregorianCalendar.MINUTE, 0);
 		GregorianCalendar monthEnd = addDays((GregorianCalendar)today.clone(), today.getActualMaximum(GregorianCalendar.DAY_OF_MONTH) - currentDayInMonth);
-		monthEnd.set(GregorianCalendar.HOUR, 23);
+		monthEnd.set(GregorianCalendar.HOUR_OF_DAY, 23);
 		monthEnd.set(GregorianCalendar.MINUTE, 59);
+		monthEnd.set(GregorianCalendar.SECOND, 59);
 		MonthPane monthPane = new MonthPane(monthStart,
 											monthEnd,
-											agenda);
+											agenda, bigEventPane);
 
 		monthPane.prefWidthProperty().bind(scene.widthProperty());
 		monthPane.prefHeightProperty().bind(scene.heightProperty());
@@ -107,13 +114,14 @@ public class MainWindow extends Application{
 		//Note Pane
 		NotePane notePane = new NotePane(agenda);
 		
-
+		
         //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
         MenuItem monthView = new MenuItem("Month View");
         MenuItem weekView = new MenuItem("Week View");
         MenuItem noteView = new MenuItem("Note View");
         monthView.setOnAction( (e) -> {
+        	monthPane.updateEvents();
             root.setCenter(monthPane);
             //actions.getItems().add(weekView);
             //actions.getItems().removeAll(monthView);
@@ -127,7 +135,7 @@ public class MainWindow extends Application{
         });
        addEvent.setOnAction( (e) -> {
     	   //An agenda is passed in here so that the AddEventPand has a model to edit.
-    	   root.setCenter(new BigEventPane(agenda));
+    	   root.setCenter(bigEventPane);
     	   
        });
        noteView.setOnAction( (e) ->{

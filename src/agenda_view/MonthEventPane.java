@@ -10,15 +10,15 @@ public class MonthEventPane extends VBox {
 	private Event event;
 	private Agenda agenda;
 	
-	public MonthEventPane(Event event, Agenda a) {
+	public MonthEventPane(BigEventPane bigEvent, Event event, final Agenda a) {
 		this.event = event;
 		this.agenda = a;
 		
 		Button title = new Button(event.getName());
 		
 		title.setOnAction((e) -> {
-			BigEventPane pane = new BigEventPane(event, agenda);
-			MainWindow.getRoot().setCenter(pane);
+			bigEvent.selectEvent(event);
+			MainWindow.getRoot().setCenter(bigEvent);
 		});
 		
 		this.getChildren().add(title);

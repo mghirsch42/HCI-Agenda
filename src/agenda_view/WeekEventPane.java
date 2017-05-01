@@ -10,14 +10,14 @@ public class WeekEventPane extends VBox{
 	public Event event;
 	private Agenda agenda;
 	
-	public WeekEventPane(Event event, Agenda a) {
+	public WeekEventPane(BigEventPane bigEvent, Event event, final Agenda a) {
 		this.event = event;
 		this.agenda = a;
 		Button title = new Button(event.getName());
 		
 		title.setOnAction((e) -> {
-			BigEventPane pane = new BigEventPane(event, agenda);
-			MainWindow.getRoot().setCenter(pane);
+			bigEvent.selectEvent(event);
+			MainWindow.getRoot().setCenter(bigEvent);
 		});
 		
 		this.getChildren().add(title);

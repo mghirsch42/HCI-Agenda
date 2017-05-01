@@ -30,16 +30,18 @@ public class MonthPane extends VBox {
 	private GregorianCalendar start;
 	private GregorianCalendar end;
 	private Agenda agenda;
+	private BigEventPane bigEvent;
 	private GridPane gridPane;
 	
 	/**
 	 * Creates a Grid Pane that represents the month/day/year set in the Calendar object.
 	 * @param c, The Local Calendar and Time zone will be used if null is passed in. Otherwise the provided calendar will be used.
 	 */
-	public MonthPane(GregorianCalendar start, GregorianCalendar end, final Agenda agenda){
+	public MonthPane(GregorianCalendar start, GregorianCalendar end, final Agenda agenda, final BigEventPane bigEvent){
 		this.start = start;
 		this.end = end;
 		this.agenda = agenda;
+		this.bigEvent = bigEvent;
 		gridPane = new GridPane();
 
 		gridPane.setPadding(new Insets (10));
@@ -201,7 +203,7 @@ public class MonthPane extends VBox {
 		return day;
 	}
 	
-	private void updateEvents() {
+	public void updateEvents() {
 		removeEvents();
 		addEvents();
 	}
@@ -219,7 +221,7 @@ public class MonthPane extends VBox {
 		Calendar c = agenda.getCalendar().getCalendar();
 		c.set(Calendar.MONTH, event.getStart().get(GregorianCalendar.MONTH));
 		c.set(Calendar.DAY_OF_MONTH, event.getStart().get(GregorianCalendar.DATE));
-		gridPane.add(new MonthEventPane(event, agenda), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
+		gridPane.add(new MonthEventPane(bigEvent, event, agenda), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		
 	}
 	
