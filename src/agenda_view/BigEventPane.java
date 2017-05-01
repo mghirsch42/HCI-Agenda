@@ -259,11 +259,11 @@ public class BigEventPane extends BorderPane{
 			});
 		}
 		
-		if(editButton.isDisabled()){
-			colorPicker.valueProperty().addListener( (e) -> {
+		colorPicker.valueProperty().addListener( (e) -> {
+			if(editButton.isDisabled()){
 				editButton.setDisable(false);
-			});
-		}
+			}
+		});
 
 
 
