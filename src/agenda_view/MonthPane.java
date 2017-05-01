@@ -56,8 +56,8 @@ public class MonthPane extends VBox {
 		monthLbl.setText(getMonthString(this.start));
 		monthLbl.setFont(Font.font("Arial", 20));
 		
-		Button prevButton = new Button("Prev Week");
-		Button nextButton = new Button("Next Week");
+		Button prevButton = new Button("Prev Month");
+		Button nextButton = new Button("Next Month");
 		
 		prevButton.setOnAction(e -> {
 			this.start = subtractMonth(this.start);
