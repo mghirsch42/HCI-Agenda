@@ -209,18 +209,24 @@ public class MonthPane extends VBox {
 	}
 	
 	public void addEvents() {
-		System.out.println("Adding events to MonthPane");
+		System.out.println("WHAT MONTH ARE WE LOOKING AT");
+		System.out.println("MONTH: " + start.get(GregorianCalendar.MONTH));
+		System.out.println("DATE: " + start.get(GregorianCalendar.DATE));
+		System.out.println("HOUR: " + start.get(GregorianCalendar.HOUR));
+		System.out.println(start.get(GregorianCalendar.DATE));
 		for(Event e : agenda.getCalendar().getEvents(start, end)) {
-			System.out.println("Adding event " + e);
 			addEvent(e);
 		}
 	}
 	
 	private void addEvent(Event event) {
-		// TODO: Algorithm for adding events to right spot in month
 		Calendar c = agenda.getCalendar().getCalendar();
 		c.set(Calendar.MONTH, event.getStart().get(GregorianCalendar.MONTH));
 		c.set(Calendar.DAY_OF_MONTH, event.getStart().get(GregorianCalendar.DATE));
+		System.out.println("DAY THAT IS BEING FUNKY");
+		System.out.println("MONTH: " + event.getStart().get(GregorianCalendar.MONTH));
+		System.out.println("DATE: " + event.getStart().get(GregorianCalendar.DATE));
+		System.out.println("HOUR: " + event.getStart().get(GregorianCalendar.HOUR));
 		gridPane.add(new MonthEventPane(bigEvent, event, agenda), c.get(Calendar.DAY_OF_WEEK)-1, c.get(Calendar.WEEK_OF_MONTH));
 		
 	}
