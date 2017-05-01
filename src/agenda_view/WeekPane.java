@@ -36,7 +36,7 @@ public class WeekPane extends VBox{
 	private GridPane gridPane;
 	//private ScrollPane scrollPane;
 	private Label dateLbl = new Label("");
-	private VBox[][] boxes = new VBox[14][25]; //14x25
+	private VBox[][] boxes; //14x25
 	
 	public WeekPane(GregorianCalendar start, GregorianCalendar end, final Agenda a) { 
 		this.start = start;
@@ -47,7 +47,7 @@ public class WeekPane extends VBox{
 		gridPane.setSnapToPixel(false);
 		
 		//scrollPane = new ScrollPane(gridPane);
-		//boxes = new VBox[14][25];
+		boxes = new VBox[14][25];
 		//scrollPane.setFitToHeight(true);
 		init();
 		addEvents();
@@ -144,7 +144,7 @@ public class WeekPane extends VBox{
 		
 		int col = (e.getStart().get(GregorianCalendar.DAY_OF_WEEK)*2) - 1;
 
-		int row = e.getStart().get(GregorianCalendar.HOUR_OF_DAY);
+		int row = e.getStart().get(GregorianCalendar.HOUR);
 		
 		//gridPane.add(ep, col, row);
 		boxes[col][row].getChildren().add(ep);

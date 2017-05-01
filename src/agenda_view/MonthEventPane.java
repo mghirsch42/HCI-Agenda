@@ -1,13 +1,8 @@
 package agenda_view;
 
-import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
-import javafx.scene.shape.Rectangle;
 import model.Agenda;
 import model.Event;
 
@@ -21,7 +16,6 @@ public class MonthEventPane extends VBox {
 		
 		Button title = new Button(event.getName());
 		
-		title.setStyle("-fx-background-color: " +  event.getColor().toLowerCase() +";");
 		title.setOnAction((e) -> {
 			BigEventPane pane = new BigEventPane(event, agenda);
 			MainWindow.getRoot().setCenter(pane);

@@ -14,7 +14,7 @@ public class WeekEventPane extends VBox{
 		this.event = event;
 		this.agenda = a;
 		Button title = new Button(event.getName());
-		title.setStyle("-fx-background-color: " +  event.getColor().toLowerCase() +";");
+		
 		title.setOnAction((e) -> {
 			BigEventPane pane = new BigEventPane(event, agenda);
 			MainWindow.getRoot().setCenter(pane);

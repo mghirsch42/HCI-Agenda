@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
 import agenda_view.MainWindow;
-import javafx.scene.paint.Color;
 
 class Driver {
 
@@ -26,9 +25,9 @@ class Driver {
 	public static void eventSaveTest()
 	{
 		EventSaveHandler handler = new EventSaveHandler("TestFileSaves.txt");
-		Event testEvent1 = new Event("Test One", new GregorianCalendar(), new GregorianCalendar(), "YOLO", "Fish", "Blue", "OU");
-		Event testEvent2 = new Event("Test Two", new GregorianCalendar(), new GregorianCalendar(), "YOLOSWAG", "Sausage", "Yellow", "OSU");
-		Event testEvent3 = new Event("Test Three", new GregorianCalendar(), new GregorianCalendar(), "SWAGGERDOSE", "Apple", "Red", "UCO");
+		Event testEvent1 = new Event("Test One", new GregorianCalendar(), new GregorianCalendar(), "YOLO", "Fish", "THIS SHOULD NOT BE A STRING", "OU");
+		Event testEvent2 = new Event("Test Two", new GregorianCalendar(), new GregorianCalendar(), "YOLOSWAG", "Sausage", "THIS SHOULD NOT BE A STRING", "OSU");
+		Event testEvent3 = new Event("Test Three", new GregorianCalendar(), new GregorianCalendar(), "SWAGGERDOSE", "Apple", "THIS SHOULD NOT BE A STRING", "UCO");
 
 		ArrayList<Event> list = new ArrayList<Event>();
 		list.add(testEvent1);

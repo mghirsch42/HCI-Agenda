@@ -108,6 +108,7 @@ public class MainWindow extends Application{
 		NotePane notePane = new NotePane(agenda);
 		
 
+        //Month View NOTE: This needed to be down here for it to work, maybe someone else has a better way of doing this
         //Week View, see above
         MenuItem monthView = new MenuItem("Month View");
         MenuItem weekView = new MenuItem("Week View");
@@ -121,15 +122,8 @@ public class MainWindow extends Application{
             root.setCenter(weekPane);
             //actions.getItems().add(monthView);
             //actions.getItems().removeAll(weekView);
-            weekPane.prefWidthProperty().bind(scene.widthProperty());
-    		weekPane.prefHeightProperty().bind(scene.heightProperty());
-    		scroll = new ScrollPane(weekPane);
-    		scroll.setFitToHeight(true);
-    		scroll.setFitToWidth(true);
-    		root.setCenter(scroll);
-            //weekPane.removeEvents();
-           //weekPane.addEvents();
-            
+            weekPane.removeEvents();
+            weekPane.addEvents();
         });
        addEvent.setOnAction( (e) -> {
     	   //An agenda is passed in here so that the AddEventPand has a model to edit.
@@ -212,20 +206,20 @@ public class MainWindow extends Application{
 		Agenda a = new Agenda();
 		
 		//Test events.
-		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test", "wnkfnw", "Blue", "kvjebnks");
+		Event e = new Event("test", new GregorianCalendar(), new GregorianCalendar(), "description test");
 		GregorianCalendar temp1 = e.getStart();
 		GregorianCalendar temp2 = e.getEnd();
 		temp1.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
 		temp2.set(GregorianCalendar.DATE, temp1.get(GregorianCalendar.DATE)-1);
 		e.setStart(temp1);
 		e.setEnd(temp2);
-		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2", "vf", "Red", "vmdv");
+		Event e2 = new Event("test2", new GregorianCalendar(), new GregorianCalendar(), "description test2");
 
 		//Test Array for scroll purposes
 		ArrayList<Event> eventList = new ArrayList<Event>();
 		for(int i = 0; i < 3; i++)
 		{
-			Event tempEvent = new Event("testList " + i, new GregorianCalendar(), new GregorianCalendar(), "description testList", "cscs", "Yellow", "vdkb");
+			Event tempEvent = new Event("testList " + i, new GregorianCalendar(), new GregorianCalendar(), "description testList");
 			eventList.add(tempEvent);
 		}
 		
